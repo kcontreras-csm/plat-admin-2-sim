@@ -3,28 +3,12 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Interactive Salesforce Certified Platform Administrator (PLAT-ADMN-201) Exam Simulator with 150 practice questions, study and exam modes, and real-time scoring.">
-  <title>Salesforce Admin Exam Simulator — PLAT-ADMN-201</title>
+  <meta name="description" content="Interactive Salesforce Certified Platform Administrator II (PLAT-ADMN-301) Exam Simulator with practice questions, study and exam modes, and real-time scoring.">
+  <title>Platform Administrator II Exam Simulator — PLAT-ADMN-301</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;text y=&#39;.9em&#39; font-size=&#39;90&#39;&gt;%E2%98%81%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
 </head>
 <body>
-
-  <!-- ===== PASSWORD GATE OVERLAY ===== -->
-  <div class="password-overlay unlocked" id="password-overlay">
-    <div class="password-card">
-      <div class="password-lock-icon">🔒</div>
-      <h2>Authorized Access Only</h2>
-      <p>Please enter the access password to start the simulator.</p>
-      <form id="password-form" class="password-form" onsubmit="checkPassword(event)">
-        <div class="password-input-wrapper">
-          <input type="password" id="password-input" placeholder="Enter password" required="" autofocus="" autocomplete="current-password">
-          <div class="password-error" id="password-error" style="display: none;">❌ Incorrect password. Please try again.</div>
-        </div>
-        <button type="submit" class="password-submit-btn">Unlock Simulator</button>
-      </form>
-    </div>
-  </div>
 
   <!-- ===== APP HEADER ===== -->
   <header class="app-header">
@@ -33,8 +17,8 @@
       <div class="header-brand">
         <div class="logo-icon">☁️</div>
         <h1>
-          Salesforce Admin Simulator
-          <span>PLAT-ADMN-201 · 150 Practice Questions</span>
+          Platform Administrator II Simulator
+          <span>Salesforce Certified PLAT-ADMN-301 · Practice Questions</span>
         </h1>
       </div>
 
@@ -66,10 +50,16 @@
         <input type="checkbox" class="toggle-switch" id="mode-toggle" aria-label="Toggle between Study and Exam mode">
         <label for="mode-toggle">Exam</label>
       </div>
+
+      <!-- Session Persistence -->
+      <div class="session-controls">
+        <span class="session-status" id="session-status" aria-live="polite"></span>
+        <button type="button" class="btn-reset-session" id="btn-reset-session" onclick="resetSession()" title="Clear your saved study progress">↺ Reset Progress</button>
+      </div>
     </div>
 
     <!-- Tab Navigation -->
-    <nav class="tab-nav" id="tab-nav" role="tablist" aria-label="Exam sections"><button class="tab-btn active" data-tab="0">📊Dashboard</button><button class="tab-btn" data-tab="1">Config &amp; Setup (15%)<span class="tab-badge">24</span></button><button class="tab-btn" data-tab="2">Object Manager (15%)<span class="tab-badge">28</span></button><button class="tab-btn" data-tab="3">Sales &amp; Marketing (10%)<span class="tab-badge">14</span></button><button class="tab-btn" data-tab="4">Service &amp; Support (10%)<span class="tab-badge">12</span></button><button class="tab-btn" data-tab="5">Productivity (10%)<span class="tab-badge">12</span></button><button class="tab-btn" data-tab="6">Data &amp; Analytics (17%)<span class="tab-badge">21</span></button><button class="tab-btn" data-tab="7">Automation (23%)<span class="tab-badge">39</span></button><button class="tab-btn" data-tab="8">🎯Full Exam (150)<span class="tab-badge">150</span></button></nav>
+    <nav class="tab-nav" id="tab-nav" role="tablist" aria-label="Exam sections"></nav>
   </header>
 
   <!-- ===== MAIN CONTENT ===== -->

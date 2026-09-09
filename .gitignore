@@ -1,0 +1,5 @@
+# macOS
+.DS_Store
+
+# Local-only exam datasets, source snapshots, and backups (not for the repo)
+datasets/
