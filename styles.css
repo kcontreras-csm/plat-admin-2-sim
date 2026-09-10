@@ -1144,6 +1144,58 @@ body {
 
 .theme-control { position: relative; display: flex; align-items: center; }
 
+.btn-theme {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  font-size: 1.05rem; cursor: pointer;
+  transition: var(--transition-base);
+}
+.btn-theme:hover { background: rgba(255,255,255,.22); transform: translateY(-1px); }
+
+.theme-menu {
+  position: absolute; right: 0; top: calc(100% + 10px);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 14px; width: 210px; max-width: calc(100vw - 24px); z-index: 200;
+}
+.theme-menu.hidden { display: none; }
+
+/* On narrow screens, anchor the menu to the viewport's top-right so it can
+   never be clipped regardless of where the button wraps to. */
+@media (max-width: 640px) {
+  .theme-menu { position: fixed; top: 64px; right: 12px; }
+}
+
+.theme-menu-label {
+  font-size: .68rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .04em; color: var(--text-muted); margin-bottom: 8px;
+}
+.theme-swatches { display: flex; gap: 10px; margin-bottom: 14px; }
+.theme-accent-swatch {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid var(--border-color); cursor: pointer;
+  transition: var(--transition-fast); position: relative;
+}
+.theme-accent-swatch:hover { transform: scale(1.1); }
+.theme-accent-swatch.active { border-color: var(--text-primary); box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px currentColor; }
+.theme-accent-swatch[data-accent="green"]  { background: #1A9E52; }
+.theme-accent-swatch[data-accent="blue"]   { background: #1B72D0; }
+.theme-accent-swatch[data-accent="purple"] { background: #7A3EBE; }
+.theme-accent-swatch[data-accent="amber"]  { background: #C77A12; }
+.theme-accent-swatch[data-accent="pink"]   { background: #D6417F; }
+
+.theme-menu-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; font-size: .82rem; font-weight: 600;
+  padding-top: 12px; border-top: 1px solid var(--border-light);
+}
+
 /* ============================================================
    FLAGS
    ============================================================ */
