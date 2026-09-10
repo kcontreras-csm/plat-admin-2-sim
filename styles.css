@@ -1407,3 +1407,28 @@ body.rapid-open { overflow: hidden; }
 .rapid-done h2 { font-size: 1.4rem; margin-bottom: 8px; }
 .rapid-done p { color: var(--text-secondary); font-size: .9rem; margin-bottom: 20px; }
 .rapid-done-actions { display: flex; justify-content: center; gap: 12px; }
+
+/* Rapid Fire streak badge */
+.rapid-streak {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 9px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: .82rem;
+  background: var(--bg-workspace);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  transition: var(--transition-base);
+}
+.rapid-streak.hot {
+  background: var(--color-warning-bg);
+  border-color: var(--color-warning);
+  color: #B45309;
+  animation: streakPulse 1.2s ease-in-out infinite;
+}
+@keyframes streakPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+:root[data-appearance="dark"] .rapid-streak.hot { color: var(--color-warning); }

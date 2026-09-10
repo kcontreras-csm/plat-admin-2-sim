@@ -3160,6 +3160,8 @@ const rapid = {
   seen: 0,           // total answered this session
   correct: 0,        // total correct this session
   mastered: 0,       // knockout: unique questions cleared
+  streak: 0,         // current run of consecutive correct answers
+  bestStreak: 0,     // longest streak this session
   answered: false,
   done: false,
   selected: []
@@ -3182,6 +3184,8 @@ window.beginRapid = function(mode) {
   rapid.seen = 0;
   rapid.correct = 0;
   rapid.mastered = 0;
+  rapid.streak = 0;
+  rapid.bestStreak = 0;
   rapid.done = false;
   rapid.remaining = rapid.mode === "knockout" ? new Set(rapid.pool.map(q => q.id)) : null;
   rapidRefillQueue();
@@ -3209,13 +3213,13 @@ function rapidCurrent() {
 }
 
 function rapidTallyHTML() {
-  if (rapid.mode === "knockout") {
-    const total = rapid.pool.length;
-    const left = rapid.remaining ? rapid.remaining.size : total;
-    return `✅ ${rapid.mastered}/${total} mastered · ${left} left`;
+  let stat = "";
+  if (rapid.mode !== "knockout") {
+    const acc = rapid.seen ? Math.round((rapid.correct / rapid.seen) * 100) : 0;
+    stat = `${rapid.correct}/${rapid.seen} correct${rapid.seen ? ` · ${acc}%` : ""}`;
   }
-  const acc = rapid.seen ? Math.round((rapid.correct / rapid.seen) * 100) : 0;
-  return `${rapid.correct}/${rapid.seen} correct${rapid.seen ? ` · ${acc}%` : ""}`;
+  const streak = `<span class="rapid-streak${rapid.streak >= 3 ? " hot" : ""}" title="Current streak${rapid.bestStreak ? ` · best ${rapid.bestStreak}` : ""}">🔥 ${rapid.streak}</span>`;
+  return stat ? `${stat} ${streak}` : streak;
 }
 
 function rapidRenderPicker() {
@@ -3250,7 +3254,7 @@ function rapidRenderDone() {
     <div class="rapid-done">
       <div class="rapid-done-icon">🏆</div>
       <h2>Knockout complete!</h2>
-      <p>You cleared all ${rapid.pool.length} questions. It took ${rapid.seen} attempts at ${acc}% accuracy.</p>
+      <p>You cleared all ${rapid.pool.length} questions. It took ${rapid.seen} attempts at ${acc}% accuracy · longest streak 🔥 ${rapid.bestStreak}.</p>
       <div class="rapid-done-actions">
         <button type="button" class="btn-rapid-next" onclick="startRapid()">Play again</button>
         <button type="button" class="btn-rapid-check" onclick="exitRapid()">Done</button>
@@ -3325,11 +3329,15 @@ window.rapidReveal = function() {
   rapid.seen++;
   if (isCorrect) {
     rapid.correct++;
+    rapid.streak++;
+    if (rapid.streak > rapid.bestStreak) rapid.bestStreak = rapid.streak;
     // Knockout: a correct answer removes the question from the pool for good
     if (rapid.mode === "knockout" && rapid.remaining && rapid.remaining.has(q.id)) {
       rapid.remaining.delete(q.id);
       rapid.mastered++;
     }
+  } else {
+    rapid.streak = 0;
   }
 
   $$("#rapid-options .option-item").forEach(opt => {
@@ -3341,8 +3349,12 @@ window.rapidReveal = function() {
   });
 
   let verdict;
-  if (isCorrect) verdict = rapid.mode === "knockout" ? "✓ Correct — knocked out!" : "✓ Correct";
-  else verdict = rapid.mode === "knockout" ? "✕ Incorrect — it'll come back" : "✕ Incorrect";
+  if (isCorrect) {
+    verdict = rapid.mode === "knockout" ? "✓ Correct — knocked out!" : "✓ Correct";
+    if (rapid.streak >= 2) verdict += ` · 🔥 ${rapid.streak} streak`;
+  } else {
+    verdict = rapid.mode === "knockout" ? "✕ Incorrect — it'll come back" : "✕ Incorrect";
+  }
 
   const fb = $("#rapid-feedback");
   if (fb) {
@@ -3362,7 +3374,7 @@ window.rapidReveal = function() {
     next.focus();
   }
   const tally = $(".rapid-score");
-  if (tally) tally.textContent = rapidTallyHTML();
+  if (tally) tally.innerHTML = rapidTallyHTML();
 };
 
 window.rapidNext = function() {
