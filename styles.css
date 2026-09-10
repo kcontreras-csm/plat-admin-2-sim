@@ -682,7 +682,7 @@ body {
   flex-shrink: 0;
   width: 22px;
   height: 22px;
-  border: 2px solid transparent;
+  border: 2px solid var(--border-color);
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -693,21 +693,6 @@ body {
 .option-radio.checkbox-style {
   border-radius: var(--radius-sm);
 }
-
-/* Resting bullet is the theme motif (leaves / hearts / stars …) */
-.option-radio::before {
-  content: var(--motif-1);
-  font-size: .95rem;
-  line-height: 1;
-  opacity: .5;
-  transition: var(--transition-fast);
-}
-.option-item:hover .option-radio::before { opacity: .85; }
-
-/* Once a choice is made, swap the motif for the functional indicator below */
-.option-item.selected .option-radio::before,
-.option-item.correct .option-radio::before,
-.option-item.incorrect .option-radio::before { content: none; }
 
 .option-item.selected .option-radio {
   border-color: var(--sf-green-primary);
@@ -1067,18 +1052,13 @@ body {
    THEME SYSTEM — accent palettes + dark mode
    ============================================================ */
 
-/* Green (default) themed motif */
-:root { --motif-1: "🍃"; --motif-2: "🌿"; --motif-3: "🍀"; }
-
-/* Accent palettes override the --sf-green-* ramp (names kept for compatibility)
-   and each carries its own decorative motif set. */
+/* Accent palettes override the --sf-green-* ramp (names kept for compatibility). */
 :root[data-accent="blue"] {
   --sf-green-dark: #08376B;
   --sf-green-primary: #1B72D0;
   --sf-green-light: #3B9BF0;
   --sf-green-accent: #9BD0FF;
   --sf-green-wash: #EAF3FE;
-  --motif-1: "💧"; --motif-2: "🌊"; --motif-3: "🫧";
 }
 :root[data-accent="purple"] {
   --sf-green-dark: #4A1D7A;
@@ -1086,7 +1066,6 @@ body {
   --sf-green-light: #9B59D0;
   --sf-green-accent: #D3B6F0;
   --sf-green-wash: #F3EAFB;
-  --motif-1: "🔮"; --motif-2: "✨"; --motif-3: "💜";
 }
 :root[data-accent="amber"] {
   --sf-green-dark: #8A4B00;
@@ -1094,7 +1073,6 @@ body {
   --sf-green-light: #E8A020;
   --sf-green-accent: #F5CE7A;
   --sf-green-wash: #FDF3E0;
-  --motif-1: "☀️"; --motif-2: "🍂"; --motif-3: "🌻";
 }
 :root[data-accent="pink"] {
   --sf-green-dark: #8A1E52;
@@ -1102,7 +1080,6 @@ body {
   --sf-green-light: #F06CA6;
   --sf-green-accent: #F9B9D5;
   --sf-green-wash: #FDECF4;
-  --motif-1: "💗"; --motif-2: "🌸"; --motif-3: "💕";
 }
 
 /* Dark mode overrides neutrals + feedback surfaces (accent hue stays intact).
@@ -1166,92 +1143,6 @@ body {
 }
 
 .theme-control { position: relative; display: flex; align-items: center; }
-
-/* ============================================================
-   THEMED HEADER DECORATION (motif per accent)
-   ============================================================ */
-/* Keep header content above the decoration; the theme menu must still escape
-   the header, so clipping lives on the decor layer — not on .app-header. */
-.header-top, .app-header .tab-nav { position: relative; z-index: 1; }
-
-.header-decor {
-  position: absolute; inset: 0;
-  overflow: hidden;           /* clip motifs to the header band */
-  border-radius: inherit;
-  pointer-events: none; z-index: 0;
-}
-.header-decor span {
-  position: absolute;
-  line-height: 1;
-  opacity: .16;
-  filter: saturate(1.2);
-  user-select: none;
-}
-.header-decor span::before { content: var(--motif-1); }
-.header-decor span:nth-child(3n+2)::before { content: var(--motif-2); }
-.header-decor span:nth-child(3n)::before { content: var(--motif-3); }
-
-/* Scatter the motifs across the header band */
-.header-decor span:nth-child(1) { top: 8px;   left: 20%;  font-size: 26px; transform: rotate(-12deg); }
-.header-decor span:nth-child(2) { top: 44%;   left: 6%;   font-size: 34px; transform: rotate(10deg); opacity: .12; }
-.header-decor span:nth-child(3) { bottom: 10px; left: 38%; font-size: 22px; transform: rotate(6deg); }
-.header-decor span:nth-child(4) { top: 12px;   left: 58%;  font-size: 30px; transform: rotate(-8deg); opacity: .13; }
-.header-decor span:nth-child(5) { bottom: 8px;  left: 72%;  font-size: 24px; transform: rotate(14deg); }
-.header-decor span:nth-child(6) { top: 30%;    left: 86%;  font-size: 38px; transform: rotate(-6deg); opacity: .12; }
-.header-decor span:nth-child(7) { top: 50%;    left: 48%;  font-size: 20px; transform: rotate(18deg); opacity: .1; }
-.header-decor span:nth-child(8) { bottom: 14px; left: 94%; font-size: 28px; transform: rotate(-16deg); }
-
-.btn-theme {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 38px; height: 38px;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.3);
-  border-radius: 50%;
-  font-size: 1.05rem; cursor: pointer;
-  transition: var(--transition-base);
-}
-.btn-theme:hover { background: rgba(255,255,255,.22); transform: translateY(-1px); }
-
-.theme-menu {
-  position: absolute; right: 0; top: calc(100% + 10px);
-  background: var(--bg-card);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  padding: 14px; width: 210px; max-width: calc(100vw - 24px); z-index: 200;
-}
-.theme-menu.hidden { display: none; }
-
-/* On narrow screens, anchor the menu to the viewport's top-right so it can
-   never be clipped regardless of where the button wraps to. */
-@media (max-width: 640px) {
-  .theme-menu { position: fixed; top: 64px; right: 12px; }
-}
-
-.theme-menu-label {
-  font-size: .68rem; font-weight: 800; text-transform: uppercase;
-  letter-spacing: .04em; color: var(--text-muted); margin-bottom: 8px;
-}
-.theme-swatches { display: flex; gap: 10px; margin-bottom: 14px; }
-.theme-accent-swatch {
-  width: 30px; height: 30px; border-radius: 50%;
-  border: 2px solid var(--border-color); cursor: pointer;
-  transition: var(--transition-fast); position: relative;
-}
-.theme-accent-swatch:hover { transform: scale(1.1); }
-.theme-accent-swatch.active { border-color: var(--text-primary); box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px currentColor; }
-.theme-accent-swatch[data-accent="green"]  { background: #1A9E52; }
-.theme-accent-swatch[data-accent="blue"]   { background: #1B72D0; }
-.theme-accent-swatch[data-accent="purple"] { background: #7A3EBE; }
-.theme-accent-swatch[data-accent="amber"]  { background: #C77A12; }
-.theme-accent-swatch[data-accent="pink"]   { background: #D6417F; }
-
-.theme-menu-row {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 10px; font-size: .82rem; font-weight: 600;
-  padding-top: 12px; border-top: 1px solid var(--border-light);
-}
 
 /* ============================================================
    FLAGS

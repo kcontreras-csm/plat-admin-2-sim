@@ -3213,13 +3213,15 @@ function rapidCurrent() {
 }
 
 function rapidTallyHTML() {
-  let stat = "";
-  if (rapid.mode !== "knockout") {
+  let stat;
+  if (rapid.mode === "knockout") {
+    stat = `✅ ${rapid.mastered}/${rapid.pool.length} mastered`;
+  } else {
     const acc = rapid.seen ? Math.round((rapid.correct / rapid.seen) * 100) : 0;
     stat = `${rapid.correct}/${rapid.seen} correct${rapid.seen ? ` · ${acc}%` : ""}`;
   }
   const streak = `<span class="rapid-streak${rapid.streak >= 3 ? " hot" : ""}" title="Current streak${rapid.bestStreak ? ` · best ${rapid.bestStreak}` : ""}">🔥 ${rapid.streak}</span>`;
-  return stat ? `${stat} ${streak}` : streak;
+  return `${stat} ${streak}`;
 }
 
 function rapidRenderPicker() {
