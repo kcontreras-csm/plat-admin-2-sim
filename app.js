@@ -847,19 +847,6 @@ const QUESTIONS = [
     hook:"expiration date changed to yesterday → resume event recalculated, past-due so email fires immediately"
   },
   {
-    id:64, category: CATEGORIES.SECURITY,
-    text:"The administrator at Universal Containers does a soft launch of the Salesforce Authenticator app and allows users to optionally use it to log in. The administrator would now like to look at how many users have successfully used it since it was rolled out. What are two ways the administrator can get this information?",
-    options:[
-      {letter:"A", text:"Run a session setting report, specifying login methods by user."},
-      {letter:"B", text:"Open the Login Access Policies in Setup which shows how many users are using MFA."},
-      {letter:"C", text:"Create a new view in Identity Verification History, specifying Method."},
-      {letter:"D", text:"Export Login History and filter based on Authentication Method Reference."}
-    ],
-    answer:["C", "D"], multi:true,
-    explanation:"Identity Verification History records each identity verification event along with the verification method used, so a custom list view specifying Method reveals which users have successfully verified with Salesforce Authenticator. Alternatively, Login History can be exported and filtered on the Authentication Method Reference field, which captures the MFA method used at login. There is no session setting report for login methods, and Login Access Policies does not report on MFA usage.",
-    hook:"count successful Authenticator logins → Identity Verification History view by Method + export Login History by Auth Method Reference"
-  },
-  {
     id:65, category: CATEGORIES.DATA,
     text:"What should the administrator consider before enabling Person Accounts?",
     options:[
@@ -2191,19 +2178,6 @@ const QUESTIONS = [
     hook:"start/end dates per service plan sold, differ from contract → validation rule on Opportunity Product (line-item level)"
   },
   {
-    id:167, category: CATEGORIES.UI,
-    text:"Cloud Kicks (CK) has a backup team of employees that helps short-staffed departments. These users could be working with sales one day and service the next. CK is implementing new Lightning record pages for each department so that they view records In a way that makes sense for each department. How should the administrator ensure this Is configured correctly?",
-    options:[
-      {letter:"A", text:"Configure one app per department and activate record pages for each app."},
-      {letter:"B", text:"Create permission sets for each department and assign them to the backup team users."},
-      {letter:"C", text:"Adjust the profile of the backup users each day to align with the proper access they require."},
-      {letter:"D", text:"Allow the backup team users to update their own profile with Delegated Administration."}
-    ],
-    answer:["A"], multi:false,
-    explanation:"Lightning record pages can be activated per app, so creating one Lightning app for each department and activating that department's record pages as the app default means the same record automatically renders differently depending on which app the user is in. Backup employees just switch apps in the App Launcher when they move between sales and service work. Permission sets do not control record page assignment, and changing users' profiles daily or letting them edit their own profiles is unmanageable and insecure.",
-    hook:"backup users switch sales/service, per-department record pages → one app per department, activate record pages per app"
-  },
-  {
     id:168, category: CATEGORIES.DATA,
     text:"The accounting team at Universal Containers is looking to roll out two new custom objects: a parent Invoice object and a child Payment object. Whenever a Payment record is created, the Invoice object should be updated to reflect the current outstanding value of the Invoice. What should the administrator do to build this functionality?",
     options:[
@@ -2687,19 +2661,6 @@ const QUESTIONS = [
     hook:"error condition TRUE = invalid: Title CEO with blank phone → Title = 'CEO' && ISBLANK(Phone)"
   },
   {
-    id:205, category: CATEGORIES.DATA,
-    text:"AW Computers has enabled the feature for Contact to multiple Accounts. A rep is trying to remove the primary Account from a Contact but is unable to do so. The administrator has already updated the page layout to no longer require an Account. What could be the issue?",
-    options:[
-      {letter:"A", text:"Private Contacts need to be enabled in Setup."},
-      {letter:"B", text:"A primary Account relationship is required on a Contact regardless of the page layout settings."},
-      {letter:"C", text:"The Contact has indirect relationships to other Accounts."},
-      {letter:"D", text:"The Account Contact relationship record needs to be deleted first in order to disassociate the Contact from the Account."}
-    ],
-    answer:["B"], multi:false,
-    explanation:"When Contacts to Multiple Accounts is enabled, the account listed in the contact's standard Account Name field is the primary (direct) account, and this relationship is required on the contact regardless of page layout settings. The rep can change the primary account to a different account, but cannot simply remove it from an existing contact. Indirect relationships do not cause this behavior, and deleting an Account Contact Relationship record removes an indirect relationship, not the primary one.",
-    hook:"can't remove \"primary Account\" from Contact → primary/direct relationship required regardless of layout"
-  },
-  {
     id:206, category: CATEGORIES.SECURITY,
     text:"Cloud Kicks has organization-wide sharing defaults on the Opportunity set to Private. However, members of the finance team need to see closed won opportunities. The finance team members all have roles under the finance director, while the sales team members have roles under the sales manager. Which two options should the administrator use to meet these criteria?",
     options:[
@@ -2895,71 +2856,6 @@ const QUESTIONS = [
     hook:"mixed profiles/roles subset needs to view all data → Permission Set with View All Data (can't grant on role)"
   },
   {
-    id:222, category: CATEGORIES.AUTOMATION,
-    text:"The administrator at Cloud Kicks recently replaced several case workflow rules with a single before save flow. Since this change, some cases are routing In unexpected ways. What could be the cause of the changes to routing?",
-    options:[
-      {letter:"A", text:"The old workflow rules are still active and impacting routing."},
-      {letter:"B", text:"The flow precedes assignment rules; workflow rules are after assignment rules."},
-      {letter:"C", text:"Assignment rules no longer reference the correct fields."},
-      {letter:"D", text:"Multiple automation tools have been used and the automation is executed in a different order."}
-    ],
-    answer:["B"], multi:false,
-    explanation:"In the order of execution, before-save record-triggered flows run before case assignment rules, whereas workflow rules run after assignment rules. When the workflow rules were replaced with a before-save flow, its field updates now occur before the assignment rules evaluate, so the rules see different values and route some cases differently than before. The unexpected routing is therefore caused by this timing change, not by the assignment rule criteria themselves.",
-    hook:"workflow rules replaced by before-save flow, routing changed → flow runs before assignment rules; workflow ran after"
-  },
-  {
-    id:223, category: CATEGORIES.SECURITY,
-    text:"AW Computing wants to enable a backup resource to assign permissions while restricting the backup resource's ability to create or modify permission sets. Which feature should be employed to accomplish this request?",
-    options:[
-      {letter:"A", text:"Assignment Rules"},
-      {letter:"B", text:"Customize Application Permission"},
-      {letter:"C", text:"View All Users Permission"},
-      {letter:"D", text:"Delegated Administrator"}
-    ],
-    answer:["D"], multi:false,
-    explanation:"Delegated administration lets an administrator grant a trusted user the ability to manage users and assign specific profiles and permission sets without granting full administrative rights. A delegated administrator can assign the permission sets they are delegated over but cannot create or modify permission sets, which exactly matches the requirement. Assignment rules route records, and the other permissions would either be insufficient or grant too much access.",
-    hook:"assign perms but can't create/modify perm sets → Delegated Administrator"
-  },
-  {
-    id:224, category: CATEGORIES.SECURITY,
-    text:"An administrator recently implemented multi-factor authentication (MFA) with a standard security level selected. They are receiving cases that users are unable to log in. What should the administrator do to troubleshoot?",
-    options:[
-      {letter:"A", text:"Check the session security level required at login on the user profile."},
-      {letter:"B", text:"Change MFA to High Assurance."},
-      {letter:"C", text:"Reset the user passwords and ask them to try again."},
-      {letter:"D", text:"Temporarily disable MFA."}
-    ],
-    answer:["A"], multi:false,
-    explanation:"The session security level required at login is set on the profile, and a mismatch between that setting and how users authenticate is a common cause of login failures after enabling MFA. Reviewing the profile's Session Settings identifies whether users are being blocked because their sessions do not meet the required security level. Raising the level to High Assurance, resetting passwords, or disabling MFA would not diagnose the problem and could weaken security.",
-    hook:"MFA standard level, users can't log in → check session security level required at login on profile"
-  },
-  {
-    id:225, category: CATEGORIES.SECURITY,
-    text:"The administrator at Ursa Major Solar has set up IT Policies for all user passwords to be a minimum length of 8 characters and have an expiration period of 90 days. The security team recently decided that administrators of any system should have a 15-character minimum password with a 30-day expiration period. Where should the administrator make this change?",
-    options:[
-      {letter:"A", text:"Password complexity requirements on the permission set"},
-      {letter:"B", text:"Organization-wide password policies"},
-      {letter:"C", text:"Session Settings on the User record"},
-      {letter:"D", text:"Password Policies on the System Administrator profile"}
-    ],
-    answer:["D"], multi:false,
-    explanation:"Password policies can be set at the profile level, and profile-level policies override the organization-wide defaults for users assigned to that profile. Setting the stricter minimum length and expiration on the System Administrator profile applies the new requirements only to administrators while leaving the org-wide policy in place for everyone else. Password policies cannot be set on permission sets or individual user records.",
-    hook:"stricter password policy for admins only → Password Policies on System Admin profile (org-wide hits everyone)"
-  },
-  {
-    id:226, category: CATEGORIES.DATA,
-    text:"The sales manager at Cloud Kicks wants a way to report on information from a form that their clients fill out during the sales cycle. Once a form has been submitted, the client cannot access it. This form may need to be filled out more than once during the sales cycle. There are more than 30 fields on this form, and the sales team needs to be able to see what changed from one submission to the next. Which two options should an administrator use to solve this scenario? Choose 2 answers",
-    options:[
-      {letter:"A", text:"Turn on Field Tracking."},
-      {letter:"B", text:"Create a custom object."},
-      {letter:"C", text:"Add forms as attachments."},
-      {letter:"D", text:"Make custom fields."}
-    ],
-    answer:["A", "B"], multi:true,
-    explanation:"A custom object is needed so each form submission is stored as its own record related to the sales cycle, supporting multiple submissions and reporting on all of the form's data. Field history tracking on that object then automatically records old and new values whenever fields change, letting the sales team see exactly what changed from one submission to the next. Attachments are not reportable at the field level, and custom fields alone would be overwritten with each new submission.",
-    hook:"form filled multiple times + \"see what changed\" → custom object + Field History Tracking"
-  },
-  {
     id:227, category: CATEGORIES.UI,
     text:"On the Planet custom object, Ursa Major Solar's sales director wants only certain action buttons to appear depending on whether a given planet is defined as gaseous. In which Lightning component should the administrator define dynamic action buttons?",
     options:[
@@ -2971,294 +2867,6 @@ const QUESTIONS = [
     answer:["B"], multi:false,
     explanation:"Dynamic actions are configured on the Highlights Panel component of a Lightning record page in the Lightning App Builder. By enabling dynamic actions there, the administrator can add actions and assign visibility filters, such as showing certain buttons only when the record's gaseous field meets a condition. The Record Detail, Activities, and Related Lists components do not control the record page action bar.",
     hook:"where to define dynamic action buttons on a record page → Highlights Panel component"
-  },
-  {
-    id:228, category: CATEGORIES.DATA,
-    text:"Cloud Kicks maintains inventory in a legacy application. Management wants the information to also be available to view and report on directly in Salesforce. Which action should the administrator take to achieve this goal?",
-    options:[
-      {letter:"A", text:"Create an external object that maps to the inventory application."},
-      {letter:"B", text:"Build a Lightning component and use SFDX to connect to the inventory app."},
-      {letter:"C", text:"Upload an Excel spreadsheet with the data into the Files tab."},
-      {letter:"D", text:"Import the data into a custom object when needed; delete after it is used."}
-    ],
-    answer:["A"], multi:false,
-    explanation:"Salesforce Connect external objects map to data stored outside Salesforce and let users view, search, and report on that data in real time without copying it into the org. This keeps the legacy application as the system of record while still surfacing current inventory information in Salesforce. Spreadsheets and repeated import-and-delete cycles would create stale, unmanageable copies of the data, and a custom Lightning component would not provide native reporting.",
-    hook:"\"legacy application\" view+report directly → external object (Salesforce Connect)"
-  },
-  {
-    id:229, category: CATEGORIES.DATA,
-    text:"Ursa Major Solar uses the custom object Product Development to track ideas R&D is working on. A former administrator added the custom object Potential Name with a lookup to Product Development to allow R&D to track names under consideration for those products. The R&D manager recently ran a report and noticed several potential names where the relationship to the Product Development record was missing. The current administrator needs to change this relationship to master-detail to ensure a potential name only exists when there is product development. Which two options are available for altering the existing Potential Name records for the deployment of this change to be successful? Choose 2 answers",
-    options:[
-      {letter:"A", text:"Move any Potential Name records with blank lookup fields to the recycle bin."},
-      {letter:"B", text:"Assign any Potential Name records with blank lookup fields to an existing record from Product Development."},
-      {letter:"C", text:"Remove any existing data in the lookup field in Potential Name records."},
-      {letter:"D", text:"Remove the lookup field from the page layout so the data is maintained without changes."}
-    ],
-    answer:["A", "B"], multi:true,
-    explanation:"A lookup relationship can only be converted to master-detail when every child record has a value in the relationship field, because a detail record must always have a parent. The administrator must therefore either delete the orphaned Potential Name records or populate their lookup field with a valid Product Development parent before the conversion. Removing existing lookup values or hiding the field from the page layout would leave or create blanks, which blocks the conversion.",
-    hook:"convert lookup→master-detail with \"missing\" relationship → delete blanks or assign a parent"
-  },
-  {
-    id:230, category: CATEGORIES.UI,
-    text:"Cloud Kicks has a custom object called Membership Details that records information for their memberships. Depending on the membership level, different data needs to be displayed: 1. When the running user has the Marketing profile, all data should be visible. 2. When the running user has the Support profile, only the Support preference fields should be visible. 3. Both Marketing and Support users should be able to report on all data. How should the administrator deliver this solution?",
-    options:[
-      {letter:"A", text:"Create two record types and two page layouts."},
-      {letter:"B", text:"Set up Dynamic Forms to conditionally show data."},
-      {letter:"C", text:"Make a permission set with a Muting permission."},
-      {letter:"D", text:"Use field-level security to control data access."}
-    ],
-    answer:["B"], multi:false,
-    explanation:"Dynamic Forms places individual fields on the Lightning page with visibility rules, so the page can show all fields to Marketing users and only the Support preference fields to Support users. Because Dynamic Forms only controls what is displayed on the page and not actual field access, both profiles retain the field-level security needed to report on all of the data. Field-level security or record types with separate layouts would either block reporting or require unnecessary data model changes.",
-    hook:"show fields per profile on page but still report on all data → Dynamic Forms (FLS would block reporting)"
-  },
-  {
-    id:231, category: CATEGORIES.UI,
-    text:"Users are reporting that it takes a long time to load a Salesforce record page in Lightning. What are three options available to the administrator to help with this issue? Choose 3 answers",
-    options:[
-      {letter:"A", text:"Move some page components behind a tab."},
-      {letter:"B", text:"Remove some of the fields displayed."},
-      {letter:"C", text:"Deactivate unnecessary validation rules."},
-      {letter:"D", text:"Convert all Process Builders to Flows."},
-      {letter:"E", text:"Reduce the number of related lists displayed."}
-    ],
-    answer:["A", "B", "E"], multi:true,
-    explanation:"Lightning record page load time is driven largely by how much the page must render at once. Placing components behind tabs defers their loading until the tab is opened, and reducing the number of fields and related lists shrinks the amount of data and markup retrieved on initial load. Validation rules and Process Builder automation run when records are saved, so they affect save time rather than page load performance.",
-    hook:"record page \"takes a long time to load\" — pick 3 → components behind tab, remove fields, fewer related lists"
-  },
-  {
-    id:232, category: CATEGORIES.UI,
-    text:"Which two ways can an administrator review the page performance for a Lightning record page? Choose 2 answers",
-    options:[
-      {letter:"A", text:"Activation Button"},
-      {letter:"B", text:"Pages Menu"},
-      {letter:"C", text:"Lightning Usage App"},
-      {letter:"D", text:"Analyze Button"}
-    ],
-    answer:["C", "D"], multi:true,
-    explanation:"The Analyze button in the Lightning App Builder runs a performance analysis of the record page and offers recommendations for improving its predicted load time. The Lightning Usage App provides metrics on page performance and adoption, including browser performance and page load times across the org. The Activation button and Pages menu are used for assigning and navigating pages, not for evaluating performance.",
-    hook:"\"review the page performance\" of a Lightning page — pick 2 → Lightning Usage App + Analyze button"
-  },
-  {
-    id:233, category: CATEGORIES.UI,
-    text:"The sales VP noticed several sales reps generating a contract too early in the sales stage. To help correct this behavior, the VP has requested the Create Contract button only be available when the opportunity reaches the negotiation stage. How should the administrator meet this requirement?",
-    options:[
-      {letter:"A", text:"Configure dynamic action."},
-      {letter:"B", text:"Create a validation rule."},
-      {letter:"C", text:"Create a custom permission."},
-      {letter:"D", text:"Modify page layout."}
-    ],
-    answer:["A"], multi:false,
-    explanation:"Dynamic actions let the administrator apply visibility rules to individual actions on a Lightning record page, so the Create Contract button can be shown only when the opportunity's stage equals Negotiation. A validation rule cannot hide a button, a custom permission controls access by user rather than record state, and a page layout displays the same buttons regardless of field values.",
-    hook:"\"button only be available when...negotiation stage\" → Dynamic Action visibility (not validation rule — only blocks save)"
-  },
-  {
-    id:234, category: CATEGORIES.DATA,
-    text:"Users at Northern Trail Outfitters have a lot of fields on their new account records because they track their accounts and competitors on the Account object. For accounts created for customers, they need access to different fields than the accounts used to track competitors. For partner accounts, they need different values in the Industry field. What should the administrator use to resolve the issues?",
-    options:[
-      {letter:"A", text:"Business Processes"},
-      {letter:"B", text:"Required Fields"},
-      {letter:"C", text:"Flow Builder"},
-      {letter:"D", text:"Record Types"}
-    ],
-    answer:["D"], multi:false,
-    explanation:"Record types allow one object to support different business uses by pairing each type with its own page layout and its own set of picklist values. Creating customer, competitor, and partner record types on Account lets customers and competitors see different fields via layouts, and lets partner accounts have a different set of Industry picklist values. Business processes apply only to certain standard objects' stage or status fields, and required fields or flows do not solve either requirement.",
-    hook:"different fields for customers vs competitors + different Industry values → Record Types"
-  },
-  {
-    id:235, category: CATEGORIES.UI,
-    text:"At Ursa Major Solar, there is a custom object called Galaxy. The sales director wants users to only see certain fields when the Binary Cluster checkbox field is marked. What Lightning component will satisfy this requirement?",
-    options:[
-      {letter:"A", text:"Highlights Panel Component"},
-      {letter:"B", text:"Record Detail Component"},
-      {letter:"C", text:"Path Component"},
-      {letter:"D", text:"Fields Component"}
-    ],
-    answer:["D"], multi:false,
-    explanation:"The Field Section (Fields) component is part of Dynamic Forms and lets the administrator place individual fields or field sections on the record page with conditional visibility rules. A visibility filter based on the Binary Cluster checkbox will show the specified fields only when the box is checked. The Record Detail component renders the full page layout without field-level visibility conditions, and the Highlights Panel and Path components serve different purposes.",
-    hook:"fields shown \"only when checkbox is marked\" → Fields component / Dynamic Forms (not Record Detail — no field visibility)"
-  },
-  {
-    id:236, category: CATEGORIES.APPS,
-    text:"AW Computing has been advertising a new keyboard that was released at the beginning of the month. The sales team has an additional incentive to add the keyboards to every sale. The administrator already added the product to Salesforce, but the reps are unable to select the product on the opportunity. Which two options should an administrator check to ensure the product is available? Choose 2 answers",
-    options:[
-      {letter:"A", text:"Confirm the correct price book is selected on the opportunity."},
-      {letter:"B", text:"Verify the product has a start date entered."},
-      {letter:"C", text:"Ensure the product is associated with the correct price book."},
-      {letter:"D", text:"Make sure the price book is in the company currency."}
-    ],
-    answer:["A", "C"], multi:true,
-    explanation:"An opportunity can only include products that exist as active price book entries in the price book selected on that opportunity. The administrator should confirm the product was added to the appropriate price book and that the reps' opportunities are using that price book. A product start date is not required for selection, and price books support multiple currencies, so currency alone would not make the product unselectable.",
-    hook:"product added but \"unable to select on opportunity\" → correct Price Book on opp + product in that Price Book"
-  },
-  {
-    id:237, category: CATEGORIES.DATA,
-    text:"When should an administrator consider using Person Accounts?",
-    options:[
-      {letter:"A", text:"In a B2C business model and the consumer is the intended recipient of sales and marketing attention."},
-      {letter:"B", text:"In a business model that needs a separate Contact and Account to be included on all Case records submitted."},
-      {letter:"C", text:"In a complex business model and the users find it easiest to record Opportunity information on Contacts rather than Accounts."},
-      {letter:"D", text:"In a B2B business model and is selling to the primary contact at a business organization."}
-    ],
-    answer:["A"], multi:false,
-    explanation:"Person accounts are designed for business-to-consumer scenarios where the customer is an individual person rather than a company. They combine account and contact data into a single record so the consumer can be the direct target of sales and marketing activity. B2B selling and models requiring separate account and contact records are better served by the standard business account and contact structure.",
-    hook:"\"B2C\" consumer is intended recipient of sales/marketing → Person Accounts"
-  },
-  {
-    id:238, category: CATEGORIES.UI,
-    text:"Users at Ursa Major Solar want to create complex dashboards with supporting charts based on data to come from a variety of sources, some of which live on the internal company shared drives. Which product should the administrator recommend to meet the users' needs?",
-    options:[
-      {letter:"A", text:"Lightning Dashboard Builder"},
-      {letter:"B", text:"Report Builder"},
-      {letter:"C", text:"List Views"},
-      {letter:"D", text:"Tableau CRM"}
-    ],
-    answer:["D"], multi:false,
-    explanation:"Tableau CRM (CRM Analytics) is built for advanced analytics and can ingest data from Salesforce as well as external sources such as files from company shared drives, then combine them into complex dashboards with supporting charts. The standard Lightning dashboard and report builders only work with Salesforce report data, and list views provide no charting or dashboard capability at all.",
-    hook:"complex dashboards mixing Salesforce + shared-drive external data → Tableau CRM / CRM Analytics"
-  },
-  {
-    id:239, category: CATEGORIES.APPS,
-    text:"NTO is expanding into the U.K. While most of NTO's products are the same as in the U.S., pricing will vary from product to product due to shipping and raw material cost differences. What should the administrator configure for a smooth rollout to the U.K.?",
-    options:[
-      {letter:"A", text:"Write a flow that translates the currency from dollars to euros using a custom Exchange Rate field."},
-      {letter:"B", text:"Configure a U.K. Opportunity record type."},
-      {letter:"C", text:"Add a new U.K. Order Form that has the euro symbol instead of the dollar symbol."},
-      {letter:"D", text:"Create a new Price Book for the U.K. product pricing."}
-    ],
-    answer:["D"], multi:false,
-    explanation:"Price books are the standard way to maintain different prices for the same products across markets or segments. Creating a U.K. price book lets NTO define product-by-product prices that reflect shipping and raw material costs, and U.K. opportunities simply use that price book. A conversion flow, a record type, or a modified order form would not manage per-product regional pricing.",
-    hook:"\"pricing will vary from product to product\" for U.K. → new Price Book (not conversion flow/record type)"
-  },
-  {
-    id:240, category: CATEGORIES.SECURITY,
-    text:"DreamHouse Realty (DR) wants to ensure that its data is protected. There have been several recent attempts to phish employees. What should DR do to help ensure that the user that is logged in is the right user when the running user is trying to view reports and dashboards?",
-    options:[
-      {letter:"A", text:"Require a high assurance session when exporting or printing reports and dashboards."},
-      {letter:"B", text:"Require a Username, Password, and Security Token when logging in."},
-      {letter:"C", text:"Set up an authentication provider for reports and dashboards."},
-      {letter:"D", text:"Require MFA when users need to view and export dashboards and reports."}
-    ],
-    answer:["A"], multi:false,
-    explanation:"Salesforce lets administrators require a high assurance session for sensitive operations, including reports and dashboards, through Identity Verification session security settings. When a user attempts the protected operation without a high assurance session, they must verify their identity, which protects the data even if credentials are phished. Security tokens apply to API logins, and there is no report-specific authentication provider or MFA toggle for viewing dashboards.",
-    hook:"confirm right user viewing/exporting reports (anti-phish) → high assurance session for export/print reports"
-  },
-  {
-    id:241, category: CATEGORIES.DATA,
-    text:"Cloud Kicks is looking for a way to back up its data daily. What should the administrator recommend?",
-    options:[
-      {letter:"A", text:"Set up Salesforce's Data Export Service and store the data in the target destination."},
-      {letter:"B", text:"Extract the data with the Import Wizard and push it to the target destination."},
-      {letter:"C", text:"Schedule a report and have the data emailed to the admin to put in the target destination."},
-      {letter:"D", text:"Use an ETL tool that can be scheduled to extract the data and push it to the target destination."}
-    ],
-    answer:["D"], multi:false,
-    explanation:"The built-in Data Export Service can only be scheduled weekly or monthly, so it cannot satisfy a daily backup requirement. A scheduled ETL tool can extract all needed objects every day via the API and deliver the files to the target destination automatically. The Import Wizard loads data rather than extracting it, and emailed reports cover only limited rows and columns, making neither a viable backup approach.",
-    hook:"\"back up its data daily\" → scheduled ETL tool (Data Export Service only weekly/monthly)"
-  },
-  {
-    id:242, category: CATEGORIES.SECURITY,
-    text:"An administrator has been tasked with creating a new custom field on the Account object called Government Number. The compliance department has determined that this field contains sensitive information and needs to be encrypted using Classic Encryption. How will this impact users when reading, editing, or reporting on Accounts?",
-    options:[
-      {letter:"A", text:"Users with the View Encrypted Data permission can see the field, regardless of field-level security."},
-      {letter:"B", text:"Encrypted fields are unable to be used in report criteria or list view filters."},
-      {letter:"C", text:"Users will need the View Encrypted Data permission to edit the field."},
-      {letter:"D", text:"Encrypted fields can be added to a list view and rule filters."}
-    ],
-    answer:["B"], multi:false,
-    explanation:"Classic encrypted custom fields cannot be used in filters such as report criteria or list view filters, which is a key functional limitation users will notice. The View Encrypted Data permission only controls whether the value displays in plain text or masked; it does not bypass field-level security and is not required to edit the field. Option D is the opposite of the actual behavior.",
-    hook:"Classic Encryption field impact → can't use in report criteria or list view filters"
-  },
-  {
-    id:243, category: CATEGORIES.DATA,
-    text:"Which two tools should an administrator use to require data to be entered in a field and improve data quality on records in Salesforce? Choose 2 answers",
-    options:[
-      {letter:"A", text:"Validation Rules"},
-      {letter:"B", text:"Dashboards"},
-      {letter:"C", text:"Workflow Rules"},
-      {letter:"D", text:"Page Layouts"}
-    ],
-    answer:["A", "D"], multi:true,
-    explanation:"Validation rules enforce that a field contains data or meets defined criteria before a record can be saved, blocking bad data at entry. Page layouts can mark fields as required at the layout level, forcing users to populate them when creating or editing records through the UI. Dashboards only visualize data, and workflow rules act after save rather than requiring entry.",
-    hook:"\"require data to be entered\" in a field → Validation Rules + Page Layouts"
-  },
-  {
-    id:244, category: CATEGORIES.DATA,
-    text:"Universal Containers has found duplicate contacts in Salesforce. The sales team has requested that the administrator prevent duplicate records from being created. Which two ways should the administrator customize duplicate management? Choose 2 answers",
-    options:[
-      {letter:"A", text:"Modify the Global Picklist Value Sets."},
-      {letter:"B", text:"Configure custom duplicate rules."},
-      {letter:"C", text:"Create custom matching rules."},
-      {letter:"D", text:"Set up mobile duplicate alerts."}
-    ],
-    answer:["B", "C"], multi:true,
-    explanation:"Duplicate management is built from matching rules, which define how records are compared to identify duplicates, and duplicate rules, which define what happens when a potential duplicate is found, such as blocking creation or alerting the user. Customizing both lets the administrator tailor detection criteria and enforce prevention for contacts. Picklist value sets and mobile alerts do not prevent duplicate record creation.",
-    hook:"\"prevent duplicate records\" → duplicate rules + matching rules"
-  },
-  {
-    id:245, category: CATEGORIES.UI,
-    text:"An administrator was asked to create a report to calculate the year-over-year change in the dollar amount of a company's opportunities. What reporting tool should be used to complete this request?",
-    options:[
-      {letter:"A", text:"A row-level formula to compare amounts grouped by year"},
-      {letter:"B", text:"A custom summary formula with the PREVGROUPVAL function"},
-      {letter:"C", text:"A joined report with two report blocks for each year"},
-      {letter:"D", text:"A custom summary formula with PARENTGROUPVAL function"}
-    ],
-    answer:["B"], multi:false,
-    explanation:"PREVGROUPVAL is a summary function that fetches the value of a summarized field from the previous grouping, so a custom summary formula can compare each year's total opportunity amount to the prior year's and compute the change. PARENTGROUPVAL compares against a parent grouping level rather than the previous peer group, row-level formulas cannot reference other groupings, and a joined report would not calculate the difference automatically.",
-    hook:"\"year-over-year change\" prior year vs this year → PREVGROUPVAL summary formula (not PARENTGROUPVAL — that's parent grouping)"
-  },
-  {
-    id:246, category: CATEGORIES.UI,
-    text:"Cloud Kicks has a field called Shoe Type Preference. Cloud Kicks' product team wants to see a report that groups specific picklist values together into one of two lists. What functionality should the administrator use to fulfill the team's request?",
-    options:[
-      {letter:"A", text:"Matrix Report"},
-      {letter:"B", text:"PREVGROUPVAL"},
-      {letter:"C", text:"Summary Formula"},
-      {letter:"D", text:"Bucket field"}
-    ],
-    answer:["D"], multi:false,
-    explanation:"Bucket fields let report builders categorize values of a field into named buckets directly in the report without creating a custom formula field on the object. The administrator can create a bucket field on Shoe Type Preference that sorts the specific picklist values into the two desired groupings. Matrix reports, PREVGROUPVAL, and summary formulas summarize or compare data but do not regroup picklist values into custom categories.",
-    hook:"\"groups specific picklist values together\" in a report → Bucket field"
-  },
-  {
-    id:247, category: CATEGORIES.DEPLOY,
-    text:"When configuring a change set, which two practices should an administrator adhere to in order to ensure a successful deployment to production? Choose 2 answers",
-    options:[
-      {letter:"A", text:"Run deployment validations on the change set in the sandbox prior to uploading to production."},
-      {letter:"B", text:"When deploying a new record type, ensure the new record type is the only component in the change set."},
-      {letter:"C", text:"Clone a change set to add forgotten dependent components to an uploaded change set."},
-      {letter:"D", text:"Add permissions and access settings to outbound change sets in addition to the dependent component list."}
-    ],
-    answer:["C", "D"], multi:true,
-    explanation:"Once a change set has been uploaded it cannot be modified, so the documented practice for adding forgotten dependencies is to clone the change set, add the components, and upload again. Salesforce also recommends explicitly adding permissions and access settings to outbound change sets because the View/Add Dependencies feature does not include profile and permission settings. Validation happens against the target production org, not in the sandbox, and record types do not need to be deployed in isolation.",
-    hook:"change set practices → clone to add forgotten dependencies + add permissions/access settings (dependencies skip profiles)"
-  },
-  {
-    id:248, category: CATEGORIES.DEPLOY,
-    text:"An administrator is trying to deploy a change set from a newly upgraded sandbox source org with new features to a destination sandbox org on a previous release. Some metadata in the change set cannot be deployed because they've changed between releases. What should the administrator do to deploy the changes to a sandbox?",
-    options:[
-      {letter:"A", text:"Make the changes manually through the user interface in the source org."},
-      {letter:"B", text:"Create a new sandbox on the new release version and deploy the change set to the new org."},
-      {letter:"C", text:"Submit a ticket to Salesforce to update the source org to the latest release."},
-      {letter:"D", text:"Refresh the sandbox destination org and then deploy the change set."}
-    ],
-    answer:["B"], multi:false,
-    explanation:"During sandbox preview windows, change sets cannot always be deployed from an org on a newer release to an org still on the previous release because metadata components can change between versions. Creating a new sandbox that is on the new release gives the administrator a destination org at the same version, allowing the change set to deploy successfully. Refreshing the existing destination sandbox would not guarantee the newer release, and the other options do not address the version mismatch.",
-    hook:"change set newer release → older-release org → create new sandbox on the new release, deploy there"
-  },
-  {
-    id:249, category: CATEGORIES.DEPLOY,
-    text:"An administrator is planning the release process for the year. The team will be using change sets to process deployments to production. Which three best practices should be considered? Choose 3 answers",
-    options:[
-      {letter:"A", text:"Be sure to test only after business hours the day after deployment."},
-      {letter:"B", text:"Make sure change sets are limited to 10,000 files."},
-      {letter:"C", text:"Make sure to deploy all dependent components."},
-      {letter:"D", text:"Use matching names for global publisher layouts and Outlook publisher layouts."},
-      {letter:"E", text:"Plan your deployments around the production and sandbox maintenance schedules."}
-    ],
-    answer:["B", "C", "E"], multi:true,
-    explanation:"Salesforce's change set best practices note that a change set can contain a maximum of 10,000 files, so deployments must be sized within that limit. All dependent components must be included, since missing dependencies are a leading cause of deployment failures. Deployments should also be planned around production and sandbox maintenance schedules, when orgs may be unavailable. Testing should happen promptly after deployment, not deferred until the next day after hours.",
-    hook:"\"using change sets\" release best practices → ≤10,000 files + deploy all dependents + plan around maintenance schedules"
   },
   {
     id:250, category: CATEGORIES.AUTOMATION,
@@ -3274,19 +2882,6 @@ const QUESTIONS = [
     hook:"roll up child Price to Room across a lookup (no master-detail) → record-triggered flows on Equipment (child), on create/edit/delete"
   },
   {
-    id:251, category: CATEGORIES.AUTOMATION,
-    text:"The administrator at AW Computing has received an email for a system error indicating that their organization has reached its hourly limit for processing workflow time triggers. Which two processes should the administrator review? Choose 2 answers",
-    options:[
-      {letter:"A", text:"Apex Triggers"},
-      {letter:"B", text:"Time-Based Workflows"},
-      {letter:"C", text:"Paused Flow Interviews"},
-      {letter:"D", text:"Debug Logs"}
-    ],
-    answer:["B", "C"], multi:true,
-    explanation:"The hourly limit for processing workflow time triggers is consumed by time-dependent automation, specifically time-based workflow actions and paused or scheduled flow interviews that are waiting to resume. When the limit is exceeded, the administrator should review the Time-Based Workflow queue and Paused Flow Interviews in Setup to find the automation generating the volume. Apex triggers do not use workflow time triggers, and debug logs are a troubleshooting output rather than a process to review for this limit.",
-    hook:"\"hourly limit for processing workflow time triggers\" → review Time-Based Workflows + Paused Flow Interviews"
-  },
-  {
     id:252, category: CATEGORIES.AUTOMATION,
     text:"The administrator at Cloud Kicks noticed that the before trigger they are working on executes successfully but fails to save the original version of the record to the external data archive. The administrator finds there is also a record-triggered flow on that object that is configured to run before save. How should the administrator advise the developer?",
     options:[
@@ -3298,58 +2893,6 @@ const QUESTIONS = [
     answer:["C"], multi:false,
     explanation:"In the Salesforce order of execution, record-triggered flows configured to run before the record is saved execute prior to all Apex before triggers. That means the before-save flow has already changed the field values by the time the trigger runs, so the values the trigger captures and sends to the archive are no longer the true original version of the record. Advising the developer of this execution order explains the behavior; the other options do not account for the interaction between the flow and the trigger.",
     hook:"before trigger loses original values, before-save flow on object → before-save flows execute prior to all before triggers"
-  },
-  {
-    id:253, category: CATEGORIES.AUTOMATION,
-    text:"The sales team at Cloud Kicks is noticing that sales reps are misusing the new Screen Flow tool for data entry, since they are kicked back to the initial screen after clicking Finish. What should the administrator do to fix this?",
-    options:[
-      {letter:"A", text:"Add a trigger to redirect the user to a new page."},
-      {letter:"B", text:"Update the flow with a local redirect action."},
-      {letter:"C", text:"Create a new flow to redirect the user when the other flow finishes."},
-      {letter:"D", text:"Use a Lightning action to redirect the user."}
-    ],
-    answer:["B"], multi:false,
-    explanation:"By default, when a screen flow finishes, the user is returned to the flow's first screen, which is what the reps are experiencing. Salesforce supports overriding this finish behavior, and adding a local redirect action to the flow sends users to a chosen destination, such as the record they created, instead of restarting the flow. Apex triggers, a second flow, or a Lightning action would not change the flow's finish behavior.",
-    hook:"screen flow kicks back to initial screen after Finish → update flow with a local redirect action"
-  },
-  {
-    id:254, category: CATEGORIES.AUTOMATION,
-    text:"The administrator at Cloud Kicks is troubleshooting an issue one user is having with a flow. They have decided to add a debug log to that user. What debug log category should be used?",
-    options:[
-      {letter:"A", text:"Workflow"},
-      {letter:"B", text:"Callout"},
-      {letter:"C", text:"System"},
-      {letter:"D", text:"Database"}
-    ],
-    answer:["A"], multi:false,
-    explanation:"Flow execution details are recorded under the Workflow debug log category, which covers workflow rules, flows, and processes. Setting the Workflow category to a finer level such as Finer captures flow interview events, element execution, and variable values needed to troubleshoot the user's issue. The Callout, System, and Database categories log external requests, system methods, and database operations rather than flow logic.",
-    hook:"debug log category to troubleshoot a flow → Workflow"
-  },
-  {
-    id:255, category: CATEGORIES.AUTOMATION,
-    text:"Cloud Kicks has a Process Builder which should trigger upon a status change from an approval process. The Process Builder triggers if the status is updated manually, but not as a result of the approval process update. What could the administrator do to troubleshoot the issue?",
-    options:[
-      {letter:"A", text:"Check the Approval Process to make sure it is on the correct version."},
-      {letter:"B", text:"Check the Re-evaluate Workflow Rules After Field Change box on the Approval Process Field Update action."},
-      {letter:"C", text:"Turn on Recursion on the Process Builder under the Advanced Settings so the Process Builder fires again."},
-      {letter:"D", text:"Change the value with a specific new field value so the Process Builder knows what value to look for."}
-    ],
-    answer:["B"], multi:false,
-    explanation:"When an approval process changes the status through a field update action, downstream automation only re-fires if the field update is set to re-evaluate workflow rules after the change. Checking the Re-evaluate Workflow Rules After Field Change option on that field update causes the record change to trigger the Process Builder just as a manual edit does. The approval process version, recursion setting, and criteria value are not what prevents the process from firing in this scenario.",
-    hook:"PB fires on manual edit but not approval update → check Re-evaluate Workflow Rules After Field Change on the field update"
-  },
-  {
-    id:256, category: CATEGORIES.AUTOMATION,
-    text:"DreamHouse Realty was recently informed that the major listing service it utilizes can accept messages to a specific endpoint. The realtors want to utilize this to be able to quickly update the listing price on properties after it has been approved. What automation tool should the administrator configure?",
-    options:[
-      {letter:"A", text:"Flow"},
-      {letter:"B", text:"Platform Event"},
-      {letter:"C", text:"Process Builder"},
-      {letter:"D", text:"Email Alert"}
-    ],
-    answer:["A"], multi:false,
-    explanation:"Flow is the automation tool that can send information to an external endpoint declaratively, using outbound message or HTTP callout actions, and it can be triggered when the record's approval completes. This lets the updated listing price be pushed to the listing service's endpoint automatically after approval. Process Builder and email alerts cannot call an arbitrary endpoint, and a platform event is an event bus mechanism rather than a tool that delivers messages to an external URL on its own.",
-    hook:"push listing-price update to external endpoint after approval → Flow (declarative callout); PB/email can't hit an endpoint"
   }
 ];
 // <<< QUESTIONS END
@@ -3360,6 +2903,7 @@ const state = {
   mode: "study", // "study" | "exam"
   answers: {},    // { questionId: [selectedLetters] }
   submitted: {},  // { questionId: true }
+  flagged: {},    // { questionId: true } — "review later" flags, persisted separately
   timerInterval: null,
   timerSeconds: EXAM_MINUTES * 60,
   examSubmitted: false
@@ -3471,15 +3015,409 @@ window.resetSession = function() {
   updateSessionStatus();
 };
 
+// ---------- Flags ("review later") ----------
+// Flags live under their own storage key and are intentionally NOT cleared by
+// the Reset Progress button — they survive a session reset so you keep your
+// list of doubtful questions.
+const FLAGS_STORAGE_KEY = "plat_admn_301_flags";
+
+function loadFlags() {
+  state.flagged = {};
+  try {
+    const raw = localStorage.getItem(FLAGS_STORAGE_KEY);
+    if (!raw) return;
+    const ids = JSON.parse(raw);
+    if (!Array.isArray(ids)) return;
+    const validIds = new Set(QUESTIONS.map(q => String(q.id)));
+    ids.forEach(id => { if (validIds.has(String(id))) state.flagged[id] = true; });
+  } catch (e) {
+    // ignore
+  }
+}
+
+function saveFlags() {
+  try {
+    localStorage.setItem(FLAGS_STORAGE_KEY, JSON.stringify(Object.keys(state.flagged).map(Number)));
+  } catch (e) {
+    // ignore
+  }
+}
+
+window.toggleFlag = function(qid, ev) {
+  if (ev) ev.stopPropagation();
+  qid = Number(qid);
+  if (state.flagged[qid]) delete state.flagged[qid];
+  else state.flagged[qid] = true;
+  saveFlags();
+  syncFlag(qid);
+  updateFlagStatus();
+};
+
+// Reflect a flag's state on every rendered copy of that question (a question can
+// appear in both its category tab and the Full Exam tab).
+function syncFlag(qid) {
+  const on = !!state.flagged[qid];
+  document.querySelectorAll(`.btn-flag[data-flag="${qid}"]`).forEach(btn => {
+    btn.classList.toggle("flagged", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.title = on ? "Flagged for review — click to unflag" : "Flag this question for review";
+  });
+  document.querySelectorAll(`.question-card[data-qid="${qid}"]`).forEach(card => {
+    card.classList.toggle("is-flagged", on);
+  });
+}
+
+function updateFlagStatus() {
+  const el = $("#flag-status");
+  if (!el) return;
+  const n = Object.keys(state.flagged).length;
+  el.textContent = n ? `🚩 ${n} flagged` : "";
+  el.classList.toggle("has-flags", n > 0);
+}
+
+window.clearFlags = function() {
+  const n = Object.keys(state.flagged).length;
+  if (!n) return;
+  if (!confirm(`Clear all ${n} flagged question${n === 1 ? "" : "s"}? This cannot be undone.`)) return;
+  const ids = Object.keys(state.flagged);
+  state.flagged = {};
+  saveFlags();
+  ids.forEach(id => syncFlag(id));
+  updateFlagStatus();
+};
+
+function flagButtonHTML(qid) {
+  const on = !!state.flagged[qid];
+  return `<button type="button" class="btn-flag${on ? " flagged" : ""}" data-flag="${qid}" aria-pressed="${on}" title="${on ? "Flagged for review — click to unflag" : "Flag this question for review"}" onclick="toggleFlag(${qid}, event)">🚩</button>`;
+}
+
+// ---------- Theme (accent + light/dark) ----------
+const THEME_STORAGE_KEY = "plat_admn_301_theme";
+const THEME_ACCENTS = ["green", "blue", "purple", "amber", "pink"];
+const THEME_APPEARANCES = ["light", "dark"];
+
+function getTheme() {
+  try {
+    const t = JSON.parse(localStorage.getItem(THEME_STORAGE_KEY) || "{}");
+    return {
+      accent: THEME_ACCENTS.includes(t.accent) ? t.accent : "green",
+      appearance: THEME_APPEARANCES.includes(t.appearance) ? t.appearance : "light"
+    };
+  } catch (e) {
+    return { accent: "green", appearance: "light" };
+  }
+}
+
+function applyTheme(theme) {
+  const root = document.documentElement;
+  root.dataset.accent = theme.accent;
+  root.dataset.appearance = theme.appearance;
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(theme));
+  } catch (e) {
+    // ignore
+  }
+  reflectThemeControls(theme);
+}
+
+function reflectThemeControls(theme) {
+  $$(".theme-accent-swatch").forEach(b =>
+    b.classList.toggle("active", b.dataset.accent === theme.accent));
+  const darkToggle = $("#theme-dark-toggle");
+  if (darkToggle) darkToggle.checked = theme.appearance === "dark";
+}
+
+window.setAccent = function(accent) {
+  if (!THEME_ACCENTS.includes(accent)) return;
+  const t = getTheme();
+  t.accent = accent;
+  applyTheme(t);
+};
+
+window.setAppearance = function(isDark) {
+  const t = getTheme();
+  t.appearance = isDark ? "dark" : "light";
+  applyTheme(t);
+};
+
+window.toggleThemeMenu = function(force) {
+  const menu = $("#theme-menu");
+  if (!menu) return;
+  const show = force === undefined ? menu.classList.contains("hidden") : force;
+  menu.classList.toggle("hidden", !show);
+};
+
+// ---------- Rapid Fire mode ----------
+// A quick flashcard drill: random questions one after another, instant feedback.
+// Independent of study/exam state; nothing here is saved to the session.
+const rapid = {
+  active: false,
+  mode: null,        // null while the picker is shown, then "endless" | "knockout"
+  pool: [],          // base question objects for this session
+  remaining: null,   // knockout: Set of question ids not yet mastered
+  queue: [],         // current shuffled batch to draw from
+  index: 0,
+  seen: 0,           // total answered this session
+  correct: 0,        // total correct this session
+  mastered: 0,       // knockout: unique questions cleared
+  answered: false,
+  done: false,
+  selected: []
+};
+
+// The header button opens Rapid Fire on a mode-picker screen.
+window.startRapid = function() {
+  rapid.active = true;
+  rapid.mode = null;
+  rapid.done = false;
+  const overlay = $("#rapid-overlay");
+  if (overlay) overlay.classList.add("visible");
+  document.body.classList.add("rapid-open");
+  rapidRenderPicker();
+};
+
+window.beginRapid = function(mode) {
+  rapid.mode = mode === "knockout" ? "knockout" : "endless";
+  rapid.pool = QUESTIONS;
+  rapid.seen = 0;
+  rapid.correct = 0;
+  rapid.mastered = 0;
+  rapid.done = false;
+  rapid.remaining = rapid.mode === "knockout" ? new Set(rapid.pool.map(q => q.id)) : null;
+  rapidRefillQueue();
+  rapidRender();
+};
+
+window.exitRapid = function() {
+  rapid.active = false;
+  const overlay = $("#rapid-overlay");
+  if (overlay) overlay.classList.remove("visible");
+  document.body.classList.remove("rapid-open");
+};
+
+function rapidRefillQueue() {
+  const objs = rapid.mode === "knockout"
+    ? rapid.pool.filter(q => rapid.remaining.has(q.id))
+    : rapid.pool;
+  rapid.queue = shuffleArray(objs.map(withShuffledOptions));
+  rapid.index = 0;
+}
+
+function rapidCurrent() {
+  if (rapid.index >= rapid.queue.length) rapidRefillQueue();
+  return rapid.queue[rapid.index];
+}
+
+function rapidTallyHTML() {
+  if (rapid.mode === "knockout") {
+    const total = rapid.pool.length;
+    const left = rapid.remaining ? rapid.remaining.size : total;
+    return `✅ ${rapid.mastered}/${total} mastered · ${left} left`;
+  }
+  const acc = rapid.seen ? Math.round((rapid.correct / rapid.seen) * 100) : 0;
+  return `${rapid.correct}/${rapid.seen} correct${rapid.seen ? ` · ${acc}%` : ""}`;
+}
+
+function rapidRenderPicker() {
+  const body = $("#rapid-body");
+  if (!body) return;
+  body.innerHTML = `
+    <div class="rapid-picker">
+      <h2 class="rapid-picker-title">⚡ Rapid Fire</h2>
+      <p class="rapid-picker-sub">Choose a drill mode</p>
+      <div class="rapid-mode-cards">
+        <button type="button" class="rapid-mode-card" onclick="beginRapid('endless')">
+          <span class="rmc-icon">♾️</span>
+          <span class="rmc-name">Endless</span>
+          <span class="rmc-desc">Random questions, one after another, forever. Nothing is removed — practice at your own pace. <kbd>1</kbd></span>
+        </button>
+        <button type="button" class="rapid-mode-card" onclick="beginRapid('knockout')">
+          <span class="rmc-icon">🎯</span>
+          <span class="rmc-name">Knockout</span>
+          <span class="rmc-desc">Get one right and it drops out of the pool; miss it and it stays. Clear all ${QUESTIONS.length} to win. <kbd>2</kbd></span>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function rapidRenderDone() {
+  const body = $("#rapid-body");
+  if (!body) return;
+  rapid.done = true;
+  const acc = rapid.seen ? Math.round((rapid.correct / rapid.seen) * 100) : 0;
+  body.innerHTML = `
+    <div class="rapid-done">
+      <div class="rapid-done-icon">🏆</div>
+      <h2>Knockout complete!</h2>
+      <p>You cleared all ${rapid.pool.length} questions. It took ${rapid.seen} attempts at ${acc}% accuracy.</p>
+      <div class="rapid-done-actions">
+        <button type="button" class="btn-rapid-next" onclick="startRapid()">Play again</button>
+        <button type="button" class="btn-rapid-check" onclick="exitRapid()">Done</button>
+      </div>
+    </div>
+  `;
+}
+
+function rapidRender() {
+  const body = $("#rapid-body");
+  if (!body) return;
+  rapid.answered = false;
+  rapid.done = false;
+  rapid.selected = [];
+  const q = rapidCurrent();
+  if (!q) { rapidRenderDone(); return; }
+  const isMulti = q.multi;
+
+  body.innerHTML = `
+    <div class="rapid-tally">
+      <span>${rapid.mode === "knockout" ? "🎯 Knockout" : "♾️ Endless"}</span>
+      <span class="rapid-score">${rapidTallyHTML()}</span>
+    </div>
+    <div class="rapid-qmeta">
+      <span class="rapid-cat">${q.category}</span>
+      ${isMulti ? `<span class="multi-badge">Select ${q.answer.length}</span>` : ""}
+      ${flagButtonHTML(q.id)}
+    </div>
+    <div class="rapid-question">${q.text}</div>
+    <div class="rapid-options" id="rapid-options">
+      ${q.options.map((opt, i) => `
+        <div class="option-item" data-letter="${opt.letter}" onclick="rapidSelect('${opt.letter}')">
+          <div class="option-radio ${isMulti ? "checkbox-style" : ""}"></div>
+          <div class="option-letter">${String.fromCharCode(65 + i)}</div>
+          <div class="option-text">${opt.text}</div>
+        </div>
+      `).join("")}
+    </div>
+    <div class="rapid-feedback" id="rapid-feedback"></div>
+    <div class="rapid-actions">
+      ${isMulti ? `<button type="button" class="btn-rapid-check" id="rapid-check" disabled onclick="rapidReveal()">Check</button>` : ""}
+      <button type="button" class="btn-rapid-next hidden" id="rapid-next" onclick="rapidNext()">Next →</button>
+    </div>
+  `;
+  syncFlag(q.id);
+}
+
+window.rapidSelect = function(letter) {
+  if (rapid.answered) return;
+  const q = rapidCurrent();
+  if (q.multi) {
+    const i = rapid.selected.indexOf(letter);
+    if (i > -1) rapid.selected.splice(i, 1);
+    else if (rapid.selected.length < q.answer.length) rapid.selected.push(letter);
+    else { rapid.selected.shift(); rapid.selected.push(letter); }
+    $$("#rapid-options .option-item").forEach(opt =>
+      opt.classList.toggle("selected", rapid.selected.includes(opt.dataset.letter)));
+    const check = $("#rapid-check");
+    if (check) check.disabled = rapid.selected.length === 0;
+  } else {
+    rapid.selected = [letter];
+    rapidReveal();
+  }
+};
+
+window.rapidReveal = function() {
+  if (rapid.answered) return;
+  const q = rapidCurrent();
+  if (!rapid.selected.length) return;
+  rapid.answered = true;
+  const isCorrect = arraysEqual(rapid.selected.slice().sort(), q.answer.slice().sort());
+  rapid.seen++;
+  if (isCorrect) {
+    rapid.correct++;
+    // Knockout: a correct answer removes the question from the pool for good
+    if (rapid.mode === "knockout" && rapid.remaining && rapid.remaining.has(q.id)) {
+      rapid.remaining.delete(q.id);
+      rapid.mastered++;
+    }
+  }
+
+  $$("#rapid-options .option-item").forEach(opt => {
+    const l = opt.dataset.letter;
+    opt.classList.add("disabled");
+    opt.classList.remove("selected");
+    if (q.answer.includes(l)) opt.classList.add("correct");
+    else if (rapid.selected.includes(l)) opt.classList.add("incorrect");
+  });
+
+  let verdict;
+  if (isCorrect) verdict = rapid.mode === "knockout" ? "✓ Correct — knocked out!" : "✓ Correct";
+  else verdict = rapid.mode === "knockout" ? "✕ Incorrect — it'll come back" : "✕ Incorrect";
+
+  const fb = $("#rapid-feedback");
+  if (fb) {
+    fb.className = `rapid-feedback visible ${isCorrect ? "is-correct" : "is-incorrect"}`;
+    fb.innerHTML = `
+      <div class="rapid-verdict">${verdict}</div>
+      ${q.hook ? `<div class="answer-hook"><span class="hook-key">🔑 Key</span><span class="hook-text">${q.hook}</span></div>` : ""}
+    `;
+  }
+  const check = $("#rapid-check");
+  if (check) check.classList.add("hidden");
+  const next = $("#rapid-next");
+  if (next) {
+    const cleared = rapid.mode === "knockout" && rapid.remaining && rapid.remaining.size === 0;
+    next.textContent = cleared ? "See results →" : "Next →";
+    next.classList.remove("hidden");
+    next.focus();
+  }
+  const tally = $(".rapid-score");
+  if (tally) tally.textContent = rapidTallyHTML();
+};
+
+window.rapidNext = function() {
+  if (rapid.mode === "knockout" && rapid.remaining && rapid.remaining.size === 0) {
+    rapidRenderDone();
+    return;
+  }
+  rapid.index++;
+  rapidRender();
+};
+
+function handleRapidKeys(e) {
+  if (!rapid.active) return;
+  if (e.key === "Escape") { exitRapid(); return; }
+
+  // Mode picker: 1 = Endless, 2 = Knockout
+  if (rapid.mode === null) {
+    if (e.key === "1") { e.preventDefault(); beginRapid("endless"); }
+    else if (e.key === "2") { e.preventDefault(); beginRapid("knockout"); }
+    return;
+  }
+  if (rapid.done) return;
+
+  if (rapid.answered && (e.key === "Enter" || e.key === " " || e.key.toLowerCase() === "n")) {
+    e.preventDefault();
+    rapidNext();
+    return;
+  }
+  const q = rapidCurrent();
+  if (!q) return;
+  // Letter or number keys pick an option by position
+  let pos = -1;
+  if (/^[1-9]$/.test(e.key)) pos = parseInt(e.key, 10) - 1;
+  else if (/^[a-z]$/i.test(e.key)) pos = e.key.toLowerCase().charCodeAt(0) - 97;
+  if (pos >= 0 && pos < q.options.length) {
+    e.preventDefault();
+    rapidSelect(q.options[pos].letter);
+  } else if (!rapid.answered && q.multi && e.key === "Enter" && rapid.selected.length) {
+    e.preventDefault();
+    rapidReveal();
+  }
+}
+
 // ---------- Initialization ----------
 document.addEventListener("DOMContentLoaded", () => {
+  applyTheme(getTheme());
   loadSession();
+  loadFlags();
   renderTabButtons();
   renderDashboard();
   renderAllQuizTabs();
   restoreAllTabs();
   updateScoreMatrix();
   updateSessionStatus();
+  updateFlagStatus();
   bindEvents();
   setActiveTab(0);
 });
@@ -3713,7 +3651,7 @@ function renderQuizTab(tabIndex, title, questions) {
 function renderQuestionCard(q, num) {
   const isMulti = q.multi;
   return `
-    <div class="question-card" id="qcard-${q.id}" data-qid="${q.id}">
+    <div class="question-card${state.flagged[q.id] ? ' is-flagged' : ''}" id="qcard-${q.id}" data-qid="${q.id}">
       <div class="question-header">
         <div class="question-number ${isMulti ? 'multi-select' : ''}">Q${num}</div>
         <div class="question-body">
@@ -3722,6 +3660,7 @@ function renderQuestionCard(q, num) {
             ${isMulti ? `<span class="multi-badge">Select ${q.answer.length}</span>` : ''}
           </div>
         </div>
+        ${flagButtonHTML(q.id)}
       </div>
       <div class="options-list" id="options-${q.id}">
         ${q.options.map((opt, i) => `
@@ -4115,6 +4054,24 @@ function bindEvents() {
       }
     });
   }
+
+  // Theme dark-mode toggle
+  const darkToggle = $("#theme-dark-toggle");
+  if (darkToggle) {
+    darkToggle.addEventListener("change", (e) => setAppearance(e.target.checked));
+  }
+
+  // Close the theme menu when clicking outside it
+  document.addEventListener("click", (e) => {
+    const menu = $("#theme-menu");
+    if (menu && !menu.classList.contains("hidden") &&
+        !e.target.closest("#theme-menu") && !e.target.closest("#theme-btn")) {
+      toggleThemeMenu(false);
+    }
+  });
+
+  // Rapid Fire keyboard controls
+  document.addEventListener("keydown", handleRapidKeys);
 }
 
 // ---------- Utility ----------

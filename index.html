@@ -7,11 +7,29 @@
   <title>Platform Administrator II Exam Simulator — PLAT-ADMN-301</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;text y=&#39;.9em&#39; font-size=&#39;90&#39;&gt;%E2%98%81%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
+  <!-- Apply saved theme before first paint to avoid a flash -->
+  <script>
+    (function () {
+      try {
+        var t = JSON.parse(localStorage.getItem('plat_admn_301_theme') || '{}');
+        var accents = ['green', 'blue', 'purple', 'amber', 'pink'];
+        document.documentElement.dataset.accent = accents.indexOf(t.accent) > -1 ? t.accent : 'green';
+        document.documentElement.dataset.appearance = t.appearance === 'dark' ? 'dark' : 'light';
+      } catch (e) {
+        document.documentElement.dataset.accent = 'green';
+        document.documentElement.dataset.appearance = 'light';
+      }
+    })();
+  </script>
 </head>
 <body>
 
   <!-- ===== APP HEADER ===== -->
   <header class="app-header">
+    <!-- Themed decorative motif (leaves / hearts / stars … per accent) -->
+    <div class="header-decor" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
     <div class="header-top">
       <!-- Brand -->
       <div class="header-brand">
@@ -22,40 +40,70 @@
         </h1>
       </div>
 
-      <!-- Global Score Matrix -->
-      <div class="score-matrix">
-        <div class="score-pill" id="pill-progress">
-          📝 Progress: <span class="pill-value">0/150</span>
-        </div>
-        <div class="score-pill" id="pill-score">
-          🎯 Score: <span class="pill-value">0.0%</span>
-        </div>
-        <div class="score-pill failing" id="pill-status">
-          📊 Status: <span class="pill-value">Not Passing</span>
+      <div class="header-controls">
+
+        <!-- Group: metrics -->
+        <div class="score-matrix hc-group">
+          <div class="score-pill" id="pill-progress">
+            📝 Progress: <span class="pill-value">0/150</span>
+          </div>
+          <div class="score-pill" id="pill-score">
+            🎯 Score: <span class="pill-value">0.0%</span>
+          </div>
+          <div class="score-pill failing" id="pill-status">
+            📊 Status: <span class="pill-value">Not Passing</span>
+          </div>
         </div>
 
-        <!-- Exam Timer (hidden by default) -->
+        <!-- Exam timer + submit (hidden until Exam mode) -->
         <div class="exam-timer" id="exam-timer">
           <span class="timer-icon">⏱️</span>
           <span id="timer-text">01:45:00</span>
         </div>
-
-        <!-- Submit Exam Button (hidden by default) -->
         <button class="submit-exam-btn" id="submit-exam-btn">Submit Exam</button>
-      </div>
 
-      <!-- Mode Toggle -->
-      <div class="mode-toggle-wrapper">
-        <label for="mode-toggle">Study</label>
-        <input type="checkbox" class="toggle-switch" id="mode-toggle" aria-label="Toggle between Study and Exam mode">
-        <label for="mode-toggle">Exam</label>
-      </div>
+        <!-- Group: status chips -->
+        <div class="hc-group hc-status">
+          <span class="session-status" id="session-status" aria-live="polite"></span>
+          <button type="button" class="flag-status" id="flag-status" aria-live="polite" onclick="clearFlags()" title="Flagged questions — click to clear all"></button>
+        </div>
 
-      <!-- Session Persistence -->
-      <div class="session-controls">
-        <span class="session-status" id="session-status" aria-live="polite"></span>
-        <button type="button" class="btn-reset-session" id="btn-reset-session" onclick="resetSession()" title="Clear your saved study progress">↺ Reset Progress</button>
-      </div>
+        <span class="hc-divider"></span>
+
+        <!-- Group: mode -->
+        <div class="mode-toggle-wrapper hc-group">
+          <label for="mode-toggle">Study</label>
+          <input type="checkbox" class="toggle-switch" id="mode-toggle" aria-label="Toggle between Study and Exam mode">
+          <label for="mode-toggle">Exam</label>
+        </div>
+
+        <span class="hc-divider"></span>
+
+        <!-- Group: actions -->
+        <div class="hc-group hc-actions">
+          <button type="button" class="btn-rapid-launch" id="btn-rapid-launch" onclick="startRapid()" title="Rapid Fire: random questions, one after another">⚡ Rapid Fire</button>
+          <button type="button" class="btn-reset-session" id="btn-reset-session" onclick="resetSession()" title="Clear your saved study progress (flags are kept)">↺ Reset</button>
+        </div>
+
+        <!-- Group: theme -->
+        <div class="theme-control">
+          <button type="button" class="btn-theme" id="theme-btn" onclick="toggleThemeMenu()" aria-haspopup="true" title="Theme &amp; colors">🎨</button>
+          <div class="theme-menu hidden" id="theme-menu" role="menu">
+            <div class="theme-menu-label">Accent</div>
+            <div class="theme-swatches">
+              <button type="button" class="theme-accent-swatch" data-accent="green"  onclick="setAccent('green')"  title="Green · leaves"    aria-label="Green accent"></button>
+              <button type="button" class="theme-accent-swatch" data-accent="blue"   onclick="setAccent('blue')"   title="Blue · water"      aria-label="Blue accent"></button>
+              <button type="button" class="theme-accent-swatch" data-accent="purple" onclick="setAccent('purple')" title="Purple · stars"    aria-label="Purple accent"></button>
+              <button type="button" class="theme-accent-swatch" data-accent="amber"  onclick="setAccent('amber')"  title="Amber · sunshine"  aria-label="Amber accent"></button>
+              <button type="button" class="theme-accent-swatch" data-accent="pink"   onclick="setAccent('pink')"   title="Pink · hearts"     aria-label="Pink accent"></button>
+            </div>
+            <div class="theme-menu-row">
+              <label for="theme-dark-toggle">🌙 Dark mode</label>
+              <input type="checkbox" class="toggle-switch" id="theme-dark-toggle" aria-label="Toggle dark mode">
+            </div>
+          </div>
+        </div>
+      </div><!-- /.header-controls -->
     </div>
 
     <!-- Tab Navigation -->
@@ -14133,6 +14181,15 @@
   <!-- ===== EXAM RESULTS OVERLAY ===== -->
   <div class="results-overlay" id="results-overlay">
     <div class="results-modal"></div>
+  </div>
+
+  <!-- ===== RAPID FIRE OVERLAY ===== -->
+  <div class="rapid-overlay" id="rapid-overlay">
+    <div class="rapid-modal">
+      <button type="button" class="rapid-exit" id="rapid-exit" onclick="exitRapid()" title="Exit Rapid Fire (Esc)">✕</button>
+      <div class="rapid-body" id="rapid-body"></div>
+      <div class="rapid-hint">Pick with keys <kbd>1</kbd>–<kbd>5</kbd> · <kbd>Enter</kbd> next · <kbd>Esc</kbd> exit</div>
+    </div>
   </div>
 
   <!-- ===== APPLICATION SCRIPT ===== -->
