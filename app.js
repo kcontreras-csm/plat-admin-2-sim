@@ -34,7 +34,8 @@ const QUESTIONS = [
       {letter:"D", text:"Assign a task to the owner if an opportunity is created without one of these fields filled out."}
     ],
     answer:["A"], multi:false,
-    explanation:"A validation rule can enforce data quality by preventing users from saving records that do not meet certain criteria. The rule can check whether both the Sales Engineer and Account Executive lookup fields are blank and display an error message if so, guaranteeing that at least one of them is populated before the opportunity can be saved. Requiring both fields on the page layout would force users to fill in both rather than either one, and assigning a task or creating record types would not actually prevent the record from being saved without the data."
+    explanation:"A validation rule can enforce data quality by preventing users from saving records that do not meet certain criteria. The rule can check whether both the Sales Engineer and Account Executive lookup fields are blank and display an error message if so, guaranteeing that at least one of them is populated before the opportunity can be saved. Requiring both fields on the page layout would force users to fill in both rather than either one, and assigning a task or creating record types would not actually prevent the record from being saved without the data.",
+    hook:"\"either a sales engineer or an account executive\" → validation rule requiring one is filled (not require both on layout — forces both)"
   },
   {
     id:2, category: CATEGORIES.APPS,
@@ -46,7 +47,8 @@ const QUESTIONS = [
       {letter:"D", text:"Enable Subscriptions."}
     ],
     answer:["A"], multi:false,
-    explanation:"A price book is a list of products with prices tailored to a specific segment, market, or promotion. By creating a separate price book that contains the pre-approved bundle pricing for monitors and keyboards, reps can sell the bundle at the special price without entering a manual discount, so the VP approval process is never triggered. Removing the approval process would eliminate a control that is still needed for normal discounts, and implementing CPQ or enabling Subscriptions is far more than this simple pricing scenario requires."
+    explanation:"A price book is a list of products with prices tailored to a specific segment, market, or promotion. By creating a separate price book that contains the pre-approved bundle pricing for monitors and keyboards, reps can sell the bundle at the special price without entering a manual discount, so the VP approval process is never triggered. Removing the approval process would eliminate a control that is still needed for normal discounts, and implementing CPQ or enabling Subscriptions is far more than this simple pricing scenario requires.",
+    hook:"\"pre-approved bundle\" special pricing → separate Price Book (not remove approval — normal discounts still need it)"
   },
   {
     id:3, category: CATEGORIES.UI,
@@ -58,7 +60,8 @@ const QUESTIONS = [
       {letter:"D", text:"Make a custom Lightning page to display specific fields based on the type of property."}
     ],
     answer:["B"], multi:false,
-    explanation:"Record types let an administrator offer different picklist values, business processes, and page layouts for different kinds of records on the same object. By creating a record type for each property type and assigning a custom page layout to each, DreamHouse Realty can ensure condo-specific fields like deposit amount and concierge services appear only on condo opportunities. A validation rule enforces data quality but cannot control which fields are displayed, and building a custom Lightning component or page adds unnecessary complexity for something record types handle declaratively."
+    explanation:"Record types let an administrator offer different picklist values, business processes, and page layouts for different kinds of records on the same object. By creating a record type for each property type and assigning a custom page layout to each, DreamHouse Realty can ensure condo-specific fields like deposit amount and concierge services appear only on condo opportunities. A validation rule enforces data quality but cannot control which fields are displayed, and building a custom Lightning component or page adds unnecessary complexity for something record types handle declaratively.",
+    hook:"\"only relevant fields are displayed\" per property kind → Record Type + page layout each (not validation rule — can't hide fields)"
   },
   {
     id:4, category: CATEGORIES.UI,
@@ -70,7 +73,8 @@ const QUESTIONS = [
       {letter:"D", text:"Path Component"}
     ],
     answer:["B"], multi:false,
-    explanation:"The Field Section and Fields components, available when Dynamic Forms is enabled on a Lightning record page, let an administrator place individual fields directly on the page and control exactly which fields users see, including conditional visibility rules per field. This gives granular control over field display without editing the page layout. The Record Detail component simply renders the entire assigned page layout, the Highlights Panel shows only a few key fields at the top of the page, and the Path component displays stage progression rather than record fields."
+    explanation:"The Field Section and Fields components, available when Dynamic Forms is enabled on a Lightning record page, let an administrator place individual fields directly on the page and control exactly which fields users see, including conditional visibility rules per field. This gives granular control over field display without editing the page layout. The Record Detail component simply renders the entire assigned page layout, the Highlights Panel shows only a few key fields at the top of the page, and the Path component displays stage progression rather than record fields.",
+    hook:"custom object, \"only see certain fields\" via a component → Fields component / Dynamic Forms (not Record Detail — renders whole layout)"
   },
   {
     id:5, category: CATEGORIES.SECURITY,
@@ -82,7 +86,8 @@ const QUESTIONS = [
       {letter:"D", text:"Enable Account Teams and grant Read record-level access to account team members for the Account object"}
     ],
     answer:["B"], multi:false,
-    explanation:"Sharing rules are automatic exceptions to organization-wide defaults that grant additional access based on record ownership or criteria. By creating an owner-based sharing rule on the Account object that shares records owned by members of the account services role back to that same role with Read/Write access, every team member can edit and change ownership of Accounts owned by any other team member. Setting the org-wide default to Public Read Only would not allow editing, and granting Modify All on the profile would expose every Account in the org, not just the team's records."
+    explanation:"Sharing rules are automatic exceptions to organization-wide defaults that grant additional access based on record ownership or criteria. By creating an owner-based sharing rule on the Account object that shares records owned by members of the account services role back to that same role with Read/Write access, every team member can edit and change ownership of Accounts owned by any other team member. Setting the org-wide default to Public Read Only would not allow editing, and granting Modify All on the profile would expose every Account in the org, not just the team's records.",
+    hook:"edit + change ownership of team members' Accounts → owner-based Sharing Rule Read/Write (not Modify All — exposes whole org)"
   },
   {
     id:6, category: CATEGORIES.SECURITY,
@@ -94,7 +99,8 @@ const QUESTIONS = [
       {letter:"D", text:"Custom Profile"}
     ],
     answer:["C"], multi:false,
-    explanation:"Account Teams let a record owner (or an administrator) add specific users, such as an engineer, to an individual account and grant each team member their own level of access to that account and its related opportunities and cases. This grants access only to the accounts where assistance is actually needed, preserving the private sharing model everywhere else. Permission sets, permission set groups, and custom profiles grant object-level permissions broadly and cannot target access to a single account record."
+    explanation:"Account Teams let a record owner (or an administrator) add specific users, such as an engineer, to an individual account and grant each team member their own level of access to that account and its related opportunities and cases. This grants access only to the accounts where assistance is actually needed, preserving the private sharing model everywhere else. Permission sets, permission set groups, and custom profiles grant object-level permissions broadly and cannot target access to a single account record.",
+    hook:"private model, occasional single-account help from engineer → Account Teams (Permission Set = object-level, can't target one record)"
   },
   {
     id:7, category: CATEGORIES.AUTOMATION,
@@ -106,7 +112,8 @@ const QUESTIONS = [
       {letter:"D", text:"flow"}
     ],
     answer:["D"], multi:false,
-    explanation:"A record-triggered flow can be configured to run when a record is deleted, which is the only declarative automation option that supports a delete trigger. The flow can capture who deleted the star record and send a notification or email to the scientists so they retain their discovery information. Workflow rules and Process Builder cannot be triggered by record deletion, and Heroku is an external app platform, not a Salesforce automation tool."
+    explanation:"A record-triggered flow can be configured to run when a record is deleted, which is the only declarative automation option that supports a delete trigger. The flow can capture who deleted the star record and send a notification or email to the scientists so they retain their discovery information. Workflow rules and Process Builder cannot be triggered by record deletion, and Heroku is an external app platform, not a Salesforce automation tool.",
+    hook:"\"notified when a record is deleted\" → record-triggered Flow (only tool with a delete trigger; PB/Workflow can't)"
   },
   {
     id:8, category: CATEGORIES.SECURITY,
@@ -118,7 +125,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a profile with Read Only for all Leads."}
     ],
     answer:["A"], multi:false,
-    explanation:"A permission set with the View All object permission on Leads grants the contractor read access to every Lead record without changing their existing profile, which they still need for the project management app. This is the least-disruptive way to layer additional access on top of a profile. Adding a tab or app does not grant record access, a public group by itself grants nothing without a sharing rule, and creating a whole new profile would be unnecessary maintenance overhead and could remove their existing app access."
+    explanation:"A permission set with the View All object permission on Leads grants the contractor read access to every Lead record without changing their existing profile, which they still need for the project management app. This is the least-disruptive way to layer additional access on top of a profile. Adding a tab or app does not grant record access, a public group by itself grants nothing without a sharing rule, and creating a whole new profile would be unnecessary maintenance overhead and could remove their existing app access.",
+    hook:"keep existing profile, add View-only all Leads → Permission Set with View All (layers on top, no new profile)"
   },
   {
     id:9, category: CATEGORIES.SECURITY,
@@ -130,7 +138,8 @@ const QUESTIONS = [
       {letter:"D", text:"Self-signed Certificates"}
     ],
     answer:["A"], multi:false,
-    explanation:"Security Health Check lets an administrator compare the org's security settings, such as session settings, password policies, clickjack protection, and Lightning security settings, against a Salesforce-recommended baseline and surfaces high-risk gaps that could expose Lightning components to attack. It provides a score and specific remediation guidance for each risky setting. Salesforce Optimizer focuses on implementation and maintenance issues rather than security, and encryption keys and self-signed certificates are configuration items, not assessment tools."
+    explanation:"Security Health Check lets an administrator compare the org's security settings, such as session settings, password policies, clickjack protection, and Lightning security settings, against a Salesforce-recommended baseline and surfaces high-risk gaps that could expose Lightning components to attack. It provides a score and specific remediation guidance for each risky setting. Salesforce Optimizer focuses on implementation and maintenance issues rather than security, and encryption keys and self-signed certificates are configuration items, not assessment tools.",
+    hook:"expose security risks in Lightning Web Component → Health Check (Optimizer = maintenance, not security)"
   },
   {
     id:10, category: CATEGORIES.APPS,
@@ -142,7 +151,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a new Price Book for the U.K product pricing."}
     ],
     answer:["D"], multi:false,
-    explanation:"A price book lets a company offer the same products at different prices for different markets or segments. Creating a new U.K. price book allows NTO to reuse its existing product catalog while setting product-by-product prices that reflect U.K. shipping and raw material costs, and the price book entries can use the appropriate currency. A record type or a modified order form would not change actual pricing, and building a flow to convert currency with a custom exchange rate field reinvents functionality that price books and multi-currency already provide."
+    explanation:"A price book lets a company offer the same products at different prices for different markets or segments. Creating a new U.K. price book allows NTO to reuse its existing product catalog while setting product-by-product prices that reflect U.K. shipping and raw material costs, and the price book entries can use the appropriate currency. A record type or a modified order form would not change actual pricing, and building a flow to convert currency with a custom exchange rate field reinvents functionality that price books and multi-currency already provide.",
+    hook:"\"pricing will vary by product\" for new U.K. market → new Price Book (not currency flow — reinvents multi-currency)"
   },
   {
     id:11, category: CATEGORIES.AUTOMATION,
@@ -154,7 +164,8 @@ const QUESTIONS = [
       {letter:"D", text:"Update Record elements should be placed inside the flow loop."}
     ],
     answer:["A", "C"], multi:true,
-    explanation:"Using a Get Record component allows the flow to dynamically retrieve records based on criteria or record IDs without hard coding them. This makes the flow more flexible and maintainable.​Updating record elements outside the flow loop prevents unnecessary DML operations and reduces the risk of hitting governor limits."
+    explanation:"Using a Get Record component allows the flow to dynamically retrieve records based on criteria or record IDs without hard coding them. This makes the flow more flexible and maintainable.​Updating record elements outside the flow loop prevents unnecessary DML operations and reduces the risk of hitting governor limits.",
+    hook:"flow assigning accounts in a loop → Get Records not hardcoded IDs + Update Records outside the loop (governor limits)"
   },
   {
     id:12, category: CATEGORIES.DEPLOY,
@@ -167,7 +178,8 @@ const QUESTIONS = [
       {letter:"E", text:"Make sure change sets are limited to 10,000 files."}
     ],
     answer:["A", "D", "E"], multi:true,
-    explanation:"Planning deployments around production and sandbox maintenance schedules avoids interruptions, since deployments can fail or be delayed while an instance is undergoing maintenance. Deploying all dependent components is essential because a change set fails validation if a component references metadata that does not exist in the target org. Change sets also have a hard limit of 10,000 files (and 400 MB), so keeping each change set within that limit prevents upload failures; large projects should be split into multiple change sets. Testing data after deployment is not a change set consideration because change sets move metadata, not data, and Outlook publisher layout naming is unrelated to release planning."
+    explanation:"Planning deployments around production and sandbox maintenance schedules avoids interruptions, since deployments can fail or be delayed while an instance is undergoing maintenance. Deploying all dependent components is essential because a change set fails validation if a component references metadata that does not exist in the target org. Change sets also have a hard limit of 10,000 files (and 400 MB), so keeping each change set within that limit prevents upload failures; large projects should be split into multiple change sets. Testing data after deployment is not a change set consideration because change sets move metadata, not data, and Outlook publisher layout naming is unrelated to release planning.",
+    hook:"\"using change sets\" release best practices → plan around maintenance schedules, deploy all dependents, ≤10,000 files"
   },
   {
     id:13, category: CATEGORIES.APPS,
@@ -179,7 +191,8 @@ const QUESTIONS = [
       {letter:"D", text:"Knowledge Component"}
     ],
     answer:["A"], multi:false,
-    explanation:"​Omni-Channel is a feature that allows service reps to receive work assignments based on their availability, capacity, and skills. It also allows administrators to define routing rules and priorities for different types of work items, such as cases, chats, or leads. Omni-Channel can help reduce the wait time for customers and improve the efficiency of service reps."
+    explanation:"​Omni-Channel is a feature that allows service reps to receive work assignments based on their availability, capacity, and skills. It also allows administrators to define routing rules and priorities for different types of work items, such as cases, chats, or leads. Omni-Channel can help reduce the wait time for customers and improve the efficiency of service reps.",
+    hook:"\"reach an agent by area of expertise\" / skills routing → Omni-Channel (not Escalation — that's time-based)"
   },
   {
     id:14, category: CATEGORIES.AUTOMATION,
@@ -191,7 +204,8 @@ const QUESTIONS = [
       {letter:"D", text:"Roll-up Summary calculations run after processes and workflows."}
     ],
     answer:["D"], multi:false,
-    explanation:"Roll-up Summary calculations are performed after processes and workflows are executed, which means that any changes made by processes or workflows will not be reflected in the roll-up summary field until after the transaction is committed. This could cause inaccurate or outdated information to be delivered to the agent if the flow relies on the roll-up summary field value."
+    explanation:"Roll-up Summary calculations are performed after processes and workflows are executed, which means that any changes made by processes or workflows will not be reflected in the roll-up summary field until after the transaction is committed. This could cause inaccurate or outdated information to be delivered to the agent if the flow relies on the roll-up summary field value.",
+    hook:"Roll-up Summary feeding a flow → Roll-up recalculates after processes/workflows, so flow may read stale total"
   },
   {
     id:15, category: CATEGORIES.DEPLOY,
@@ -203,7 +217,8 @@ const QUESTIONS = [
       {letter:"D", text:"Setup Audit Trail"}
     ],
     answer:["D"], multi:false,
-    explanation:"Setup Audit Trail records the setup and configuration changes made by any user in an org, showing who changed what and when. Because the Full sandbox was refreshed two weeks ago and the deployment there succeeded, something has likely changed in production since the refresh, and the Setup Audit Trail is the tool that reveals those recent production changes. Salesforce Optimizer reports on feature usage and best practices, the Developer Console is for debugging code, and Field History tracks changes to record data rather than configuration."
+    explanation:"Setup Audit Trail records the setup and configuration changes made by any user in an org, showing who changed what and when. Because the Full sandbox was refreshed two weeks ago and the deployment there succeeded, something has likely changed in production since the refresh, and the Setup Audit Trail is the tool that reveals those recent production changes. Salesforce Optimizer reports on feature usage and best practices, the Developer Console is for debugging code, and Field History tracks changes to record data rather than configuration.",
+    hook:"\"Full sandbox refreshed 2 weeks ago\", prod deploy now fails → Setup Audit Trail (what changed in prod since)"
   },
   {
     id:16, category: CATEGORIES.DEPLOY,
@@ -216,7 +231,8 @@ const QUESTIONS = [
       {letter:"E", text:"Flows are automatically activated upon deployment."}
     ],
     answer:["A", "B", "C"], multi:true,
-    explanation:"Flows deployed with change sets arrive in the destination org as inactive and must be manually activated before users can run them (unless the org has opted in to deploy processes and flows as active, which also requires test coverage). A change set can include only one version of a given flow, so the administrator cannot package multiple versions at once. Each deployment or redeployment of a flow creates a new version in the destination org rather than overwriting the existing one. Dependencies are not automatically added to a change set; the administrator must review and add dependent components, and flows are never automatically activated by a standard change set deployment."
+    explanation:"Flows deployed with change sets arrive in the destination org as inactive and must be manually activated before users can run them (unless the org has opted in to deploy processes and flows as active, which also requires test coverage). A change set can include only one version of a given flow, so the administrator cannot package multiple versions at once. Each deployment or redeployment of a flow creates a new version in the destination org rather than overwriting the existing one. Dependencies are not automatically added to a change set; the administrator must review and add dependent components, and flows are never automatically activated by a standard change set deployment.",
+    hook:"moving flows via change set → inactive (activate manually) + only one version + creates new version in dest"
   },
   {
     id:17, category: CATEGORIES.AUTOMATION,
@@ -228,7 +244,8 @@ const QUESTIONS = [
       {letter:"D", text:"Log in as another user and run the flow."}
     ],
     answer:["B", "D"], multi:true,
-    explanation:"Opening the flow in Debug mode with the Run as Another User option lets the administrator simulate exactly how the flow behaves for the affected user, exposing errors caused by that user's permissions, field-level security, or sharing settings. Logging in as another user and running the flow is another valid way to reproduce the problem in the user's context. Changing the user's profile to System Administrator or changing the Default Case Creator masks or alters the environment rather than diagnosing the actual cause."
+    explanation:"Opening the flow in Debug mode with the Run as Another User option lets the administrator simulate exactly how the flow behaves for the affected user, exposing errors caused by that user's permissions, field-level security, or sharing settings. Logging in as another user and running the flow is another valid way to reproduce the problem in the user's context. Changing the user's profile to System Administrator or changing the Default Case Creator masks or alters the environment rather than diagnosing the actual cause.",
+    hook:"\"works in sandbox, errors in production\" → Debug flow Run as Another User + log in as that user (reproduce their context)"
   },
   {
     id:18, category: CATEGORIES.APPS,
@@ -240,7 +257,8 @@ const QUESTIONS = [
       {letter:"D", text:"Set up and configure entitlement templates."}
     ],
     answer:["D"], multi:false,
-    explanation:"Entitlement templates are a way to automatically create and associate entitlements with products or service contracts. They can help simplify the management of entitlements and ensure that customers receive the correct level of service. Entitlement templates can also be used to define service levels, milestones, and entitlement processes for different types of products or service contracts."
+    explanation:"Entitlement templates are a way to automatically create and associate entitlements with products or service contracts. They can help simplify the management of entitlements and ensure that customers receive the correct level of service. Entitlement templates can also be used to define service levels, milestones, and entitlement processes for different types of products or service contracts.",
+    hook:"\"6 months phone support included with orders\" → Entitlement Templates (auto-create entitlements per product)"
   },
   {
     id:19, category: CATEGORIES.SECURITY,
@@ -252,7 +270,8 @@ const QUESTIONS = [
       {letter:"D", text:"Modify All Data"}
     ],
     answer:["B"], multi:false,
-    explanation:"Delegated Administration allows a system administrator to give selected non-administrator users limited Setup access, including the ability to manage specified custom objects, so power users can maintain fields, page layouts, record types, and other configuration for just that object. This avoids granting broad administrative permissions. View Setup and Configuration is read-only, sharing rules control record access rather than configuration rights, and Modify All Data grants sweeping data access far beyond what is needed."
+    explanation:"Delegated Administration allows a system administrator to give selected non-administrator users limited Setup access, including the ability to manage specified custom objects, so power users can maintain fields, page layouts, record types, and other configuration for just that object. This avoids granting broad administrative permissions. View Setup and Configuration is read-only, sharing rules control record access rather than configuration rights, and Modify All Data grants sweeping data access far beyond what is needed.",
+    hook:"power users make config changes to one custom object → Delegated Administration (View Setup = read-only)"
   },
   {
     id:20, category: CATEGORIES.APPS,
@@ -264,7 +283,8 @@ const QUESTIONS = [
       {letter:"D", text:"Activate and configure Einstein Search."}
     ],
     answer:["A"], multi:false,
-    explanation:"Data Categories are a way to organize and classify knowledge articles into a hierarchical structure based on topics or criteria. Data Categories can help service reps quickly narrow down the number of articles by filtering or browsing by category. Data Categories can also be used to control the visibility and access of articles for different users or roles."
+    explanation:"Data Categories are a way to organize and classify knowledge articles into a hierarchical structure based on topics or criteria. Data Categories can help service reps quickly narrow down the number of articles by filtering or browsing by category. Data Categories can also be used to control the visibility and access of articles for different users or roles.",
+    hook:"\"too many search results\" in large KB → Data Categories (organize/filter articles)"
   },
   {
     id:21, category: CATEGORIES.SECURITY,
@@ -276,7 +296,8 @@ const QUESTIONS = [
       {letter:"D", text:"Enable Remember me until logout."}
     ],
     answer:["A"], multi:false,
-    explanation:"Deselecting the Disable session timeout warning popup option in Session Settings restores the warning dialog that appears before an inactive session expires, giving users the chance to extend their session instead of being logged out with no notice. Selecting force logout on session timeout would make the experience more abrupt, not less, and session timeout settings cannot simply be removed since a maximum session length always applies."
+    explanation:"Deselecting the Disable session timeout warning popup option in Session Settings restores the warning dialog that appears before an inactive session expires, giving users the chance to extend their session instead of being logged out with no notice. Selecting force logout on session timeout would make the experience more abrupt, not less, and session timeout settings cannot simply be removed since a maximum session length always applies.",
+    hook:"logged out \"without notice\" → deselect Disable session timeout warning popup (restores warning)"
   },
   {
     id:22, category: CATEGORIES.UI,
@@ -288,7 +309,8 @@ const QUESTIONS = [
       {letter:"D", text:"Modify page layout."}
     ],
     answer:["B"], multi:false,
-    explanation:"Dynamic actions let an administrator conditionally show or hide actions on a Lightning record page based on criteria such as field values. By configuring a visibility rule on the Create Contract action so it appears only when Stage equals Negotiation, the button is hidden earlier in the sales process, guiding reps to generate contracts at the right time. A validation rule can only block record saves rather than control button visibility, and page layouts and custom permissions cannot make a button appear conditionally based on the opportunity stage."
+    explanation:"Dynamic actions let an administrator conditionally show or hide actions on a Lightning record page based on criteria such as field values. By configuring a visibility rule on the Create Contract action so it appears only when Stage equals Negotiation, the button is hidden earlier in the sales process, guiding reps to generate contracts at the right time. A validation rule can only block record saves rather than control button visibility, and page layouts and custom permissions cannot make a button appear conditionally based on the opportunity stage.",
+    hook:"\"button only be available when...Negotiation stage\" → Dynamic Action visibility rule (not validation rule — only blocks save)"
   },
   {
     id:23, category: CATEGORIES.DATA,
@@ -300,7 +322,8 @@ const QUESTIONS = [
       {letter:"D", text:"Configure Job Application as a Junction object with master-detail relationship to both Applicants and Job Postings."}
     ],
     answer:["D"], multi:false,
-    explanation:"A many-to-many relationship requires a junction object: a custom object with two master-detail relationships to the objects being linked. Because each applicant can submit multiple applications and each job posting can receive multiple applications, Job Application should be the junction object with master-detail relationships to both Applicants and Job Postings. The other options either use a lookup instead of a second master-detail relationship or place the junction on the wrong object, so they do not enforce that every application is linked to both a posting and an applicant."
+    explanation:"A many-to-many relationship requires a junction object: a custom object with two master-detail relationships to the objects being linked. Because each applicant can submit multiple applications and each job posting can receive multiple applications, Job Application should be the junction object with master-detail relationships to both Applicants and Job Postings. The other options either use a lookup instead of a second master-detail relationship or place the junction on the wrong object, so they do not enforce that every application is linked to both a posting and an applicant.",
+    hook:"\"apply for more than one\" both ways → junction object with master-detail to BOTH parents (not lookup — won't enforce link)"
   },
   {
     id:24, category: CATEGORIES.SECURITY,
@@ -312,7 +335,8 @@ const QUESTIONS = [
       {letter:"D", text:"When an organization has opted out of using the standard profiles and created custom profiles."}
     ],
     answer:["B"], multi:false,
-    explanation:"A permission set is the right tool when a user's profile covers most of their needs but the individual requires additional access beyond what their teammates have, because permission sets layer extra permissions on top of a profile without cloning it. Permission sets can only grant access, never take it away, so they cannot be used when someone needs less access than their profile provides, and they do not restrict record visibility, which is governed by the sharing model."
+    explanation:"A permission set is the right tool when a user's profile covers most of their needs but the individual requires additional access beyond what their teammates have, because permission sets layer extra permissions on top of a profile without cloning it. Permission sets can only grant access, never take it away, so they cannot be used when someone needs less access than their profile provides, and they do not restrict record visibility, which is governed by the sharing model.",
+    hook:"profile fine but needs MORE access than teammates → Permission Set (can only add, never take away)"
   },
   {
     id:25, category: CATEGORIES.AUTOMATION,
@@ -324,7 +348,8 @@ const QUESTIONS = [
       {letter:"D", text:"Change the flows into scheduled flows and have them update the field."}
     ],
     answer:["C"], multi:false,
-    explanation:"When multiple record-triggered flows exist on the same object, the order in which they execute is not guaranteed, so the second flow may run before the first flow has created the child record, leaving the field null. Combining the two flows into a single flow with decision elements that determine which branch to run guarantees the logic executes in the correct sequence. Firing the flows on create or edit or converting them to scheduled flows does not solve the underlying ordering problem."
+    explanation:"When multiple record-triggered flows exist on the same object, the order in which they execute is not guaranteed, so the second flow may run before the first flow has created the child record, leaving the field null. Combining the two flows into a single flow with decision elements that determine which branch to run guarantees the logic executes in the correct sequence. Firing the flows on create or edit or converting them to scheduled flows does not solve the underlying ordering problem.",
+    hook:"two record-triggered flows, child field still null → combine into one flow (order between flows not guaranteed)"
   },
   {
     id:26, category: CATEGORIES.DEPLOY,
@@ -336,7 +361,8 @@ const QUESTIONS = [
       {letter:"D", text:"Inbound Change Set"}
     ],
     answer:["C", "D"], multi:true,
-    explanation:"Change sets move customizations such as profiles, apps, fields, and page layouts between orgs that share a deployment connection. The administrator creates an outbound change set in the sandbox containing the changed components and uploads it to production; in production, the same change set appears as an inbound change set that can be validated and deployed. Both sides of this process are needed, which is why outbound and inbound change sets are the two correct options. Package deployment is intended for distributing apps (typically via AppExchange or between unrelated orgs), and Change Data Capture is an event-streaming feature for record data, not metadata migration."
+    explanation:"Change sets move customizations such as profiles, apps, fields, and page layouts between orgs that share a deployment connection. The administrator creates an outbound change set in the sandbox containing the changed components and uploads it to production; in production, the same change set appears as an inbound change set that can be validated and deployed. Both sides of this process are needed, which is why outbound and inbound change sets are the two correct options. Package deployment is intended for distributing apps (typically via AppExchange or between unrelated orgs), and Change Data Capture is an event-streaming feature for record data, not metadata migration.",
+    hook:"migrate updated profiles + new app sandbox→prod → outbound change set + inbound change set"
   },
   {
     id:27, category: CATEGORIES.AUTOMATION,
@@ -348,7 +374,8 @@ const QUESTIONS = [
       {letter:"D", text:"Flow with delete elements need to be inactive to ensure that the test record is not actually deleted."}
     ],
     answer:["B"], multi:false,
-    explanation:"Debugging a flow runs it in real time against the actual database, so any data manipulation elements, including Delete elements, are actually executed. This means that even if the flow is inactive, debugging it will really delete the test record. Flows with delete elements can be debugged, and deactivating the flow does not prevent the deletion during a debug run, so administrators should test with disposable data or in a sandbox."
+    explanation:"Debugging a flow runs it in real time against the actual database, so any data manipulation elements, including Delete elements, are actually executed. This means that even if the flow is inactive, debugging it will really delete the test record. Flows with delete elements can be debugged, and deactivating the flow does not prevent the deletion during a debug run, so administrators should test with disposable data or in a sandbox.",
+    hook:"debugging a delete flow → even if inactive, debug really deletes the test record"
   },
   {
     id:28, category: CATEGORIES.DEPLOY,
@@ -360,7 +387,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create the fields and update the page layouts in production."}
     ],
     answer:["B"], multi:false,
-    explanation:"Deployments to production cannot be rolled back, so before deploying the administrator should create a new sandbox based on production. This preserves a snapshot of production's current configuration that can be used as a reference to restore the original state if the deployment causes problems. Pushing the change set to another sandbox adds little protection because the changes already exist in the source sandbox, and manually re-creating the fields and layouts in production defeats the purpose of the change set and invites human error."
+    explanation:"Deployments to production cannot be rolled back, so before deploying the administrator should create a new sandbox based on production. This preserves a snapshot of production's current configuration that can be used as a reference to restore the original state if the deployment causes problems. Pushing the change set to another sandbox adds little protection because the changes already exist in the source sandbox, and manually re-creating the fields and layouts in production defeats the purpose of the change set and invites human error.",
+    hook:"\"cannot be rolled back\" before deploying to prod → new sandbox based on production as restore point"
   },
   {
     id:29, category: CATEGORIES.UI,
@@ -372,7 +400,8 @@ const QUESTIONS = [
       {letter:"D", text:"Record Types"}
     ],
     answer:["D"], multi:false,
-    explanation:"Record types solve both requirements on the Account object: they allow different page layouts to be assigned so customer accounts and competitor accounts show different fields, and they allow different picklist value sets so partner accounts can have their own values in the Industry field. Business processes apply only to objects like Opportunity, Lead, and Case (not Account), required fields do not change which fields display or which picklist values are available, and Flow Builder is an automation tool rather than a way to control layouts and picklists."
+    explanation:"Record types solve both requirements on the Account object: they allow different page layouts to be assigned so customer accounts and competitor accounts show different fields, and they allow different picklist value sets so partner accounts can have their own values in the Industry field. Business processes apply only to objects like Opportunity, Lead, and Case (not Account), required fields do not change which fields display or which picklist values are available, and Flow Builder is an automation tool rather than a way to control layouts and picklists.",
+    hook:"Account: different fields AND different Industry picklist values → Record Types (Business Processes don't apply to Account)"
   },
   {
     id:30, category: CATEGORIES.UI,
@@ -384,7 +413,8 @@ const QUESTIONS = [
       {letter:"D", text:"Update the Sales team's app with a new dashboard."}
     ],
     answer:["A"], multi:false,
-    explanation:"Adding the dashboard to the Sales team's home page with the Lightning App Builder puts the metrics in front of the team automatically every time they log in or open their Home tab, with no extra navigation required. The Dashboard component can be placed on a home page assigned to the Sales app or profiles. Creating a whole new custom app is unnecessary overhead, and emailing a dashboard subscription only delivers a static snapshot rather than an always-current view."
+    explanation:"Adding the dashboard to the Sales team's home page with the Lightning App Builder puts the metrics in front of the team automatically every time they log in or open their Home tab, with no extra navigation required. The Dashboard component can be placed on a home page assigned to the Sales app or profiles. Creating a whole new custom app is unnecessary overhead, and emailing a dashboard subscription only delivers a static snapshot rather than an always-current view.",
+    hook:"\"easier way to see this dashboard\" daily → add Dashboard component to Home page (not email — static snapshot)"
   },
   {
     id:31, category: CATEGORIES.UI,
@@ -396,7 +426,8 @@ const QUESTIONS = [
       {letter:"D", text:"Make two separate Lightning record pages and assign them to the applicable profiles."}
     ],
     answer:["A"], multi:false,
-    explanation:"Dynamic actions let the administrator define which actions appear on the record page and apply conditional visibility rules based on criteria such as the user's profile or field values. This way Customer Service and Sales users each see only the actions relevant to them, all from a single page and layout. Creating separate record types, permission sets, or duplicate Lightning pages would add administrative overhead when action visibility is the only thing that needs to differ."
+    explanation:"Dynamic actions let the administrator define which actions appear on the record page and apply conditional visibility rules based on criteria such as the user's profile or field values. This way Customer Service and Sales users each see only the actions relevant to them, all from a single page and layout. Creating separate record types, permission sets, or duplicate Lightning pages would add administrative overhead when action visibility is the only thing that needs to differ.",
+    hook:"single layout, hide actions that \"do not always apply\" per user → Dynamic Actions + conditional visibility"
   },
   {
     id:32, category: CATEGORIES.APPS,
@@ -408,7 +439,8 @@ const QUESTIONS = [
       {letter:"D", text:"Workflow Rules"}
     ],
     answer:["B"], multi:false,
-    explanation:"Escalation rules automatically escalate cases that have not been responded to or resolved within a defined time frame, taking actions such as reassigning the case, notifying management, or moving it to a priority queue. This lets AW Computing enforce its 4-hour SLA by surfacing cases that are approaching or breaching the response window so they are prioritized before the guarantee is missed. Assignment rules only route new cases to owners, auto-response rules only send an initial acknowledgment email, and workflow rules are not designed around time-to-response case handling."
+    explanation:"Escalation rules automatically escalate cases that have not been responded to or resolved within a defined time frame, taking actions such as reassigning the case, notifying management, or moving it to a priority queue. This lets AW Computing enforce its 4-hour SLA by surfacing cases that are approaching or breaching the response window so they are prioritized before the guarantee is missed. Assignment rules only route new cases to owners, auto-response rules only send an initial acknowledgment email, and workflow rules are not designed around time-to-response case handling.",
+    hook:"\"4-hour SLA\" long wait before response → Escalation Rules (not Auto-Response — only acknowledges)"
   },
   {
     id:33, category: CATEGORIES.SECURITY,
@@ -420,7 +452,8 @@ const QUESTIONS = [
       {letter:"D", text:"The user is not in the IP range for their profile."}
     ],
     answer:["D"], multi:false,
-    explanation:"Profiles can define login IP ranges that restrict where users are allowed to log in from. A user working remotely is likely connecting from a home or public network whose IP address falls outside the range defined on their profile, so Salesforce denies the login entirely. An expired session would simply require logging in again, mobile devices are not blocked by default, and login hours are based on times, not the time zone of a new location."
+    explanation:"Profiles can define login IP ranges that restrict where users are allowed to log in from. A user working remotely is likely connecting from a home or public network whose IP address falls outside the range defined on their profile, so Salesforce denies the login entirely. An expired session would simply require logging in again, mobile devices are not blocked by default, and login hours are based on times, not the time zone of a new location.",
+    hook:"works remotely, can't log in → outside profile Login IP range (login hours = times, not location)"
   },
   {
     id:34, category: CATEGORIES.SECURITY,
@@ -432,7 +465,8 @@ const QUESTIONS = [
       {letter:"D", text:"Export Login History and filter based off of Authentication Method Reference."}
     ],
     answer:["A", "D"], multi:true,
-    explanation:"Identity Verification History records each identity verification event, including the verification method used, so creating a list view filtered on Method shows who has successfully verified with Salesforce Authenticator. Login History can also be exported and filtered on the Authentication Method Reference column, which identifies the MFA method used for each login. There is no session setting report of login methods, and Login Access Policies controls who can log in as other users rather than reporting on MFA adoption."
+    explanation:"Identity Verification History records each identity verification event, including the verification method used, so creating a list view filtered on Method shows who has successfully verified with Salesforce Authenticator. Login History can also be exported and filtered on the Authentication Method Reference column, which identifies the MFA method used for each login. There is no session setting report of login methods, and Login Access Policies controls who can log in as other users rather than reporting on MFA adoption.",
+    hook:"count successful Authenticator logins → Identity Verification History view by Method + export Login History by Auth Method Reference"
   },
   {
     id:35, category: CATEGORIES.DATA,
@@ -444,7 +478,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use a Hierarchical lookup on Contact to track loan advisors' customers."}
     ],
     answer:["B"], multi:false,
-    explanation:"Contacts to Multiple Accounts lets an administrator relate a single contact to multiple accounts without creating duplicate contact records, which is ideal for people like brokers, consultants, or loan advisors who work with many customers. By enabling this feature, DreamHouse Realty can track each third-party loan advisor as one contact and relate them to every customer account they work with. Switching to a B2B account model or adding hierarchical lookups would not model these many-to-many business relationships; hierarchical relationships are only available on the User object."
+    explanation:"Contacts to Multiple Accounts lets an administrator relate a single contact to multiple accounts without creating duplicate contact records, which is ideal for people like brokers, consultants, or loan advisors who work with many customers. By enabling this feature, DreamHouse Realty can track each third-party loan advisor as one contact and relate them to every customer account they work with. Switching to a B2B account model or adding hierarchical lookups would not model these many-to-many business relationships; hierarchical relationships are only available on the User object.",
+    hook:"\"loan advisors\" work with many customers → Contacts to Multiple Accounts (not B2B model/hierarchical lookup)"
   },
   {
     id:36, category: CATEGORIES.UI,
@@ -456,7 +491,8 @@ const QUESTIONS = [
       {letter:"D", text:"Pages Menu"}
     ],
     answer:["A", "B"], multi:true,
-    explanation:"The Lightning Usage App provides org-wide metrics on Lightning Experience adoption and page performance, including page load times (EPT) by page and browser, helping administrators spot slow pages. The Analyze button in the Lightning App Builder evaluates a specific record page and reports predicted load time along with recommendations to improve performance, such as reducing fields or components. The Activation button controls page assignment rather than performance, and the Pages menu is just for navigating between pages in the builder."
+    explanation:"The Lightning Usage App provides org-wide metrics on Lightning Experience adoption and page performance, including page load times (EPT) by page and browser, helping administrators spot slow pages. The Analyze button in the Lightning App Builder evaluates a specific record page and reports predicted load time along with recommendations to improve performance, such as reducing fields or components. The Activation button controls page assignment rather than performance, and the Pages menu is just for navigating between pages in the builder.",
+    hook:"\"review the page performance\" of a Lightning page → Lightning Usage App + Analyze button"
   },
   {
     id:37, category: CATEGORIES.DEPLOY,
@@ -468,7 +504,8 @@ const QUESTIONS = [
       {letter:"D", text:"Record History"}
     ],
     answer:["B"], multi:false,
-    explanation:"A debug log captures the details of a transaction as it executes, including validation rules, flows, triggers, workflow rules, and any errors they throw. By setting a trace flag on an affected rep and reviewing the debug log while they work a lead, the administrator can see exactly which automation or validation logic fails when the new picklist values are processed. Login History only shows authentication events, Setup Audit Trail shows configuration changes rather than runtime errors, and record history shows field value changes, none of which reveal why a transaction is erroring."
+    explanation:"A debug log captures the details of a transaction as it executes, including validation rules, flows, triggers, workflow rules, and any errors they throw. By setting a trace flag on an affected rep and reviewing the debug log while they work a lead, the administrator can see exactly which automation or validation logic fails when the new picklist values are processed. Login History only shows authentication events, Setup Audit Trail shows configuration changes rather than runtime errors, and record history shows field value changes, none of which reveal why a transaction is erroring.",
+    hook:"leads created fine but reps \"getting errors as they try to work the leads\" → Debug Log (not Audit Trail — config, not runtime)"
   },
   {
     id:38, category: CATEGORIES.UI,
@@ -480,7 +517,8 @@ const QUESTIONS = [
       {letter:"D", text:"Matrix Report"}
     ],
     answer:["C"], multi:false,
-    explanation:"A bucket field lets a report author group values from a field into named categories directly in the report, without creating a formula field or changing the underlying data. The administrator can create a bucket column on Shoe Type Preference and assign the specific picklist values into the two desired groups. PREVGROUPVAL and summary formulas perform calculations on summarized data rather than categorizing values, and a matrix report changes the report format but does not combine picklist values into groups."
+    explanation:"A bucket field lets a report author group values from a field into named categories directly in the report, without creating a formula field or changing the underlying data. The administrator can create a bucket column on Shoe Type Preference and assign the specific picklist values into the two desired groups. PREVGROUPVAL and summary formulas perform calculations on summarized data rather than categorizing values, and a matrix report changes the report format but does not combine picklist values into groups.",
+    hook:"\"groups specific picklist values together\" in a report → Bucket field"
   },
   {
     id:39, category: CATEGORIES.DATA,
@@ -492,7 +530,8 @@ const QUESTIONS = [
       {letter:"D", text:"Schema Builder"}
     ],
     answer:["B", "C"], multi:true,
-    explanation:"Lightning Object Creator lets the administrator create a custom object directly from the existing spreadsheet, automatically mapping columns to fields and importing the data in one step. Adding a lookup field on that custom object to Contact relates each preference record to the customer, so the sales team can see the footwear preference information in a related list on the contact record. Data Loader only imports data into objects that already exist, and Schema Builder can create objects but cannot import the spreadsheet data."
+    explanation:"Lightning Object Creator lets the administrator create a custom object directly from the existing spreadsheet, automatically mapping columns to fields and importing the data in one step. Adding a lookup field on that custom object to Contact relates each preference record to the customer, so the sales team can see the footwear preference information in a related list on the contact record. Data Loader only imports data into objects that already exist, and Schema Builder can create objects but cannot import the spreadsheet data.",
+    hook:"\"saved to a spreadsheet\" + see on Contact → Lightning Object Creator + Lookup field to Contact"
   },
   {
     id:40, category: CATEGORIES.DATA,
@@ -504,7 +543,8 @@ const QUESTIONS = [
       {letter:"D", text:"Data Loader"}
     ],
     answer:["C"], multi:false,
-    explanation:"Data Import Wizard is a tool that allows administrators to import data for standard and custom objects in Salesforce using CSV files. Data Import Wizard can handle up to 50,000 records at a time and supports simple data transformations and validations. Data Import Wizard can be used to upload records for a custom object when the number of records is small and the import frequency is low."
+    explanation:"Data Import Wizard is a tool that allows administrators to import data for standard and custom objects in Salesforce using CSV files. Data Import Wizard can handle up to 50,000 records at a time and supports simple data transformations and validations. Data Import Wizard can be used to upload records for a custom object when the number of records is small and the import frequency is low.",
+    hook:"\"~100 records\" occasional import → Data Import Wizard (not Data Loader — overkill under 50k)"
   },
   {
     id:41, category: CATEGORIES.SECURITY,
@@ -516,7 +556,8 @@ const QUESTIONS = [
       {letter:"D", text:"Session Settings on the User record"}
     ],
     answer:["C"], multi:false,
-    explanation:"Profile-level Password Policies allow an administrator to override the organization-wide password policies for users assigned to a specific profile, including minimum password length and expiration period. Setting a 15-character minimum and 30-day expiration on the System Administrator profile applies the stricter rules only to administrators while everyone else keeps the org-wide policy. Changing the organization-wide policy would affect all users, and permission sets and user records do not contain password policy settings."
+    explanation:"Profile-level Password Policies allow an administrator to override the organization-wide password policies for users assigned to a specific profile, including minimum password length and expiration period. Setting a 15-character minimum and 30-day expiration on the System Administrator profile applies the stricter rules only to administrators while everyone else keeps the org-wide policy. Changing the organization-wide policy would affect all users, and permission sets and user records do not contain password policy settings.",
+    hook:"stricter password policy for admins only → Password Policies on System Admin profile (org-wide hits everyone)"
   },
   {
     id:42, category: CATEGORIES.AUTOMATION,
@@ -528,7 +569,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use a screen flow to ask the question."}
     ],
     answer:["B", "D"], multi:true,
-    explanation:"Using a screen flow lets the administrator guide users through the series of questions and set the Tier value based on their answers. Making the Tier field read only on the page layout prevents users from typing or editing the value directly on the record, so the only way to populate it is by completing the flow. A list view does not enforce anything, and restriction rules control record visibility, not field editability."
+    explanation:"Using a screen flow lets the administrator guide users through the series of questions and set the Tier value based on their answers. Making the Tier field read only on the page layout prevents users from typing or editing the value directly on the record, so the only way to populate it is by completing the flow. A list view does not enforce anything, and restriction rules control record visibility, not field editability.",
+    hook:"\"cannot bypass answering questions\" to set Tier → screen flow to ask + field Read Only on layout"
   },
   {
     id:43, category: CATEGORIES.AUTOMATION,
@@ -540,7 +582,8 @@ const QUESTIONS = [
       {letter:"D", text:"Add a help text instructing the sales rep on how to enter this field."}
     ],
     answer:["C"], multi:false,
-    explanation:"REGEX is a function that allows administrators to check whether a text value matches a regular expression pattern. Regular expressions are a way to define complex patterns of characters using symbols and operators. REGEX can be used to enforce consistent formatting for a field value by specifying the required length, characters, and separators."
+    explanation:"REGEX is a function that allows administrators to check whether a text value matches a regular expression pattern. Regular expressions are a way to define complex patterns of characters using symbols and operators. REGEX can be used to enforce consistent formatting for a field value by specifying the required length, characters, and separators.",
+    hook:"\"same zip code format with a hyphen\" → REGEX in a validation rule (not help text — doesn't enforce)"
   },
   {
     id:44, category: CATEGORIES.AUTOMATION,
@@ -552,7 +595,8 @@ const QUESTIONS = [
       {letter:"D", text:"Case Source updates to 'email' and an email is sent out using Template1."}
     ],
     answer:["B"], multi:false,
-    explanation:"In the order of execution, auto-response rules run before Process Builder processes. When the case is created from an incoming email, Case Source is still blank at the time the auto-response rule evaluates, so the rule matches the blank criteria and sends the email using Template2. After that, the Process Builder runs and updates Case Source to 'email'. Template1 is not used because the field is not yet populated when the auto-response rule fires."
+    explanation:"In the order of execution, auto-response rules run before Process Builder processes. When the case is created from an incoming email, Case Source is still blank at the time the auto-response rule evaluates, so the rule matches the blank criteria and sends the email using Template2. After that, the Process Builder runs and updates Case Source to 'email'. Template1 is not used because the field is not yet populated when the auto-response rule fires.",
+    hook:"case from incoming email, auto-response before Process Builder → Template2 sent (blank), then Case Source updates to email"
   },
   {
     id:45, category: CATEGORIES.DATA,
@@ -564,7 +608,8 @@ const QUESTIONS = [
       {letter:"D", text:"This is the standard error message when records are deleted using Bulk API."}
     ],
     answer:["C"], multi:false,
-    explanation:"One of the IDs in the batch referenced a record that was in the recycle bin because deleting records with Bulk API does not delete records permanently but moves them to the recycle bin. Therefore, if a record ID in the batch matches an existing record ID in the recycle bin, an ‘entity is deleted’ error will occur."
+    explanation:"One of the IDs in the batch referenced a record that was in the recycle bin because deleting records with Bulk API does not delete records permanently but moves them to the recycle bin. Therefore, if a record ID in the batch matches an existing record ID in the recycle bin, an ‘entity is deleted’ error will occur.",
+    hook:"\"entity is deleted\" via Bulk API delete → ID already in recycle bin"
   },
   {
     id:46, category: CATEGORIES.SECURITY,
@@ -576,7 +621,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use a custom permission set that is assigned to the user."}
     ],
     answer:["D"], multi:false,
-    explanation:"Use a custom permission set that is assigned to the user because custom permissions are a way to grant access to custom processes or functionality based on user profiles or permission sets. Custom permissions can be referenced by Apex code, validation rules, flows, or other logic to control whether a process should run for a user or not. Custom permissions can be used to declaratively control process execution by assigning them to users or profiles."
+    explanation:"Use a custom permission set that is assigned to the user because custom permissions are a way to grant access to custom processes or functionality based on user profiles or permission sets. Custom permissions can be referenced by Apex code, validation rules, flows, or other logic to control whether a process should run for a user or not. Custom permissions can be used to declaratively control process execution by assigning them to users or profiles.",
+    hook:"Apex trigger run for certain users, declaratively toggled → custom permission in a Permission Set"
   },
   {
     id:47, category: CATEGORIES.AUTOMATION,
@@ -588,7 +634,8 @@ const QUESTIONS = [
       {letter:"D", text:"Assignment rule"}
     ],
     answer:["C"], multi:false,
-    explanation:"A record-triggered flow on the Opportunity object can fire when an opportunity is created and update the Opportunity Created checkbox on the parent account, since flows can update related records across objects. Workflow rules cannot update a field on a parent account from an opportunity trigger in this cross-object direction and are retired for new automation. A screen flow requires user interaction, and assignment rules only route leads and cases."
+    explanation:"A record-triggered flow on the Opportunity object can fire when an opportunity is created and update the Opportunity Created checkbox on the parent account, since flows can update related records across objects. Workflow rules cannot update a field on a parent account from an opportunity trigger in this cross-object direction and are retired for new automation. A screen flow requires user interaction, and assignment rules only route leads and cases.",
+    hook:"check parent Account box when an opportunity is created → record-triggered Flow (cross-object update)"
   },
   {
     id:48, category: CATEGORIES.DEPLOY,
@@ -600,7 +647,8 @@ const QUESTIONS = [
       {letter:"D", text:"Build automation and validation rules using screen flows."}
     ],
     answer:["C"], multi:false,
-    explanation:"Deployments fail when components in the target org have changed since the deployment was built, so configuration work should not be done directly in production while a release is in flight. If both the administrators and developers test their changes in a shared sandbox, conflicts like a new validation rule blocking a deployment surface early in the sandbox rather than at production deployment time. Reviewing the audit trail only detects changes after the fact, refreshing a full sandbox daily is not possible (full sandboxes can be refreshed every 29 days), and screen flows are not a substitute for validation rules."
+    explanation:"Deployments fail when components in the target org have changed since the deployment was built, so configuration work should not be done directly in production while a release is in flight. If both the administrators and developers test their changes in a shared sandbox, conflicts like a new validation rule blocking a deployment surface early in the sandbox rather than at production deployment time. Reviewing the audit trail only detects changes after the fact, refreshing a full sandbox daily is not possible (full sandboxes can be refreshed every 29 days), and screen flows are not a substitute for validation rules.",
+    hook:"\"created a validation rule in production\" broke a deployment → test changes in a shared sandbox"
   },
   {
     id:49, category: CATEGORIES.DEPLOY,
@@ -613,7 +661,8 @@ const QUESTIONS = [
       {letter:"E", text:"Apps must be installed in production before the app can be installed in a sandbox."}
     ],
     answer:["A", "C", "D"], multi:true,
-    explanation:"A managed package is a type of app that can be installed from the AppExchange. Managed packages are typically created by ISV partners or developers who want to distribute and sell applications that are upgradeable and have intellectual property protection. Before installing a managed package, an administrator should consider the following: A) Custom objects and custom fields used by the app count against the org’s limits. Managed packages may include custom objects and custom fields that are used by the app. These custom objects and custom fields count against the org’s limits and may affect the org’s performance and functionality. C) Apps may require certain Salesforce editions or features to be enabled. D) Apps may require external, third-party web services to function properly."
+    explanation:"A managed package is a type of app that can be installed from the AppExchange. Managed packages are typically created by ISV partners or developers who want to distribute and sell applications that are upgradeable and have intellectual property protection. Before installing a managed package, an administrator should consider the following: A) Custom objects and custom fields used by the app count against the org’s limits. Managed packages may include custom objects and custom fields that are used by the app. These custom objects and custom fields count against the org’s limits and may affect the org’s performance and functionality. C) Apps may require certain Salesforce editions or features to be enabled. D) Apps may require external, third-party web services to function properly.",
+    hook:"before installing free managed package → counts against org limits + may need edition/features + may need 3rd-party web services"
   },
   {
     id:50, category: CATEGORIES.APPS,
@@ -625,7 +674,8 @@ const QUESTIONS = [
       {letter:"D", text:"To remove a product schedule completely, remove it from the standard price book."}
     ],
     answer:["B"], multi:false,
-    explanation:"A key consideration before enabling product schedules is that the line item schedule object (OpportunityLineItemSchedule) is not available in Process Builder or Workflow, so administrators cannot build automation on schedule records with those tools. Option A is incorrect because it overstates the limitation, and product schedule page layouts can in fact be customized once the feature is enabled. Removing a product from the standard price book is also not how you delete a schedule; schedules are managed on the opportunity product itself."
+    explanation:"A key consideration before enabling product schedules is that the line item schedule object (OpportunityLineItemSchedule) is not available in Process Builder or Workflow, so administrators cannot build automation on schedule records with those tools. Option A is incorrect because it overstates the limitation, and product schedule page layouts can in fact be customized once the feature is enabled. Removing a product from the standard price book is also not how you delete a schedule; schedules are managed on the opportunity product itself.",
+    hook:"product schedules consideration → Line Item Schedule unavailable in Process Builder/Workflow"
   },
   {
     id:51, category: CATEGORIES.SECURITY,
@@ -637,7 +687,8 @@ const QUESTIONS = [
       {letter:"D", text:"Exporting is configured to require a high assurance session."}
     ],
     answer:["D"], multi:false,
-    explanation:"Session Settings allow an administrator to require a high assurance session level for sensitive operations, including exporting or printing reports and dashboards. When users on a standard assurance session attempt to export, Salesforce prompts them to verify their identity with an additional factor to raise the session to high assurance, which explains the extra login and verification screen. This is expected behavior of the security policy, not a browser, network, or missing-permission problem; a user lacking the Export Reports permission would simply not see the export option."
+    explanation:"Session Settings allow an administrator to require a high assurance session level for sensitive operations, including exporting or printing reports and dashboards. When users on a standard assurance session attempt to export, Salesforce prompts them to verify their identity with an additional factor to raise the session to high assurance, which explains the extra login and verification screen. This is expected behavior of the security policy, not a browser, network, or missing-permission problem; a user lacking the Export Reports permission would simply not see the export option.",
+    hook:"export report triggers extra verification → high assurance session required (not missing Export permission)"
   },
   {
     id:52, category: CATEGORIES.SECURITY,
@@ -649,7 +700,8 @@ const QUESTIONS = [
       {letter:"D", text:"Temporarily disable MFA."}
     ],
     answer:["A"], multi:false,
-    explanation:"The profile's Session Settings include a session security level required at login, and if it is set to High Assurance while the org's MFA login flow only establishes a standard security level, affected users are blocked from logging in. Checking that setting on the impacted users' profiles identifies the mismatch causing the failures. Raising MFA to High Assurance or resetting passwords does not address the session-level conflict, and temporarily disabling MFA weakens security instead of troubleshooting the root cause."
+    explanation:"The profile's Session Settings include a session security level required at login, and if it is set to High Assurance while the org's MFA login flow only establishes a standard security level, affected users are blocked from logging in. Checking that setting on the impacted users' profiles identifies the mismatch causing the failures. Raising MFA to High Assurance or resetting passwords does not address the session-level conflict, and temporarily disabling MFA weakens security instead of troubleshooting the root cause.",
+    hook:"MFA standard level, users can't log in → check session security level required at login on profile (mismatch)"
   },
   {
     id:53, category: CATEGORIES.SECURITY,
@@ -661,7 +713,8 @@ const QUESTIONS = [
       {letter:"D", text:"Move the Service and Sales Managers higher in the role hierarchy."}
     ],
     answer:["C"], multi:false,
-    explanation:"A permission set with the View All object permission on Accounts, assigned to the Service and Sales Manager users, grants them read access to every Account record without changing their existing custom profiles or affecting anyone else. Modifying each profile duplicates maintenance, changing the org-wide default to Public Read Only would open Accounts to all users rather than just the managers, and moving the managers in the role hierarchy only exposes records owned by their subordinates, not all Accounts."
+    explanation:"A permission set with the View All object permission on Accounts, assigned to the Service and Sales Manager users, grants them read access to every Account record without changing their existing custom profiles or affecting anyone else. Modifying each profile duplicates maintenance, changing the org-wide default to Public Read Only would open Accounts to all users rather than just the managers, and moving the managers in the role hierarchy only exposes records owned by their subordinates, not all Accounts.",
+    hook:"Managers see ALL Accounts, keep profiles → Permission Set View All (role hierarchy only reaches subordinates)"
   },
   {
     id:54, category: CATEGORIES.SECURITY,
@@ -673,7 +726,8 @@ const QUESTIONS = [
       {letter:"D", text:"Profiles"}
     ],
     answer:["A", "D"], multi:true,
-    explanation:"Field-level security is configured on profiles and permission sets. The administrator can make the Profit field visible on the sales reps' profile (or via a permission set assigned to reps) and hide it on the partner users' profile, so the same page layout can serve both audiences while the field stays invisible to partners everywhere, including reports and APIs. Record types control picklist values and layouts rather than field security, and organization-wide defaults govern record-level access, not individual field visibility."
+    explanation:"Field-level security is configured on profiles and permission sets. The administrator can make the Profit field visible on the sales reps' profile (or via a permission set assigned to reps) and hide it on the partner users' profile, so the same page layout can serve both audiences while the field stays invisible to partners everywhere, including reports and APIs. Record types control picklist values and layouts rather than field security, and organization-wide defaults govern record-level access, not individual field visibility.",
+    hook:"Profit field visible to reps, hidden from partners via FLS → Profiles + Permission Sets (Record Type = layout, not FLS)"
   },
   {
     id:55, category: CATEGORIES.UI,
@@ -685,7 +739,8 @@ const QUESTIONS = [
       {letter:"D", text:"A custom summary formula with the PREVGROUPVAL function."}
     ],
     answer:["D"], multi:false,
-    explanation:"PREVGROUPVAL is a custom summary formula function that returns the value of a specified summary field from the previous grouping at the same level. In a report grouped by close year, a summary formula such as (AMOUNT:SUM - PREVGROUPVAL(AMOUNT:SUM, CLOSE_DATE)) / PREVGROUPVAL(AMOUNT:SUM, CLOSE_DATE) calculates the year-over-year change in opportunity amount. PARENTGROUPVAL compares a grouping to its parent grouping rather than to the prior peer group, a row-level formula operates on individual records and cannot compare yearly totals, and a joined report would require manual comparison across blocks."
+    explanation:"PREVGROUPVAL is a custom summary formula function that returns the value of a specified summary field from the previous grouping at the same level. In a report grouped by close year, a summary formula such as (AMOUNT:SUM - PREVGROUPVAL(AMOUNT:SUM, CLOSE_DATE)) / PREVGROUPVAL(AMOUNT:SUM, CLOSE_DATE) calculates the year-over-year change in opportunity amount. PARENTGROUPVAL compares a grouping to its parent grouping rather than to the prior peer group, a row-level formula operates on individual records and cannot compare yearly totals, and a joined report would require manual comparison across blocks.",
+    hook:"\"year-over-year change\" prior year vs this year → PREVGROUPVAL summary formula (not PARENTGROUPVAL — that's parent, not prior peer)"
   },
   {
     id:56, category: CATEGORIES.DATA,
@@ -697,7 +752,8 @@ const QUESTIONS = [
       {letter:"D", text:"Set up mobile duplicate alerts."}
     ],
     answer:["B", "C"], multi:true,
-    explanation:"Salesforce Duplicate Management is built on two components that work together: matching rules and duplicate rules. Custom matching rules define which fields and matching methods (exact or fuzzy) are used to identify records as potential duplicates, and custom duplicate rules define what happens when a duplicate is detected, such as blocking the save or alerting the user. Global picklist value sets and mobile alerts are not part of duplicate management configuration."
+    explanation:"Salesforce Duplicate Management is built on two components that work together: matching rules and duplicate rules. Custom matching rules define which fields and matching methods (exact or fuzzy) are used to identify records as potential duplicates, and custom duplicate rules define what happens when a duplicate is detected, such as blocking the save or alerting the user. Global picklist value sets and mobile alerts are not part of duplicate management configuration.",
+    hook:"\"prevent duplicate records\" → duplicate rules + matching rules (the two components)"
   },
   {
     id:57, category: CATEGORIES.APPS,
@@ -709,7 +765,8 @@ const QUESTIONS = [
       {letter:"D", text:"Promote specific search terms for specific articles."}
     ],
     answer:["B", "D"], multi:true,
-    explanation:"Synonyms let the search engine treat different words or phrases, such as 'fix' and 'repair,' as equivalent, so customers find relevant articles even when their wording does not match the article text. Promoted search terms associate specific keywords with specific articles so those articles are boosted to the top of the results when customers search on those terms. Both are standard Knowledge search enhancements, whereas Global Search and Einstein Search are not configured per specific search term in the way this requirement describes."
+    explanation:"Synonyms let the search engine treat different words or phrases, such as 'fix' and 'repair,' as equivalent, so customers find relevant articles even when their wording does not match the article text. Promoted search terms associate specific keywords with specific articles so those articles are boosted to the top of the results when customers search on those terms. Both are standard Knowledge search enhancements, whereas Global Search and Einstein Search are not configured per specific search term in the way this requirement describes.",
+    hook:"already have categories, improve KB search → Synonyms + Promoted Search Terms"
   },
   {
     id:58, category: CATEGORIES.SECURITY,
@@ -721,7 +778,8 @@ const QUESTIONS = [
       {letter:"D", text:"Make updates to permission set configurations."}
     ],
     answer:["A", "C"], multi:true,
-    explanation:"Delegated administrators can create and edit users, reset passwords, and perform related user management for the roles they are delegated, and they can also be given the ability to manage specified custom objects, including customizing nearly every aspect of those objects such as fields and page layouts. Delegated administration does not extend to modifying sharing rules or permission set configurations, which remain full administrator tasks."
+    explanation:"Delegated administrators can create and edit users, reset passwords, and perform related user management for the roles they are delegated, and they can also be given the ability to manage specified custom objects, including customizing nearly every aspect of those objects such as fields and page layouts. Delegated administration does not extend to modifying sharing rules or permission set configurations, which remain full administrator tasks.",
+    hook:"delegated admin CAN do what → user setup/password mgmt + manage specified custom objects (not sharing rules/perm sets)"
   },
   {
     id:59, category: CATEGORIES.DATA,
@@ -733,7 +791,8 @@ const QUESTIONS = [
       {letter:"D", text:"Import Wizard with Add Only"}
     ],
     answer:["B"], multi:false,
-    explanation:"Data Loader is a tool that allows administrators to import or export large amounts of data (more than 50,000 records) from or to Salesforce using CSV files. Data Loader can be used for inserting, updating, deleting, upserting, exporting, or extracting data. Bulk API is an API that allows administrators to process large batches of records asynchronously in the background. Bulk API can handle millions of records with high performance and minimal system resources. By using Data Loader with Bulk API enabled, an administrator can import a large amount of historical data (more than 100,000 records)"
+    explanation:"Data Loader is a tool that allows administrators to import or export large amounts of data (more than 50,000 records) from or to Salesforce using CSV files. Data Loader can be used for inserting, updating, deleting, upserting, exporting, or extracting data. Bulk API is an API that allows administrators to process large batches of records asynchronously in the background. Bulk API can handle millions of records with high performance and minimal system resources. By using Data Loader with Bulk API enabled, an administrator can import a large amount of historical data (more than 100,000 records)",
+    hook:"\">100,000 records\" import → Data Loader with Bulk API enabled"
   },
   {
     id:60, category: CATEGORIES.AUTOMATION,
@@ -745,7 +804,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use \"formula evaluates to true\" workflow rule with the ISCHANGED function to make changes when the record is updated."}
     ],
     answer:["A", "C"], multi:true,
-    explanation:"A single record-triggered flow that runs when a record is created or updated can handle the changes that should happen every time. Within that flow, a Decision element using the option 'Only if the record that triggered the flow to run is updated to meet the condition requirements' isolates the logic that should execute only when the record is updated to newly meet the criteria. This meets both requirements in one flow without relying on Process Builder or workflow rules, which are retired tools that Salesforce recommends replacing with Flow."
+    explanation:"A single record-triggered flow that runs when a record is created or updated can handle the changes that should happen every time. Within that flow, a Decision element using the option 'Only if the record that triggered the flow to run is updated to meet the condition requirements' isolates the logic that should execute only when the record is updated to newly meet the criteria. This meets both requirements in one flow without relying on Process Builder or workflow rules, which are retired tools that Salesforce recommends replacing with Flow.",
+    hook:"some changes on create-or-update, others only on update → one flow on create/update + Decision \"only if updated to meet conditions\""
   },
   {
     id:61, category: CATEGORIES.DATA,
@@ -757,7 +817,8 @@ const QUESTIONS = [
       {letter:"D", text:"Configure a master-detail relationship field on the junction object to the Account object."}
     ],
     answer:["A", "D"], multi:true,
-    explanation:"A junction object requires two master-detail relationship fields, and both of them are created on the junction object itself, pointing to the two parent objects. The administrator should therefore create one master-detail field on Account Region to the Region object and another master-detail field on Account Region to the Account object. Options B and C are wrong because the relationship fields live on the junction (child) object, not on the parent objects."
+    explanation:"A junction object requires two master-detail relationship fields, and both of them are created on the junction object itself, pointing to the two parent objects. The administrator should therefore create one master-detail field on Account Region to the Region object and another master-detail field on Account Region to the Account object. Options B and C are wrong because the relationship fields live on the junction (child) object, not on the parent objects.",
+    hook:"\"next two steps\" after junction created → BOTH master-detail fields on the junction itself (to each parent)"
   },
   {
     id:62, category: CATEGORIES.DEPLOY,
@@ -769,7 +830,8 @@ const QUESTIONS = [
       {letter:"D", text:"Refresh the sandbox destination org and then deploy the change set."}
     ],
     answer:["B"], multi:false,
-    explanation:"During a Salesforce release transition, sandboxes can be on different release versions, and change sets cannot be deployed from an org on a newer release to an org on an older release because metadata components can change between API versions. The administrator should create a new sandbox, which will be provisioned on the new release version, and deploy the change set to that org instead. Making the changes manually in the source org does not help because the changes already exist there, Salesforce does not upgrade individual orgs by ticket during a release window, and refreshing the destination sandbox does not guarantee it lands on the newer release."
+    explanation:"During a Salesforce release transition, sandboxes can be on different release versions, and change sets cannot be deployed from an org on a newer release to an org on an older release because metadata components can change between API versions. The administrator should create a new sandbox, which will be provisioned on the new release version, and deploy the change set to that org instead. Making the changes manually in the source org does not help because the changes already exist there, Salesforce does not upgrade individual orgs by ticket during a release window, and refreshing the destination sandbox does not guarantee it lands on the newer release.",
+    hook:"change set newer release → older-release org → create new sandbox on the new release, deploy there"
   },
   {
     id:63, category: CATEGORIES.AUTOMATION,
@@ -781,7 +843,8 @@ const QUESTIONS = [
       {letter:"D", text:"The resume event is recalculated and the email goes out to the account owner immediately."}
     ],
     answer:["D"], multi:false,
-    explanation:"When a flow uses a time-based resume event or scheduled path tied to a date field, changing that field causes the scheduled time to be recalculated. Because the new expiration date of yesterday puts the scheduled time (one month before expiration) in the past, the pending interview resumes right away and the reminder email is sent to the account owner immediately. The flow does not error, and it does not wait for the original date."
+    explanation:"When a flow uses a time-based resume event or scheduled path tied to a date field, changing that field causes the scheduled time to be recalculated. Because the new expiration date of yesterday puts the scheduled time (one month before expiration) in the past, the pending interview resumes right away and the reminder email is sent to the account owner immediately. The flow does not error, and it does not wait for the original date.",
+    hook:"expiration date changed to yesterday → resume event recalculated, past-due so email fires immediately"
   },
   {
     id:64, category: CATEGORIES.SECURITY,
@@ -793,7 +856,8 @@ const QUESTIONS = [
       {letter:"D", text:"Export Login History and filter based on Authentication Method Reference."}
     ],
     answer:["C", "D"], multi:true,
-    explanation:"Identity Verification History records each identity verification event along with the verification method used, so a custom list view specifying Method reveals which users have successfully verified with Salesforce Authenticator. Alternatively, Login History can be exported and filtered on the Authentication Method Reference field, which captures the MFA method used at login. There is no session setting report for login methods, and Login Access Policies does not report on MFA usage."
+    explanation:"Identity Verification History records each identity verification event along with the verification method used, so a custom list view specifying Method reveals which users have successfully verified with Salesforce Authenticator. Alternatively, Login History can be exported and filtered on the Authentication Method Reference field, which captures the MFA method used at login. There is no session setting report for login methods, and Login Access Policies does not report on MFA usage.",
+    hook:"count successful Authenticator logins → Identity Verification History view by Method + export Login History by Auth Method Reference"
   },
   {
     id:65, category: CATEGORIES.DATA,
@@ -805,7 +869,8 @@ const QUESTIONS = [
       {letter:"D", text:"All standard Account fields can be converted to Person Account fields."}
     ],
     answer:["A"], multi:false,
-    explanation:"Once Person Accounts are enabled in an org, the feature cannot be turned off, so the administrator must be certain of the decision before enabling it. Person Accounts actually consume more storage because each person account counts as both an account and a contact record, business and person accounts share the same organization-wide sharing settings on the Account object, and only certain account and contact fields are used by person accounts, so the other options are incorrect."
+    explanation:"Once Person Accounts are enabled in an org, the feature cannot be turned off, so the administrator must be certain of the decision before enabling it. Person Accounts actually consume more storage because each person account counts as both an account and a contact record, business and person accounts share the same organization-wide sharing settings on the Account object, and only certain account and contact fields are used by person accounts, so the other options are incorrect.",
+    hook:"\"consider before enabling Person Accounts\" → cannot be disabled once on"
   },
   {
     id:66, category: CATEGORIES.DATA,
@@ -817,7 +882,8 @@ const QUESTIONS = [
       {letter:"D", text:"Page Layouts"}
     ],
     answer:["A", "D"], multi:true,
-    explanation:"Validation rules and page layouts are two tools that can be used to require data to be entered in a field and improve data quality on a record in Salesforce. Validation rules are a way to enforce data quality and integrity by checking the values of fields before a record is saved and displaying an error message if the values do not meet the specified criteria. Page layouts are a way to control the layout and organization of fields, buttons, related lists, and other components on a record page. Page layouts can also make fields required so that users must enter a value before saving a record."
+    explanation:"Validation rules and page layouts are two tools that can be used to require data to be entered in a field and improve data quality on a record in Salesforce. Validation rules are a way to enforce data quality and integrity by checking the values of fields before a record is saved and displaying an error message if the values do not meet the specified criteria. Page layouts are a way to control the layout and organization of fields, buttons, related lists, and other components on a record page. Page layouts can also make fields required so that users must enter a value before saving a record.",
+    hook:"\"require data in a field\" → Validation Rules + Page Layouts (not Workflow — fires after save)"
   },
   {
     id:67, category: CATEGORIES.DATA,
@@ -829,7 +895,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a list view of Account History and print using the Printable View action."}
     ],
     answer:["B"], multi:false,
-    explanation:"Field history for accounts is stored in the Account History object, and the administrator can retrieve it by running a SOQL query and exporting the results with Data Loader. This returns the tracked field changes, including old value, new value, who made the change, and when. A standard Accounts report or list view shows current field values rather than the full history data, and the Data Export Service is designed for scheduled org backups, not targeted analysis of one object's history."
+    explanation:"Field history for accounts is stored in the Account History object, and the administrator can retrieve it by running a SOQL query and exporting the results with Data Loader. This returns the tracked field changes, including old value, new value, who made the change, and when. A standard Accounts report or list view shows current field values rather than the full history data, and the Data Export Service is designed for scheduled org backups, not targeted analysis of one object's history.",
+    hook:"retrieve \"field history data\" for analysis → query Account History object + export via Data Loader (not Data Export — backup only)"
   },
   {
     id:68, category: CATEGORIES.SECURITY,
@@ -841,7 +908,8 @@ const QUESTIONS = [
       {letter:"D", text:"No Access"}
     ],
     answer:["C"], multi:false,
-    explanation:"Muting the Delete permission in a permission set group also mutes Modify All, because Modify All inherently includes delete access and cannot remain while delete is removed. The user therefore retains Read, Create, and Edit on Accounts from the permission set group, but loses Delete, View All, and Modify All. Muting only subtracts permissions granted within that permission set group; it never reduces the user to no access if other object permissions in the group remain unmuted."
+    explanation:"Muting the Delete permission in a permission set group also mutes Modify All, because Modify All inherently includes delete access and cannot remain while delete is removed. The user therefore retains Read, Create, and Edit on Accounts from the permission set group, but loses Delete, View All, and Modify All. Muting only subtracts permissions granted within that permission set group; it never reduces the user to no access if other object permissions in the group remain unmuted.",
+    hook:"muting Delete on Modify-All perm set group → Read/Create/Edit (Modify All includes delete, so it's muted too)"
   },
   {
     id:69, category: CATEGORIES.SECURITY,
@@ -853,7 +921,8 @@ const QUESTIONS = [
       {letter:"D", text:"Users with the View Encrypted Data permission can see the field, regardless of Field-Level Security."}
     ],
     answer:["A"], multi:false,
-    explanation:"Fields protected with Classic Encryption cannot be used in report filters, list view filters, search, or formula criteria, so users will notice that Government ID is unavailable when filtering reports or list views. The View Encrypted Data permission only lets users see the unmasked value; it is not required to edit the field, and it does not bypass field-level security, so a user still needs FLS visibility to see the field at all."
+    explanation:"Fields protected with Classic Encryption cannot be used in report filters, list view filters, search, or formula criteria, so users will notice that Government ID is unavailable when filtering reports or list views. The View Encrypted Data permission only lets users see the unmasked value; it is not required to edit the field, and it does not bypass field-level security, so a user still needs FLS visibility to see the field at all.",
+    hook:"Classic Encryption field impact → can't use in report/list view filters (View Encrypted Data doesn't bypass FLS)"
   },
   {
     id:70, category: CATEGORIES.UI,
@@ -865,7 +934,8 @@ const QUESTIONS = [
       {letter:"D", text:"Add a section for Rental and a section for Real Estate on the Opportunity Master Record Type to keep the information separate."}
     ],
     answer:["B"], multi:false,
-    explanation:"Separate record types with their own page layouts and sales processes are the standard way to support two teams with different stages and different fields on the same Opportunity object. The sales process defines which Stage picklist values each team uses, the record type ties the sales process to the record, and the page layout controls which fields each team captures. Creating a custom object would fragment pipeline reporting, Opportunity Teams control record access rather than layouts or stages, and cramming both teams' fields into sections on one layout would leave irrelevant fields visible to everyone."
+    explanation:"Separate record types with their own page layouts and sales processes are the standard way to support two teams with different stages and different fields on the same Opportunity object. The sales process defines which Stage picklist values each team uses, the record type ties the sales process to the record, and the page layout controls which fields each team captures. Creating a custom object would fragment pipeline reporting, Opportunity Teams control record access rather than layouts or stages, and cramming both teams' fields into sections on one layout would leave irrelevant fields visible to everyone.",
+    hook:"two teams, different sales processes + different fields on Opportunity → Record types + page layouts + sales processes"
   },
   {
     id:71, category: CATEGORIES.SECURITY,
@@ -877,7 +947,8 @@ const QUESTIONS = [
       {letter:"D", text:"Sharing Settings"}
     ],
     answer:["B"], multi:false,
-    explanation:"The role hierarchy grants users access to records owned by, or shared with, users below them in the hierarchy. By placing the directors in a role above the regional managers, the directors automatically gain access to the managers' opportunities without any additional sharing configuration. Changing organization-wide defaults would broaden access for everyone, and manual sharing would require sharing each opportunity individually, which does not scale."
+    explanation:"The role hierarchy grants users access to records owned by, or shared with, users below them in the hierarchy. By placing the directors in a role above the regional managers, the directors automatically gain access to the managers' opportunities without any additional sharing configuration. Changing organization-wide defaults would broaden access for everyone, and manual sharing would require sharing each opportunity individually, which does not scale.",
+    hook:"directors oversee regional managers, auto access → Role Hierarchy (manual sharing doesn't scale)"
   },
   {
     id:72, category: CATEGORIES.DATA,
@@ -889,7 +960,8 @@ const QUESTIONS = [
       {letter:"D", text:"Confirm the object is marked as deployed and not in development."}
     ],
     answer:["D"], multi:false,
-    explanation:"A custom object has a deployment status of either In Development or Deployed. While it is In Development, the object is hidden from users and does not appear in tools like Data Loader, so the administrator should confirm the object is marked as Deployed. Permission sets and field-level security matter for user access, but since the administrator created the object, the most likely cause of it missing from the Data Loader object list is the deployment status."
+    explanation:"A custom object has a deployment status of either In Development or Deployed. While it is In Development, the object is hidden from users and does not appear in tools like Data Loader, so the administrator should confirm the object is marked as Deployed. Permission sets and field-level security matter for user access, but since the administrator created the object, the most likely cause of it missing from the Data Loader object list is the deployment status.",
+    hook:"custom object \"unable to see\" in Data Loader → mark object Deployed (not In Development)"
   },
   {
     id:73, category: CATEGORIES.UI,
@@ -901,7 +973,8 @@ const QUESTIONS = [
       {letter:"D", text:"Allow the backup team users to update their own profile with Delegated Administration."}
     ],
     answer:["A"], multi:false,
-    explanation:"Lightning record pages can be activated as app default pages, so the administrator can create one Lightning app per department and activate the department-specific record page for each app. Backup employees then simply switch apps in the App Launcher, and the same record automatically displays with the page designed for that department. Permission sets control access rather than page assignment, and manually changing profiles daily or letting users modify their own profiles is both impractical and a security risk."
+    explanation:"Lightning record pages can be activated as app default pages, so the administrator can create one Lightning app per department and activate the department-specific record page for each app. Backup employees then simply switch apps in the App Launcher, and the same record automatically displays with the page designed for that department. Permission sets control access rather than page assignment, and manually changing profiles daily or letting users modify their own profiles is both impractical and a security risk.",
+    hook:"backup users switch sales/service, per-department record pages → one app per department, activate record pages per app"
   },
   {
     id:74, category: CATEGORIES.DATA,
@@ -913,7 +986,8 @@ const QUESTIONS = [
       {letter:"D", text:"visualforce Page"}
     ],
     answer:["C"], multi:false,
-    explanation:"A roll-up summary field displays a value on a master record calculated from its related detail records, and it supports COUNT as one of its calculation types. Because Open Houses has a master-detail relationship up to Properties, the administrator can create a roll-up summary field on the Property object that counts Open House child records filtered to a status of Pending. This requires no code, unlike a Lightning component or Visualforce page, and a formula field cannot aggregate across child records."
+    explanation:"A roll-up summary field displays a value on a master record calculated from its related detail records, and it supports COUNT as one of its calculation types. Because Open Houses has a master-detail relationship up to Properties, the administrator can create a roll-up summary field on the Property object that counts Open House child records filtered to a status of Pending. This requires no code, unlike a Lightning component or Visualforce page, and a formula field cannot aggregate across child records.",
+    hook:"\"count\" child records on master → Roll-Up Summary (formula can't aggregate children)"
   },
   {
     id:75, category: CATEGORIES.SECURITY,
@@ -925,7 +999,8 @@ const QUESTIONS = [
       {letter:"D", text:"Debug log"}
     ],
     answer:["B"], multi:false,
-    explanation:"The Setup Audit Trail logs the setup changes administrators make in the org, including changes to field-level security, page layouts, and profiles, along with who made each change and when. Reviewing it will show whether someone removed the Industry field from the layout or hid it via field-level security. Field history tracking records changes to field values on individual records, not configuration changes, and debug logs capture code execution rather than setup activity."
+    explanation:"The Setup Audit Trail logs the setup changes administrators make in the org, including changes to field-level security, page layouts, and profiles, along with who made each change and when. Reviewing it will show whether someone removed the Industry field from the layout or hid it via field-level security. Field history tracking records changes to field values on individual records, not configuration changes, and debug logs capture code execution rather than setup activity.",
+    hook:"field no longer visible, who/what changed config → Setup Audit Trail (Field History = record values, not config)"
   },
   {
     id:76, category: CATEGORIES.UI,
@@ -937,7 +1012,8 @@ const QUESTIONS = [
       {letter:"D", text:"Filter component visibility for the Sales Manager role."}
     ],
     answer:["D"], multi:false,
-    explanation:"Standard Lightning components, including the Report Chart component, support component visibility filters, and one of the available filter criteria is the running user's role. By setting a visibility filter where the user's role equals Sales Manager, the chart displays only for those users on the Account record page. Filtering on Account ID would scope the chart's data rather than restrict who sees it, a new page layout cannot be assigned by role (layouts are assigned by profile and record type), and simply assigning a report to the component does nothing to limit visibility."
+    explanation:"Standard Lightning components, including the Report Chart component, support component visibility filters, and one of the available filter criteria is the running user's role. By setting a visibility filter where the user's role equals Sales Manager, the chart displays only for those users on the Account record page. Filtering on Account ID would scope the chart's data rather than restrict who sees it, a new page layout cannot be assigned by role (layouts are assigned by profile and record type), and simply assigning a report to the component does nothing to limit visibility.",
+    hook:"embedded chart limited to \"Sales Manager role\" → Component visibility filter on role (not Account ID — that scopes data)"
   },
   {
     id:77, category: CATEGORIES.AUTOMATION,
@@ -949,7 +1025,8 @@ const QUESTIONS = [
       {letter:"D", text:"Screen Flow"}
     ],
     answer:["A"], multi:false,
-    explanation:"A before-save flow trigger (fast field update) runs before the record is committed to the database and updates the triggering record in memory, avoiding the extra save and recursive automation that a Process Builder field update causes. This makes before-save flows significantly faster than Process Builder for same-record updates. Screen flows require user interaction, and workflow rules offer no performance advantage and are retired."
+    explanation:"A before-save flow trigger (fast field update) runs before the record is committed to the database and updates the triggering record in memory, avoiding the extra save and recursive automation that a Process Builder field update causes. This makes before-save flows significantly faster than Process Builder for same-record updates. Screen flows require user interaction, and workflow rules offer no performance advantage and are retired.",
+    hook:"\"alternative to Process Builder to expedite\" record updates → before-save Flow trigger (fast field update)"
   },
   {
     id:78, category: CATEGORIES.SECURITY,
@@ -961,7 +1038,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a validation rule to ensure the length."}
     ],
     answer:["D"], multi:false,
-    explanation:"Classic encrypted fields support masking for display but the mask type does not enforce how many characters a user enters, so the only way to guarantee the correct number of digits is a validation rule that checks the length of the entered value and blocks the save when it is wrong. Mask types and mask characters affect only how the stored value is displayed, and there is no field-level setting that enforces an exact digit count on an encrypted text field."
+    explanation:"Classic encrypted fields support masking for display but the mask type does not enforce how many characters a user enters, so the only way to guarantee the correct number of digits is a validation rule that checks the length of the entered value and blocks the save when it is wrong. Mask types and mask characters affect only how the stored value is displayed, and there is no field-level setting that enforces an exact digit count on an encrypted text field.",
+    hook:"enforce correct digit count on encrypted field → Validation Rule (mask type only affects display)"
   },
   {
     id:79, category: CATEGORIES.AUTOMATION,
@@ -973,7 +1051,8 @@ const QUESTIONS = [
       {letter:"D", text:"Event types beginning with PROCESS"}
     ],
     answer:["A"], multi:false,
-    explanation:"Process Builder is built on the Flow engine, so its activity appears in debug logs as flow events. In the Developer Console Log Inspector, the administrator should look for event types beginning with FLOW, such as FLOW_START_INTERVIEW and FLOW_ELEMENT_ERROR, to trace the process execution and find errors. There are no PROCESS or AUTOMATED event types, and WORKFLOW events relate to workflow rules, not Process Builder logic."
+    explanation:"Process Builder is built on the Flow engine, so its activity appears in debug logs as flow events. In the Developer Console Log Inspector, the administrator should look for event types beginning with FLOW, such as FLOW_START_INTERVIEW and FLOW_ELEMENT_ERROR, to trace the process execution and find errors. There are no PROCESS or AUTOMATED event types, and WORKFLOW events relate to workflow rules, not Process Builder logic.",
+    hook:"Log Inspector to troubleshoot a Process Builder → look for event types beginning FLOW (PB runs on Flow engine)"
   },
   {
     id:80, category: CATEGORIES.SECURITY,
@@ -985,7 +1064,8 @@ const QUESTIONS = [
       {letter:"D", text:"Setup Audit Trail"}
     ],
     answer:["A", "B"], multi:true,
-    explanation:"Identity Verification History shows each MFA verification attempt, the method used, and whether it succeeded, which reveals problems like failed or missing Authenticator approvals. Login History shows every login attempt with its status, so the administrator can see whether the login is failing at the credential stage, the MFA challenge, or something else like an IP restriction. Debug logs track code execution and the Setup Audit Trail tracks configuration changes, so neither explains an individual user's MFA login failure."
+    explanation:"Identity Verification History shows each MFA verification attempt, the method used, and whether it succeeded, which reveals problems like failed or missing Authenticator approvals. Login History shows every login attempt with its status, so the administrator can see whether the login is failing at the credential stage, the MFA challenge, or something else like an IP restriction. Debug logs track code execution and the Setup Audit Trail tracks configuration changes, so neither explains an individual user's MFA login failure.",
+    hook:"user can't log in via MFA, root cause → Identity Verification History + Login History"
   },
   {
     id:81, category: CATEGORIES.UI,
@@ -997,7 +1077,8 @@ const QUESTIONS = [
       {letter:"D", text:"Enhanced Related Lists"}
     ],
     answer:["A"], multi:false,
-    explanation:"An object-specific quick action on the Opportunity object can update the record and use predefined field values, so the administrator can build an Update a Record action that sets Stage to Closed Won and pre-populates other key fields. Object-specific actions appear on the opportunity record page and in the Salesforce mobile app action bar, letting reps close deals with a single tap in the field. A global quick action cannot reference or update the specific record the user is viewing, and a custom Lightning component or enhanced related list is unnecessary for this requirement."
+    explanation:"An object-specific quick action on the Opportunity object can update the record and use predefined field values, so the administrator can build an Update a Record action that sets Stage to Closed Won and pre-populates other key fields. Object-specific actions appear on the opportunity record page and in the Salesforce mobile app action bar, letting reps close deals with a single tap in the field. A global quick action cannot reference or update the specific record the user is viewing, and a custom Lightning component or enhanced related list is unnecessary for this requirement.",
+    hook:"mobile, close opp with Stage pre-populated Closed Won → Object-specific Quick Action (not global — can't update this record)"
   },
   {
     id:82, category: CATEGORIES.AUTOMATION,
@@ -1009,7 +1090,8 @@ const QUESTIONS = [
       {letter:"D", text:"Consolidate automation tools."}
     ],
     answer:["D"], multi:false,
-    explanation:"Values reverting after an update are a classic symptom of multiple automation tools (workflow rules, processes, flows, or triggers) updating the same field on the same object and overwriting each other. The recommended fix is to consolidate the automation into a single tool per object so updates execute predictably and do not conflict. Deleting all workflow rules is too drastic without analysis, and scheduling Apex jobs or adding an invocable process does not address the conflicting updates."
+    explanation:"Values reverting after an update are a classic symptom of multiple automation tools (workflow rules, processes, flows, or triggers) updating the same field on the same object and overwriting each other. The recommended fix is to consolidate the automation into a single tool per object so updates execute predictably and do not conflict. Deleting all workflow rules is too drastic without analysis, and scheduling Apex jobs or adding an invocable process does not address the conflicting updates.",
+    hook:"phone \"reverts back to an old value\" → consolidate automation tools (conflicting updates overwrite each other)"
   },
   {
     id:83, category: CATEGORIES.DATA,
@@ -1021,7 +1103,8 @@ const QUESTIONS = [
       {letter:"D", text:"Private Contacts need to be enabled in Setup."}
     ],
     answer:["A"], multi:false,
-    explanation:"With Contacts to Multiple Accounts enabled, a contact can be related to many accounts, but the account in the standard Account Name field is the primary (direct) account, and this direct relationship cannot simply be removed from an existing contact regardless of page layout settings. Making the Account field not required on the layout only affects newly created private contacts; it does not allow clearing the primary account from a contact that already has one. Indirect relationships to other accounts do not block this, and deleting an Account Contact Relationship record does not remove the primary relationship."
+    explanation:"With Contacts to Multiple Accounts enabled, a contact can be related to many accounts, but the account in the standard Account Name field is the primary (direct) account, and this direct relationship cannot simply be removed from an existing contact regardless of page layout settings. Making the Account field not required on the layout only affects newly created private contacts; it does not allow clearing the primary account from a contact that already has one. Indirect relationships to other accounts do not block this, and deleting an Account Contact Relationship record does not remove the primary relationship.",
+    hook:"can't remove \"primary Account\" from Contact → primary/direct account required regardless of layout"
   },
   {
     id:84, category: CATEGORIES.SECURITY,
@@ -1033,7 +1116,8 @@ const QUESTIONS = [
       {letter:"D", text:"A new record owner will be assigned."}
     ],
     answer:["C"], multi:false,
-    explanation:"Record types control which page layouts, picklist values, and business processes apply to a record; they do not determine record access. Access is governed by organization-wide defaults, the role hierarchy, sharing rules, teams, and ownership, and here the Public Read Only default already gives Sales users read access regardless of record type. Changing the record type through the screen flow therefore leaves the user's access exactly as it was, and it does not change the record owner."
+    explanation:"Record types control which page layouts, picklist values, and business processes apply to a record; they do not determine record access. Access is governed by organization-wide defaults, the role hierarchy, sharing rules, teams, and ownership, and here the Public Read Only default already gives Sales users read access regardless of record type. Changing the record type through the screen flow therefore leaves the user's access exactly as it was, and it does not change the record owner.",
+    hook:"screen flow changes record type, OWD Public Read Only → Record Access remains same (record type ≠ access)"
   },
   {
     id:85, category: CATEGORIES.AUTOMATION,
@@ -1045,7 +1129,8 @@ const QUESTIONS = [
       {letter:"D", text:"Multiple automation tools have been used and the automation is executed in a different order."}
     ],
     answer:["B"], multi:false,
-    explanation:"In the order of execution, before-save record-triggered flows run before case assignment rules, whereas workflow rules run after assignment rules. When the workflow rules were replaced with a before-save flow, the field updates now happen before assignment rules evaluate, so the assignment rules see different field values and route cases differently than before. This timing difference, not the assignment rule criteria themselves, explains the unexpected routing."
+    explanation:"In the order of execution, before-save record-triggered flows run before case assignment rules, whereas workflow rules run after assignment rules. When the workflow rules were replaced with a before-save flow, the field updates now happen before assignment rules evaluate, so the assignment rules see different field values and route cases differently than before. This timing difference, not the assignment rule criteria themselves, explains the unexpected routing.",
+    hook:"workflow rules replaced by before-save flow, routing changed → flow runs before assignment rules; workflow ran after"
   },
   {
     id:86, category: CATEGORIES.SECURITY,
@@ -1057,7 +1142,8 @@ const QUESTIONS = [
       {letter:"D", text:"Read permission is required on at least one master record."}
     ],
     answer:["A"], multi:false,
-    explanation:"A junction object sits on the detail side of two master-detail relationships, and a user's sharing access to a junction record is determined by their access to BOTH associated master records. Therefore the user needs at least Read permission on both master records to view the Item record; access to only one master is not sufficient."
+    explanation:"A junction object sits on the detail side of two master-detail relationships, and a user's sharing access to a junction record is determined by their access to BOTH associated master records. Therefore the user needs at least Read permission on both master records to view the Item record; access to only one master is not sufficient.",
+    hook:"see junction records, has both masters' access needed → Read on BOTH master records"
   },
   {
     id:87, category: CATEGORIES.DATA,
@@ -1069,7 +1155,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use an ETL tool that can be scheduled to extract the data and push it to the target destination."}
     ],
     answer:["D"], multi:false,
-    explanation:"Salesforce's native Data Export Service can only be scheduled weekly or monthly, so it cannot meet a daily backup requirement. An ETL (extract, transform, load) tool can be scheduled to run every day, extract the Salesforce data via the API, and push it to the target backup destination. The Import Wizard does not export data, and scheduled report emails are not a reliable or complete backup mechanism because reports have row limits and cover only selected fields."
+    explanation:"Salesforce's native Data Export Service can only be scheduled weekly or monthly, so it cannot meet a daily backup requirement. An ETL (extract, transform, load) tool can be scheduled to run every day, extract the Salesforce data via the API, and push it to the target backup destination. The Import Wizard does not export data, and scheduled report emails are not a reliable or complete backup mechanism because reports have row limits and cover only selected fields.",
+    hook:"\"back up its data daily\" → scheduled ETL tool (Data Export Service only weekly/monthly)"
   },
   {
     id:88, category: CATEGORIES.UI,
@@ -1081,7 +1168,8 @@ const QUESTIONS = [
       {letter:"D", text:"PREVGROUPVAL function"}
     ],
     answer:["B"], multi:false,
-    explanation:"PARENTGROUPVAL is a summary formula function that returns the summarized value of a specified parent grouping, allowing comparison of a subgroup against its parent total. In a report grouped by Country and then Lead Source, a formula like RowCount / PARENTGROUPVAL(RowCount, LEAD_SOURCE) shows each lead source's percentage of that country's total leads, making effectiveness comparable even though lead volumes vary greatly by country. PREVGROUPVAL compares against the previous peer group rather than the parent total, and unique counts or bucket filters would not produce a relative percentage."
+    explanation:"PARENTGROUPVAL is a summary formula function that returns the summarized value of a specified parent grouping, allowing comparison of a subgroup against its parent total. In a report grouped by Country and then Lead Source, a formula like RowCount / PARENTGROUPVAL(RowCount, LEAD_SOURCE) shows each lead source's percentage of that country's total leads, making effectiveness comparable even though lead volumes vary greatly by country. PREVGROUPVAL compares against the previous peer group rather than the parent total, and unique counts or bucket filters would not produce a relative percentage.",
+    hook:"grouped Country then Lead Source, effectiveness despite varying volume → PARENTGROUPVAL (subgroup vs parent total)"
   },
   {
     id:89, category: CATEGORIES.AUTOMATION,
@@ -1093,7 +1181,8 @@ const QUESTIONS = [
       {letter:"D", text:"Search the AppExchange to find a tool that assists with debugging."}
     ],
     answer:["C"], multi:false,
-    explanation:"Platform event triggers and event-driven flows run in the context of the Automated Process system user, not the user who caused the event, so their activity does not appear in that user's debug logs. To capture the debug information, the administrator should create a debug log with the Automated Process entity as the traced entity in Setup. Platform events can be debugged this way, so no AppExchange tool or special checkbox is needed."
+    explanation:"Platform event triggers and event-driven flows run in the context of the Automated Process system user, not the user who caused the event, so their activity does not appear in that user's debug logs. To capture the debug information, the administrator should create a debug log with the Automated Process entity as the traced entity in Setup. Platform events can be debugged this way, so no AppExchange tool or special checkbox is needed.",
+    hook:"flow's platform-event debug info missing → set a debug log on the Automated Process entity (event runs as that user)"
   },
   {
     id:90, category: CATEGORIES.APPS,
@@ -1105,7 +1194,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a flow to attach an entitlement to the asset upon purchase."}
     ],
     answer:["A"], multi:false,
-    explanation:"An entitlement template defines predefined support terms, such as phone support, that can be associated with a product. When the entitlement template is added to the photo editing software product, an entitlement based on that template is automatically created for the customer when the product is registered as an asset, so phone support is granted without any custom automation. Building a flow to attach entitlements or create milestones duplicates functionality that entitlement templates provide out of the box, and a milestone by itself does not grant a support channel."
+    explanation:"An entitlement template defines predefined support terms, such as phone support, that can be associated with a product. When the entitlement template is added to the photo editing software product, an entitlement based on that template is automatically created for the customer when the product is registered as an asset, so phone support is granted without any custom automation. Building a flow to attach entitlements or create milestones duplicates functionality that entitlement templates provide out of the box, and a milestone by itself does not grant a support channel.",
+    hook:"\"automatically receives phone support\" on purchase → Entitlement Template on product (not flow — built-in)"
   },
   {
     id:91, category: CATEGORIES.SECURITY,
@@ -1117,7 +1207,8 @@ const QUESTIONS = [
       {letter:"D", text:"Go into the user record and delete the user."}
     ],
     answer:["B"], multi:false,
-    explanation:"Freezing the user immediately blocks them from logging in while keeping their user record active, so their 4,000 records keep an owner and the 57 email alerts remain valid until ownership and alerts can be transferred to a replacement. Users can never be deleted in Salesforce, unchecking a Lightning checkbox does not block access, and clearing login hours is not an immediate or standard way to revoke access."
+    explanation:"Freezing the user immediately blocks them from logging in while keeping their user record active, so their 4,000 records keep an owner and the 57 email alerts remain valid until ownership and alerts can be transferred to a replacement. Users can never be deleted in Salesforce, unchecking a Lightning checkbox does not block access, and clearing login hours is not an immediate or standard way to revoke access.",
+    hook:"resigned, revoke now but keep 4000 records + 57 alerts → Freeze the user (can't delete users; keeps record active)"
   },
   {
     id:92, category: CATEGORIES.AUTOMATION,
@@ -1129,7 +1220,8 @@ const QUESTIONS = [
       {letter:"D", text:"Email Alert"}
     ],
     answer:["A"], multi:false,
-    explanation:"Flow is the right tool because it can be record-triggered when the listing price is approved and can call out to the external endpoint using HTTP Callout, External Services, or an invocable Apex action. This lets the realtors push the updated price to the listing service automatically without code-heavy solutions. A platform event by itself only publishes messages inside Salesforce, Process Builder is retired and cannot call arbitrary endpoints directly, and an email alert cannot post to an API endpoint."
+    explanation:"Flow is the right tool because it can be record-triggered when the listing price is approved and can call out to the external endpoint using HTTP Callout, External Services, or an invocable Apex action. This lets the realtors push the updated price to the listing service automatically without code-heavy solutions. A platform event by itself only publishes messages inside Salesforce, Process Builder is retired and cannot call arbitrary endpoints directly, and an email alert cannot post to an API endpoint.",
+    hook:"push update to an external \"endpoint\" after approval → Flow (HTTP callout); platform event only publishes internally"
   },
   {
     id:93, category: CATEGORIES.SECURITY,
@@ -1141,7 +1233,8 @@ const QUESTIONS = [
       {letter:"D", text:"The Delete permission is missing on the user for Accounts."}
     ],
     answer:["D"], multi:false,
-    explanation:"The Delete permission is missing on the user for Accounts is what is preventing the user from completing the merge. Merging accounts is a way to combine up to three duplicate accounts into one master record and update the related records accordingly. Merging accounts requires the Delete permission on accounts because merging accounts involves deleting the duplicate records and keeping only the master record."
+    explanation:"The Delete permission is missing on the user for Accounts is what is preventing the user from completing the merge. Merging accounts is a way to combine up to three duplicate accounts into one master record and update the related records accordingly. Merging accounts requires the Delete permission on accounts because merging accounts involves deleting the duplicate records and keeping only the master record.",
+    hook:"owner w/ Read/Write can't merge accounts → missing Delete permission (merge deletes duplicates)"
   },
   {
     id:94, category: CATEGORIES.UI,
@@ -1154,7 +1247,8 @@ const QUESTIONS = [
       {letter:"E", text:"Reduce the number of related lists displayed."}
     ],
     answer:["A", "B", "E"], multi:true,
-    explanation:"Move some page components behind a tab, remove some of the fields displayed, and reduce the number of related lists displayed are three options available to the administrator to help with this issue. Moving some page components behind a tab can help reduce the loading time of a record page by hiding some components until they are needed by the user. Removing some of the fields displayed can help reduce the loading time of a record page by minimizing the number of queries and calculations that need to be performed when rendering the page. Reducing the number of related lists displayed can help reduce the number of SOQL queries executed when loading the page."
+    explanation:"Move some page components behind a tab, remove some of the fields displayed, and reduce the number of related lists displayed are three options available to the administrator to help with this issue. Moving some page components behind a tab can help reduce the loading time of a record page by hiding some components until they are needed by the user. Removing some of the fields displayed can help reduce the loading time of a record page by minimizing the number of queries and calculations that need to be performed when rendering the page. Reducing the number of related lists displayed can help reduce the number of SOQL queries executed when loading the page.",
+    hook:"record page \"taking too long to load\" — pick 3 → components behind tab, remove fields, fewer related lists"
   },
   {
     id:95, category: CATEGORIES.AUTOMATION,
@@ -1166,7 +1260,8 @@ const QUESTIONS = [
       {letter:"D", text:"Change the value with a Specific New Field Value so the Process Builder knows what value to look for."}
     ],
     answer:["B"], multi:false,
-    explanation:"Field updates performed by an approval process do not trigger workflow rules or processes unless the Reevaluate Workflow Rules After Field Change checkbox is selected on the field update action. Because the Process Builder fires on manual status changes but not on the approval-driven change, the administrator should check this box on the approval process field update so the automated change also causes the process to be evaluated. The approval process version, recursion setting, and specific-value comparison do not address why only the approval-driven update fails to fire the process."
+    explanation:"Field updates performed by an approval process do not trigger workflow rules or processes unless the Reevaluate Workflow Rules After Field Change checkbox is selected on the field update action. Because the Process Builder fires on manual status changes but not on the approval-driven change, the administrator should check this box on the approval process field update so the automated change also causes the process to be evaluated. The approval process version, recursion setting, and specific-value comparison do not address why only the approval-driven update fails to fire the process.",
+    hook:"PB fires on manual edit but not approval update → check Re-evaluate Workflow Rules After Field Change on the field update"
   },
   {
     id:96, category: CATEGORIES.AUTOMATION,
@@ -1178,7 +1273,8 @@ const QUESTIONS = [
       {letter:"D", text:"The user has the Modify All Data permission on the object."}
     ],
     answer:["B"], multi:false,
-    explanation:"The field is being updated by a workflow field update is why records are being updated with data that violates the validation rule. A workflow field update is a way to automatically change the value of a field when a workflow rule evaluates to true. A workflow field update can bypass validation rules and other security controls when updating a field value, which can result in invalid data being stored in the record."
+    explanation:"The field is being updated by a workflow field update is why records are being updated with data that violates the validation rule. A workflow field update is a way to automatically change the value of a field when a workflow rule evaluates to true. A workflow field update can bypass validation rules and other security controls when updating a field value, which can result in invalid data being stored in the record.",
+    hook:"invalid data despite a validation rule, automated update → workflow field update (bypasses validation rules)"
   },
   {
     id:97, category: CATEGORIES.APPS,
@@ -1190,7 +1286,8 @@ const QUESTIONS = [
       {letter:"D", text:"Allow Override Forecasts"}
     ],
     answer:["C"], multi:false,
-    explanation:"Allow Forecasting is what the administrator should review to solve this issue. Allow Forecasting is a user permission that enables users to access and edit forecasts. If a user does not have this permission, they will not be able to see their own forecast or any forecasts below them in the role hierarchy. Therefore, the administrator should make sure that the sales rep has this permission enabled on their profile or permission set."
+    explanation:"Allow Forecasting is what the administrator should review to solve this issue. Allow Forecasting is a user permission that enables users to access and edit forecasts. If a user does not have this permission, they will not be able to see their own forecast or any forecasts below them in the role hierarchy. Therefore, the administrator should make sure that the sales rep has this permission enabled on their profile or permission set.",
+    hook:"rep \"missing from manager's forecast\" → check Allow Forecasting permission"
   },
   {
     id:98, category: CATEGORIES.DATA,
@@ -1202,7 +1299,8 @@ const QUESTIONS = [
       {letter:"D", text:"Configure a custom Data Classification and Metadata report type."}
     ],
     answer:["B"], multi:false,
-    explanation:"There is no standard Data Classification report, so the administrator should build a custom report type using the Entity Definition and Field Definitions objects. Field Definition records expose each field's metadata, including its data owner, field usage, data sensitivity level, and compliance categorization, so a report on this custom report type shows field-level sensitivity and classification across objects. The other options reference features or report types that do not exist."
+    explanation:"There is no standard Data Classification report, so the administrator should build a custom report type using the Entity Definition and Field Definitions objects. Field Definition records expose each field's metadata, including its data owner, field usage, data sensitivity level, and compliance categorization, so a report on this custom report type shows field-level sensitivity and classification across objects. The other options reference features or report types that do not exist.",
+    hook:"report on \"field level sensitivity\" → custom report type on Entity Definition + Field Definitions (no standard report)"
   },
   {
     id:99, category: CATEGORIES.UI,
@@ -1214,7 +1312,8 @@ const QUESTIONS = [
       {letter:"D", text:"Implement Service Console."}
     ],
     answer:["D"], multi:false,
-    explanation:"A console app such as Service Console displays records in workspace tabs and subtabs within a single browser window, so agents can work multiple accounts, opportunities, and related records side by side without juggling browser tabs. Console navigation also provides features like split view, pinned tabs, and a highlights panel that speed up case and record handling. A screen flow or split list views would not solve the multi-record navigation problem, and Subtab Record Browsing is not a real Setup option."
+    explanation:"A console app such as Service Console displays records in workspace tabs and subtabs within a single browser window, so agents can work multiple accounts, opportunities, and related records side by side without juggling browser tabs. Console navigation also provides features like split view, pinned tabs, and a highlights panel that speed up case and record handling. A screen flow or split list views would not solve the multi-record navigation problem, and Subtab Record Browsing is not a real Setup option.",
+    hook:"\"switching between browser tabs\" across many records → Service Console (workspace tabs/subtabs)"
   },
   {
     id:100, category: CATEGORIES.AUTOMATION,
@@ -1226,7 +1325,8 @@ const QUESTIONS = [
       {letter:"D", text:"Database"}
     ],
     answer:["A"], multi:false,
-    explanation:"Workflow is the debug log category that should be used to troubleshoot an issue with a flow. Workflow is a debug log category that captures information about workflow rules, flows, processes, approval processes, and entitlement processes. Workflow can help identify errors or issues related to these automation tools by showing details such as evaluation criteria, actions executed, variables assigned, and outcomes reached."
+    explanation:"Workflow is the debug log category that should be used to troubleshoot an issue with a flow. Workflow is a debug log category that captures information about workflow rules, flows, processes, approval processes, and entitlement processes. Workflow can help identify errors or issues related to these automation tools by showing details such as evaluation criteria, actions executed, variables assigned, and outcomes reached.",
+    hook:"debug log category to troubleshoot a flow → Workflow"
   },
   {
     id:101, category: CATEGORIES.APPS,
@@ -1238,7 +1338,8 @@ const QUESTIONS = [
       {letter:"D", text:"Once enabled, advanced currency management cannot be disabled."}
     ],
     answer:["A", "C"], multi:true,
-    explanation:"Two documented considerations apply here. First, once a currency is added to the organization's list of supported currencies it cannot be deleted, only deactivated. Second, historical trend reporting does not honor advanced currency management: per Salesforce Knowledge Article 000382832, Historical fields in trending reports use the static exchange rates from the currency setup page rather than dated exchange rates, so historical amounts effectively convert at the most recent static rate. Option D is incorrect because Salesforce provides a supported path to disable advanced currency management after it is enabled (conversions then revert to static rates), and option B is incorrect because opportunity amounts can be displayed in both record and corporate currency."
+    explanation:"Two documented considerations apply here. First, once a currency is added to the organization's list of supported currencies it cannot be deleted, only deactivated. Second, historical trend reporting does not honor advanced currency management: per Salesforce Knowledge Article 000382832, Historical fields in trending reports use the static exchange rates from the currency setup page rather than dated exchange rates, so historical amounts effectively convert at the most recent static rate. Option D is incorrect because Salesforce provides a supported path to disable advanced currency management after it is enabled (conversions then revert to static rates), and option B is incorrect because opportunity amounts can be displayed in both record and corporate currency.",
+    hook:"advanced currency management considerations → currency can't be deleted (only deactivated) + historical trend uses static rate"
   },
   {
     id:102, category: CATEGORIES.SECURITY,
@@ -1250,7 +1351,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use Field-Level Security to control data access."}
     ],
     answer:["B"], multi:false,
-    explanation:"Dynamic Forms can conditionally show or hide fields on the record page based on criteria such as the running user's profile, so Marketing users can see everything while Support users see only the Support preference fields on the page. Because the visibility is handled at the page level rather than with field-level security, both profiles retain field access and can still report on all the data. Using field-level security would hide the fields from Support users in reports as well, which violates the reporting requirement."
+    explanation:"Dynamic Forms can conditionally show or hide fields on the record page based on criteria such as the running user's profile, so Marketing users can see everything while Support users see only the Support preference fields on the page. Because the visibility is handled at the page level rather than with field-level security, both profiles retain field access and can still report on all the data. Using field-level security would hide the fields from Support users in reports as well, which violates the reporting requirement.",
+    hook:"hide fields from Support on page but keep reporting on all → Dynamic Forms (FLS would hide in reports too)"
   },
   {
     id:103, category: CATEGORIES.DATA,
@@ -1262,7 +1364,8 @@ const QUESTIONS = [
       {letter:"D", text:"Remove the lookup field from the page layout so the data is maintained without changes."}
     ],
     answer:["A", "B"], multi:true,
-    explanation:"Converting a lookup relationship to a master-detail relationship requires every child record to have a value in the relationship field, because a detail record cannot exist without a master. The administrator can therefore either delete the Potential Name records with blank lookups (moving them to the recycle bin) or populate the blank lookup fields with an existing Product Development record. Removing existing lookup values or hiding the field from the page layout would make the problem worse, since blank values are exactly what block the conversion."
+    explanation:"Converting a lookup relationship to a master-detail relationship requires every child record to have a value in the relationship field, because a detail record cannot exist without a master. The administrator can therefore either delete the Potential Name records with blank lookups (moving them to the recycle bin) or populate the blank lookup fields with an existing Product Development record. Removing existing lookup values or hiding the field from the page layout would make the problem worse, since blank values are exactly what block the conversion.",
+    hook:"convert lookup→master-detail with \"blank\" fields → delete blanks or assign a parent"
   },
   {
     id:104, category: CATEGORIES.DATA,
@@ -1274,7 +1377,8 @@ const QUESTIONS = [
       {letter:"D", text:"Field-Level Security"}
     ],
     answer:["A"], multi:false,
-    explanation:"Data Classification is the feature that the administrator should use to flag where sensitive information is stored in Salesforce. Data Classification is a feature that allows administrators to flag where sensitive information is stored in Salesforce by assigning sensitivity and classification levels to fields. Data Classification can help administrators comply with data privacy regulations and best practices by identifying and managing sensitive data in their orgs."
+    explanation:"Data Classification is the feature that the administrator should use to flag where sensitive information is stored in Salesforce. Data Classification is a feature that allows administrators to flag where sensitive information is stored in Salesforce by assigning sensitivity and classification levels to fields. Data Classification can help administrators comply with data privacy regulations and best practices by identifying and managing sensitive data in their orgs.",
+    hook:"\"flag where sensitive information is stored\" → Data Classification"
   },
   {
     id:105, category: CATEGORIES.APPS,
@@ -1287,7 +1391,8 @@ const QUESTIONS = [
       {letter:"E", text:"Enable Role Hierarchy Forecast."}
     ],
     answer:["A", "B", "E"], multi:true,
-    explanation:"To forecast by territory regardless of record ownership, CK should enable territory forecasts, which roll up opportunity amounts based on the territory assigned to the opportunity. To also forecast along the management chain, CK should enable a role hierarchy-based forecast type, since Collaborative Forecasts supports multiple active forecast types at once. Users then switch between the territory and role hierarchy views by selecting the forecast type in the forecast page display settings. No custom fields are needed, and the territory model does not have to be modified to match the role hierarchy because the two forecast types operate independently."
+    explanation:"To forecast by territory regardless of record ownership, CK should enable territory forecasts, which roll up opportunity amounts based on the territory assigned to the opportunity. To also forecast along the management chain, CK should enable a role hierarchy-based forecast type, since Collaborative Forecasts supports multiple active forecast types at once. Users then switch between the territory and role hierarchy views by selecting the forecast type in the forecast page display settings. No custom fields are needed, and the territory model does not have to be modified to match the role hierarchy because the two forecast types operate independently.",
+    hook:"forecast \"by territory regardless of owner\" + role hierarchy → Enable Territory Forecast + Role Hierarchy Forecast + select Forecast Type in Display Settings"
   },
   {
     id:106, category: CATEGORIES.DATA,
@@ -1299,7 +1404,8 @@ const QUESTIONS = [
       {letter:"D", text:"Upsert"}
     ],
     answer:["D"], multi:false,
-    explanation:"The Upsert operation in Data Loader combines insert and update in a single job: using the External Id field as the match key, it updates existing lead records that match and inserts new records for those that do not. This is exactly what is needed to populate the Status field on existing leads while also adding the new ones. Update alone would skip the new records, and Insert alone would create duplicates of the existing leads."
+    explanation:"The Upsert operation in Data Loader combines insert and update in a single job: using the External Id field as the match key, it updates existing lead records that match and inserts new records for those that do not. This is exactly what is needed to populate the Status field on existing leads while also adding the new ones. Update alone would skip the new records, and Insert alone would create duplicates of the existing leads.",
+    hook:"\"External Id\" match existing + add new → Upsert"
   },
   {
     id:107, category: CATEGORIES.DATA,
@@ -1311,7 +1417,8 @@ const QUESTIONS = [
       {letter:"D", text:"Campaign Members"}
     ],
     answer:["A", "C"], multi:true,
-    explanation:"Person Accounts let Cloud Kicks model its B2C consumers, storing individual buyers as accounts without an associated company. Contacts to Multiple Accounts then allows those same individuals to also be related to the B2B business accounts where they are employed, so one person can be tracked under both their personal account and their employer. Leads and Campaign Members are for prospecting and marketing tracking, not for modeling ongoing customer account relationships."
+    explanation:"Person Accounts let Cloud Kicks model its B2C consumers, storing individual buyers as accounts without an associated company. Contacts to Multiple Accounts then allows those same individuals to also be related to the B2B business accounts where they are employed, so one person can be tracked under both their personal account and their employer. Leads and Campaign Members are for prospecting and marketing tracking, not for modeling ongoing customer account relationships.",
+    hook:"B2C individuals also employed at B2B accounts → Person Accounts + Contacts to Multiple Accounts"
   },
   {
     id:108, category: CATEGORIES.AUTOMATION,
@@ -1323,7 +1430,8 @@ const QUESTIONS = [
       {letter:"D", text:"The order in which those flows are executed is not guaranteed."}
     ],
     answer:["D"], multi:false,
-    explanation:"When multiple record-triggered flows exist for the same object and trigger timing, Salesforce does not guarantee the order in which they execute by default. The administrator should therefore avoid building flows that depend on one another running first, or consolidate the logic into a single flow. There is no execution-time-based ordering, and priority is not assigned automatically; only an explicitly configured trigger order can make the sequence deterministic."
+    explanation:"When multiple record-triggered flows exist for the same object and trigger timing, Salesforce does not guarantee the order in which they execute by default. The administrator should therefore avoid building flows that depend on one another running first, or consolidate the logic into a single flow. There is no execution-time-based ordering, and priority is not assigned automatically; only an explicitly configured trigger order can make the sequence deterministic.",
+    hook:"which of multiple record-triggered flows runs first → order is not guaranteed (no time or priority ordering)"
   },
   {
     id:109, category: CATEGORIES.UI,
@@ -1335,7 +1443,8 @@ const QUESTIONS = [
       {letter:"D", text:"Page Layout"}
     ],
     answer:["D"], multi:false,
-    explanation:"The fields shown in the Record Detail component come from the page layout assigned to the user's profile and record type, so the administrator edits the page layout to add, remove, or reorder the fields in the record details. The Record Detail component itself has no field-level configuration; it simply renders whatever the assigned layout contains. Record types determine which layout applies but do not define the fields on it, and a custom Lightning component is unnecessary for standard field display."
+    explanation:"The fields shown in the Record Detail component come from the page layout assigned to the user's profile and record type, so the administrator edits the page layout to add, remove, or reorder the fields in the record details. The Record Detail component itself has no field-level configuration; it simply renders whatever the assigned layout contains. Record types determine which layout applies but do not define the fields on it, and a custom Lightning component is unnecessary for standard field display.",
+    hook:"\"where...edit what fields display in the details\" → Page Layout (Record Detail component has no field config)"
   },
   {
     id:110, category: CATEGORIES.DATA,
@@ -1347,7 +1456,8 @@ const QUESTIONS = [
       {letter:"D", text:"Add a lookup field to Account."}
     ],
     answer:["A"], multi:false,
-    explanation:"A cross-object formula field on the Case object can reference the Status field on the related Account through the Account lookup, displaying the current account status directly on the case page. Formula fields can also be referenced in validation rules, which satisfies both requirements without any data duplication or maintenance. A picklist would have to be manually kept in sync, a roll-up summary works only from parent to child in master-detail relationships, and Case already has a lookup to Account."
+    explanation:"A cross-object formula field on the Case object can reference the Status field on the related Account through the Account lookup, displaying the current account status directly on the case page. Formula fields can also be referenced in validation rules, which satisfies both requirements without any data duplication or maintenance. A picklist would have to be manually kept in sync, a roll-up summary works only from parent to child in master-detail relationships, and Case already has a lookup to Account.",
+    hook:"show Account status on Case, used in \"validation rules\" → cross-object formula (rollup is child→parent only)"
   },
   {
     id:111, category: CATEGORIES.DATA,
@@ -1359,7 +1469,8 @@ const QUESTIONS = [
       {letter:"D", text:"Text Area (Rich)"}
     ],
     answer:["D"], multi:false,
-    explanation:"A Text Area (Rich) field supports rich text formatting such as bold, italics, lists, and links, which satisfies the requirement that users can format the text. Rich text area fields on Lead can also be mapped to a matching rich text area field on Opportunity in the lead field mapping so the information carries over at conversion. Plain Text Area and Text Area (Long) fields do not allow formatting, and a formula field is read-only so users could not enter their next steps."
+    explanation:"A Text Area (Rich) field supports rich text formatting such as bold, italics, lists, and links, which satisfies the requirement that users can format the text. Rich text area fields on Lead can also be mapped to a matching rich text area field on Opportunity in the lead field mapping so the information carries over at conversion. Plain Text Area and Text Area (Long) fields do not allow formatting, and a formula field is read-only so users could not enter their next steps.",
+    hook:"\"format the text\" + maps on convert → Text Area (Rich)"
   },
   {
     id:112, category: CATEGORIES.SECURITY,
@@ -1371,7 +1482,8 @@ const QUESTIONS = [
       {letter:"D", text:"Customize Application Permission"}
     ],
     answer:["B"], multi:false,
-    explanation:"Delegated Administration lets an administrator authorize selected users to perform limited user management tasks, including assigning specified permission sets to users in their delegated roles and groups, without giving them the ability to create or modify permission sets themselves. This exactly matches the requirement for a backup resource. Assignment rules route records rather than permissions, and View All Users or Customize Application would either be insufficient or grant far too much configuration access."
+    explanation:"Delegated Administration lets an administrator authorize selected users to perform limited user management tasks, including assigning specified permission sets to users in their delegated roles and groups, without giving them the ability to create or modify permission sets themselves. This exactly matches the requirement for a backup resource. Assignment rules route records rather than permissions, and View All Users or Customize Application would either be insufficient or grant far too much configuration access.",
+    hook:"assign perms but can't create/modify perm sets → Delegated Administrator"
   },
   {
     id:113, category: CATEGORIES.AUTOMATION,
@@ -1384,7 +1496,8 @@ const QUESTIONS = [
       {letter:"E", text:"Fix the Process Builder in a sandbox and migrate the change to production."}
     ],
     answer:["A", "C", "E"], multi:true,
-    explanation:"To resolve the issue with the Process Builder, the administrator should: A) Review the Error Email for the Process Builder and rectify the issues — the error email contains details about what caused the error and how to fix it. C) Deactivate the Process Builder in production — this prevents further errors from occurring while the fix is being prepared. E) Fix the Process Builder in a sandbox and migrate the change to production — this ensures the fix is tested and validated before redeployment."
+    explanation:"To resolve the issue with the Process Builder, the administrator should: A) Review the Error Email for the Process Builder and rectify the issues — the error email contains details about what caused the error and how to fix it. C) Deactivate the Process Builder in production — this prevents further errors from occurring while the fix is being prepared. E) Fix the Process Builder in a sandbox and migrate the change to production — this ensures the fix is tested and validated before redeployment.",
+    hook:"new Process Builder erroring in production → review Error Email + deactivate in prod + fix in sandbox and migrate"
   },
   {
     id:114, category: CATEGORIES.DEPLOY,
@@ -1396,7 +1509,8 @@ const QUESTIONS = [
       {letter:"D", text:"API Enabled"}
     ],
     answer:["A"], multi:false,
-    explanation:"To create outbound change sets and upload them to another org, a user must have the Create and Upload Change Sets permission on their profile or a permission set. Without it, the outbound change set functionality is unavailable even to users who otherwise have broad administrative access. Deploy Change Sets governs deploying inbound change sets in the target org rather than creating outbound ones, and Modify Metadata Through Metadata API Functions and API Enabled relate to Metadata API and API access, not the change set user interface."
+    explanation:"To create outbound change sets and upload them to another org, a user must have the Create and Upload Change Sets permission on their profile or a permission set. Without it, the outbound change set functionality is unavailable even to users who otherwise have broad administrative access. Deploy Change Sets governs deploying inbound change sets in the target org rather than creating outbound ones, and Modify Metadata Through Metadata API Functions and API Enabled relate to Metadata API and API access, not the change set user interface.",
+    hook:"\"unable to use outbound change sets\" — missing perm → Create and Upload Change Sets (not Deploy — that's inbound)"
   },
   {
     id:115, category: CATEGORIES.DATA,
@@ -1408,7 +1522,8 @@ const QUESTIONS = [
       {letter:"D", text:"Upload an Excel spreadsheet with the data into the Files tab."}
     ],
     answer:["A"], multi:false,
-    explanation:"An external object is like a custom object except that its data is stored outside Salesforce and accessed on demand via Salesforce Connect. Creating an external object that maps to the legacy inventory application lets users view the inventory data in Salesforce and include it in reports without copying or synchronizing the data. Repeatedly importing and deleting data or uploading spreadsheets to Files creates stale, unmanageable copies, and building a custom Lightning component would require unnecessary development effort."
+    explanation:"An external object is like a custom object except that its data is stored outside Salesforce and accessed on demand via Salesforce Connect. Creating an external object that maps to the legacy inventory application lets users view the inventory data in Salesforce and include it in reports without copying or synchronizing the data. Repeatedly importing and deleting data or uploading spreadsheets to Files creates stale, unmanageable copies, and building a custom Lightning component would require unnecessary development effort.",
+    hook:"\"legacy application\" view+report without copying → external object (Salesforce Connect)"
   },
   {
     id:116, category: CATEGORIES.SECURITY,
@@ -1420,7 +1535,8 @@ const QUESTIONS = [
       {letter:"D", text:"Grant access using hierarchies via the sharing settings."}
     ],
     answer:["D"], multi:false,
-    explanation:"Granting access using hierarchies in the sharing settings ensures that users above a record owner in the role hierarchy, such as the rep's manager, automatically see the rep's records while peers at the same level do not, which matches the confidentiality requirement exactly. For custom objects this is the Grant Access Using Hierarchies checkbox; for standard objects it is always enabled. Creating individual sharing rules per manager would be high-maintenance, View All on the managers' profile would expose all records including other teams' data, and validation rules control data entry, not visibility."
+    explanation:"Granting access using hierarchies in the sharing settings ensures that users above a record owner in the role hierarchy, such as the rep's manager, automatically see the rep's records while peers at the same level do not, which matches the confidentiality requirement exactly. For custom objects this is the Grant Access Using Hierarchies checkbox; for standard objects it is always enabled. Creating individual sharing rules per manager would be high-maintenance, View All on the managers' profile would expose all records including other teams' data, and validation rules control data entry, not visibility.",
+    hook:"credit records visible to manager, hidden from peers → Grant Access Using Hierarchies in sharing settings"
   },
   {
     id:117, category: CATEGORIES.SECURITY,
@@ -1432,7 +1548,8 @@ const QUESTIONS = [
       {letter:"D", text:"Generate a temporary identity verification code for the rep."}
     ],
     answer:["D"], multi:false,
-    explanation:"When a user loses access to their MFA verification method, the administrator can generate a temporary identity verification code from the user's record. The code lets the rep satisfy the MFA challenge and log in securely for a limited time until the phone is replaced and Salesforce Authenticator is reconnected. Trusted IP ranges and VPN access do not bypass an MFA requirement, and MFA verification cannot be delegated to another person."
+    explanation:"When a user loses access to their MFA verification method, the administrator can generate a temporary identity verification code from the user's record. The code lets the rep satisfy the MFA challenge and log in securely for a limited time until the phone is replaced and Salesforce Authenticator is reconnected. Trusted IP ranges and VPN access do not bypass an MFA requirement, and MFA verification cannot be delegated to another person.",
+    hook:"rep broke MFA phone, needs access → generate temporary identity verification code (IP/VPN don't bypass MFA)"
   },
   {
     id:118, category: CATEGORIES.APPS,
@@ -1444,7 +1561,8 @@ const QUESTIONS = [
       {letter:"D", text:"Show the finance team how to use the Opportunity Kanban List View."}
     ],
     answer:["B"], multi:false,
-    explanation:"Collaborative Forecasting is built exactly for this need: it projects expected revenue from open opportunities and lets users compare quota against the open pipeline in real time, with the ability to make adjustments as conditions change. This removes the need for the finance team to manually calculate anticipated income each quarter. A quarterly report or the Kanban view only shows a point-in-time snapshot of opportunities without quota comparison or rollups, and a custom forecasting object would be unnecessary custom development that recreates standard functionality."
+    explanation:"Collaborative Forecasting is built exactly for this need: it projects expected revenue from open opportunities and lets users compare quota against the open pipeline in real time, with the ability to make adjustments as conditions change. This removes the need for the finance team to manually calculate anticipated income each quarter. A quarterly report or the Kanban view only shows a point-in-time snapshot of opportunities without quota comparison or rollups, and a custom forecasting object would be unnecessary custom development that recreates standard functionality.",
+    hook:"\"pipeline vs anticipated income\" without manual calc → Collaborative Forecasting (quota vs open pipeline)"
   },
   {
     id:119, category: CATEGORIES.DEPLOY,
@@ -1456,7 +1574,8 @@ const QUESTIONS = [
       {letter:"D", text:"Full"}
     ],
     answer:["B", "C"], multi:true,
-    explanation:"A Developer sandbox includes 200 MB of data storage and a Developer Pro sandbox includes 1 GB, so both can hold the 160 MB of test data, and both can be refreshed once per day, which supports refreshing every other day. A Partial Copy sandbox can only be refreshed every 5 days and a Full sandbox every 29 days, so neither meets the refresh frequency requirement. Copying production data automatically is not needed here since the requirement is test data that fits within the Developer and Developer Pro storage limits."
+    explanation:"A Developer sandbox includes 200 MB of data storage and a Developer Pro sandbox includes 1 GB, so both can hold the 160 MB of test data, and both can be refreshed once per day, which supports refreshing every other day. A Partial Copy sandbox can only be refreshed every 5 days and a Full sandbox every 29 days, so neither meets the refresh frequency requirement. Copying production data automatically is not needed here since the requirement is test data that fits within the Developer and Developer Pro storage limits.",
+    hook:"160MB test data \"refreshed every other day\" → Developer + Developer Pro (daily refresh, fit storage)"
   },
   {
     id:120, category: CATEGORIES.DATA,
@@ -1468,7 +1587,8 @@ const QUESTIONS = [
       {letter:"D", text:"In a business model that needs a separate Contact and Account to be included on all Case records submitted."}
     ],
     answer:["C"], multi:false,
-    explanation:"Person Accounts are designed for a B2C business model where the individual consumer, rather than a business, is the intended recipient of sales and marketing attention. A person account combines account and contact information into a single record representing one person. In a B2B model where you sell to contacts at business organizations, the standard business account and contact model is appropriate, so the other options describe scenarios where Person Accounts are not the right fit."
+    explanation:"Person Accounts are designed for a B2C business model where the individual consumer, rather than a business, is the intended recipient of sales and marketing attention. A person account combines account and contact information into a single record representing one person. In a B2B model where you sell to contacts at business organizations, the standard business account and contact model is appropriate, so the other options describe scenarios where Person Accounts are not the right fit.",
+    hook:"\"B2C\" consumer is target of sales/marketing → Person Accounts"
   },
   {
     id:121, category: CATEGORIES.SECURITY,
@@ -1480,7 +1600,8 @@ const QUESTIONS = [
       {letter:"D", text:"Require a high assurance session when exporting or printing reports and dashboards."}
     ],
     answer:["D"], multi:false,
-    explanation:"Requiring a high assurance session for exporting or printing reports and dashboards forces the running user to re-verify their identity with a strong verification method before performing those sensitive actions, which confirms the person at the keyboard is the legitimate user even if a phished password was used to start the session. Session Settings let administrators raise the session security level required for reports and dashboards. A username, password, and security token can all be phished, and authentication providers address federated login rather than in-session identity assurance."
+    explanation:"Requiring a high assurance session for exporting or printing reports and dashboards forces the running user to re-verify their identity with a strong verification method before performing those sensitive actions, which confirms the person at the keyboard is the legitimate user even if a phished password was used to start the session. Session Settings let administrators raise the session security level required for reports and dashboards. A username, password, and security token can all be phished, and authentication providers address federated login rather than in-session identity assurance.",
+    hook:"confirm right user viewing/exporting reports (anti-phish) → high assurance session for export/print reports"
   },
   {
     id:122, category: CATEGORIES.SECURITY,
@@ -1493,7 +1614,8 @@ const QUESTIONS = [
       {letter:"E", text:"Sales manager and system administrator"}
     ],
     answer:["E"], multi:false,
-    explanation:"When Contacts are Controlled by Parent, a user's access to a contact mirrors their access to its account. Because the account org-wide default is Public Read Only, other users, including those above the owner in the role hierarchy via read-only inheritance of that default, can view but not edit the contact. Only the sales manager, who owns the record (and would have edit access on the parent account they can edit as owner), and the system administrator with Modify All Data can edit it."
+    explanation:"When Contacts are Controlled by Parent, a user's access to a contact mirrors their access to its account. Because the account org-wide default is Public Read Only, other users, including those above the owner in the role hierarchy via read-only inheritance of that default, can view but not edit the contact. Only the sales manager, who owns the record (and would have edit access on the parent account they can edit as owner), and the system administrator with Modify All Data can edit it.",
+    hook:"Contacts Controlled by Parent, Account Public Read Only → owner (sales manager) + System Admin can edit"
   },
   {
     id:123, category: CATEGORIES.AUTOMATION,
@@ -1505,7 +1627,8 @@ const QUESTIONS = [
       {letter:"D", text:"Configure a flow that will create the renewal based on the closed-won date and opportunity line items."}
     ],
     answer:["D"], multi:false,
-    explanation:"A record-triggered flow can automatically create the renewal opportunity when the original opportunity is closed won, using the closed-won date and the opportunity line items to build the new record and its products. This fully automates the process so sales reps can focus on new business. An email reminder, a rich text prompt on the page, or a validation rule would all still rely on the rep to manually create the renewal, which is exactly what management wants to avoid."
+    explanation:"A record-triggered flow can automatically create the renewal opportunity when the original opportunity is closed won, using the closed-won date and the opportunity line items to build the new record and its products. This fully automates the process so sales reps can focus on new business. An email reminder, a rich text prompt on the page, or a validation rule would all still rely on the rep to manually create the renewal, which is exactly what management wants to avoid.",
+    hook:"\"creation of the renewal opportunity happen automatically\" → record-triggered Flow using closed-won date and line items"
   },
   {
     id:124, category: CATEGORIES.AUTOMATION,
@@ -1517,7 +1640,8 @@ const QUESTIONS = [
       {letter:"D", text:"Update the flow with a local redirect action."}
     ],
     answer:["D"], multi:false,
-    explanation:"By default, when a screen flow finishes, it restarts and displays the first screen again, which is why reps are re-entering data. The administrator should update the flow with a local redirect action so that when the user clicks Finish they are sent to a specific page, such as the created record, instead of back to the start of the flow. Creating a second flow, a trigger, or a separate Lightning action adds unnecessary complexity compared to handling the redirect within the existing flow."
+    explanation:"By default, when a screen flow finishes, it restarts and displays the first screen again, which is why reps are re-entering data. The administrator should update the flow with a local redirect action so that when the user clicks Finish they are sent to a specific page, such as the created record, instead of back to the start of the flow. Creating a second flow, a trigger, or a separate Lightning action adds unnecessary complexity compared to handling the redirect within the existing flow.",
+    hook:"screen flow shows initial screen again after Finish → update flow with a local redirect action"
   },
   {
     id:125, category: CATEGORIES.UI,
@@ -1529,7 +1653,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use the Apex debugger while loading a customer record."}
     ],
     answer:["B"], multi:false,
-    explanation:"The Analyze button in the Lightning App Builder toolbar runs Lightning page performance analysis, predicting the page's load time and flagging which components, fields, and related lists contribute most to slowness, along with recommendations such as reducing fields or moving components behind tabs. This makes it the right diagnostic tool for a record page that loads slowly. Debug logs and the Apex debugger are for troubleshooting code execution, not for evaluating Lightning page component load performance."
+    explanation:"The Analyze button in the Lightning App Builder toolbar runs Lightning page performance analysis, predicting the page's load time and flagging which components, fields, and related lists contribute most to slowness, along with recommendations such as reducing fields or moving components behind tabs. This makes it the right diagnostic tool for a record page that loads slowly. Debug logs and the Apex debugger are for troubleshooting code execution, not for evaluating Lightning page component load performance.",
+    hook:"\"diagnose\" slow Lightning page load → Analyze button in Lightning App Builder (not debug logs — those are for code)"
   },
   {
     id:126, category: CATEGORIES.DATA,
@@ -1541,7 +1666,8 @@ const QUESTIONS = [
       {letter:"D", text:"Mass Update"}
     ],
     answer:["A"], multi:false,
-    explanation:"The Data Import Wizard is the standard tool for importing person accounts and supports up to 50,000 records at a time; when person accounts are enabled, it presents Person Accounts as an import option. It runs from Setup, maps file columns to Salesforce fields, and can add new records or update existing ones. Quick Create and Mass Update are not batch import tools, and the Bulk API is an API for developers rather than an administrator-friendly import tool for this straightforward task."
+    explanation:"The Data Import Wizard is the standard tool for importing person accounts and supports up to 50,000 records at a time; when person accounts are enabled, it presents Person Accounts as an import option. It runs from Setup, maps file columns to Salesforce fields, and can add new records or update existing ones. Quick Create and Mass Update are not batch import tools, and the Bulk API is an API for developers rather than an administrator-friendly import tool for this straightforward task.",
+    hook:"import batch of \"person accounts\" → Data Import Wizard (Bulk API is developer-only)"
   },
   {
     id:127, category: CATEGORIES.AUTOMATION,
@@ -1553,7 +1679,8 @@ const QUESTIONS = [
       {letter:"D", text:"The flows will execute in alphabetical order based on their names."}
     ],
     answer:["C"], multi:false,
-    explanation:"When several record-triggered flows are configured to run before save on the same object, the order in which they execute is unpredictable unless an explicit trigger order is defined. This means one flow's field updates may or may not be visible to another, so the administrator should consolidate related logic into a single flow where ordering matters. Flow names, created dates, and flow type do not determine execution order."
+    explanation:"When several record-triggered flows are configured to run before save on the same object, the order in which they execute is unpredictable unless an explicit trigger order is defined. This means one flow's field updates may or may not be visible to another, so the administrator should consolidate related logic into a single flow where ordering matters. Flow names, created dates, and flow type do not determine execution order.",
+    hook:"several before-save flows on same object, execution order → unpredictable unless explicit trigger order set"
   },
   {
     id:128, category: CATEGORIES.UI,
@@ -1565,7 +1692,8 @@ const QUESTIONS = [
       {letter:"D", text:"Related Lists"}
     ],
     answer:["B"], multi:false,
-    explanation:"In the Lightning App Builder, action buttons on a record page are configured on the Highlights Panel component, where enabling dynamic actions lets the administrator add actions and set visibility rules based on field values. The sales director's requirement is met by adding the actions to the Highlights Panel and filtering their visibility on the field that indicates whether the planet is gaseous. The Record Detail, Activities, and Related Lists components display fields, activity timelines, and related records respectively, and are not where page-level dynamic actions are defined."
+    explanation:"In the Lightning App Builder, action buttons on a record page are configured on the Highlights Panel component, where enabling dynamic actions lets the administrator add actions and set visibility rules based on field values. The sales director's requirement is met by adding the actions to the Highlights Panel and filtering their visibility on the field that indicates whether the planet is gaseous. The Record Detail, Activities, and Related Lists components display fields, activity timelines, and related records respectively, and are not where page-level dynamic actions are defined.",
+    hook:"where to define dynamic action buttons on a record page → Highlights Panel component"
   },
   {
     id:129, category: CATEGORIES.AUTOMATION,
@@ -1577,7 +1705,8 @@ const QUESTIONS = [
       {letter:"D", text:"Workflow Rules"}
     ],
     answer:["A", "B"], multi:true,
-    explanation:"Assignment rules automatically route lead records to the correct users or queues based on criteria, so a rule based on the planet field can allocate leads to the right planetary team. Validation rules enforce data completeness by blocking the save when required information is missing, so a rule can require the moon field (and other extra details) when the lead belongs to Jupiter. Matching rules only identify duplicates, and workflow rules cannot route leads or enforce required data entry."
+    explanation:"Assignment rules automatically route lead records to the correct users or queues based on criteria, so a rule based on the planet field can allocate leads to the right planetary team. Validation rules enforce data completeness by blocking the save when required information is missing, so a rule can require the moon field (and other extra details) when the lead belongs to Jupiter. Matching rules only identify duplicates, and workflow rules cannot route leads or enforce required data entry.",
+    hook:"route lead by planet + require moon field for Jupiter → Assignment Rules (routing) + Validation Rules (required data)"
   },
   {
     id:130, category: CATEGORIES.SECURITY,
@@ -1589,7 +1718,8 @@ const QUESTIONS = [
       {letter:"D", text:"Object Manager"}
     ],
     answer:["A"], multi:false,
-    explanation:"Security Health Check evaluates the org's security settings against a Salesforce baseline and includes the sharing-related risk findings, so the administrator can quickly see how many objects have external organization-wide defaults set to Public and remediate them. The Setup Audit Trail only lists historical configuration changes, session settings govern login sessions, and Object Manager would require opening each object's sharing settings one at a time rather than providing a consolidated view."
+    explanation:"Security Health Check evaluates the org's security settings against a Salesforce baseline and includes the sharing-related risk findings, so the administrator can quickly see how many objects have external organization-wide defaults set to Public and remediate them. The Setup Audit Trail only lists historical configuration changes, session settings govern login sessions, and Object Manager would require opening each object's sharing settings one at a time rather than providing a consolidated view.",
+    hook:"audit count of objects shared Public externally → Security Health Check (Object Manager = one at a time)"
   },
   {
     id:131, category: CATEGORIES.SECURITY,
@@ -1601,7 +1731,8 @@ const QUESTIONS = [
       {letter:"D", text:"Muted Permission Sets"}
     ],
     answer:["C"], multi:false,
-    explanation:"Salesforce Shield, specifically its Event Monitoring capability with Transaction Security policies, lets the administrator monitor report exports and data downloads in real time and block or require action when a user attempts to export more records, or more sensitive records, than policy allows. This provides granular, condition-based control over export behavior. Platform Encryption protects data at rest but does not stop exports, muted permission sets can only remove permissions entirely rather than conditionally limit exports, and there is no standard Export Data Settings feature that filters what is exported."
+    explanation:"Salesforce Shield, specifically its Event Monitoring capability with Transaction Security policies, lets the administrator monitor report exports and data downloads in real time and block or require action when a user attempts to export more records, or more sensitive records, than policy allows. This provides granular, condition-based control over export behavior. Platform Encryption protects data at rest but does not stop exports, muted permission sets can only remove permissions entirely rather than conditionally limit exports, and there is no standard Export Data Settings feature that filters what is exported.",
+    hook:"conditionally limit/block exports of sensitive data → Salesforce Shield (Event Monitoring + Transaction Security)"
   },
   {
     id:132, category: CATEGORIES.DEPLOY,
@@ -1613,7 +1744,8 @@ const QUESTIONS = [
       {letter:"D", text:"When deploying a new record type, ensure the new record type is the only component in the change set."}
     ],
     answer:["A", "B"], multi:true,
-    explanation:"Once a change set has been uploaded it cannot be modified, so if dependent components were forgotten, the correct practice is to clone the change set, add the missing components to the clone, and upload it again. Administrators should also explicitly add permissions and access settings, such as profiles or permission sets with object and field access, because these are not pulled in automatically by the dependent component list, and missing them causes access problems after deployment. Validation happens when the change set is deployed or validated in the target org, not in the sandbox before upload, and there is no requirement that a new record type be the only component in a change set."
+    explanation:"Once a change set has been uploaded it cannot be modified, so if dependent components were forgotten, the correct practice is to clone the change set, add the missing components to the clone, and upload it again. Administrators should also explicitly add permissions and access settings, such as profiles or permission sets with object and field access, because these are not pulled in automatically by the dependent component list, and missing them causes access problems after deployment. Validation happens when the change set is deployed or validated in the target org, not in the sandbox before upload, and there is no requirement that a new record type be the only component in a change set.",
+    hook:"change set practices → clone to add forgotten dependencies + explicitly add permissions/access settings"
   },
   {
     id:133, category: CATEGORIES.AUTOMATION,
@@ -1625,7 +1757,8 @@ const QUESTIONS = [
       {letter:"D", text:"Debug Logs"}
     ],
     answer:["A", "B"], multi:true,
-    explanation:"The hourly limit for workflow time triggers is consumed by time-dependent automation waiting in the queue. Time-based workflow actions are queued and processed against this limit, and paused flow interviews with scheduled resume times also count toward time-based processing limits. The administrator should review the Time-Based Workflow queue and Paused Flow Interviews in Setup to find and reduce the volume of pending time triggers. Apex triggers execute immediately and debug logs are diagnostic output; neither consumes this limit."
+    explanation:"The hourly limit for workflow time triggers is consumed by time-dependent automation waiting in the queue. Time-based workflow actions are queued and processed against this limit, and paused flow interviews with scheduled resume times also count toward time-based processing limits. The administrator should review the Time-Based Workflow queue and Paused Flow Interviews in Setup to find and reduce the volume of pending time triggers. Apex triggers execute immediately and debug logs are diagnostic output; neither consumes this limit.",
+    hook:"\"hourly limit for workflow time triggers\" → review Time-Based Workflows + Paused Flow Interviews"
   },
   {
     id:134, category: CATEGORIES.DATA,
@@ -1637,7 +1770,8 @@ const QUESTIONS = [
       {letter:"D", text:"Add a secondary matching rule to the duplicate rule to match on the associated customer."}
     ],
     answer:["C"], multi:false,
-    explanation:"Adding the Email field to the existing matching rule makes the match criteria more precise, so two contacts are flagged as duplicates only when their names and email addresses both match. This reduces false-positive duplicate alerts for contacts who merely share a common first and last name while still protecting data integrity. Changing the rule to report instead of alert would stop warning users entirely and allow real duplicates to be saved silently, and switching to exact matching on names alone would still flag different people with identical names."
+    explanation:"Adding the Email field to the existing matching rule makes the match criteria more precise, so two contacts are flagged as duplicates only when their names and email addresses both match. This reduces false-positive duplicate alerts for contacts who merely share a common first and last name while still protecting data integrity. Changing the rule to report instead of alert would stop warning users entirely and allow real duplicates to be saved silently, and switching to exact matching on names alone would still flag different people with identical names.",
+    hook:"duplicate alerts on \"common first and last names\" → add Email to matching rule (not report-only, not exact names)"
   },
   {
     id:135, category: CATEGORIES.AUTOMATION,
@@ -1649,7 +1783,8 @@ const QUESTIONS = [
       {letter:"D", text:"Grant the user the Modify All permission to ensure they have full system access."}
     ],
     answer:["A"], multi:false,
-    explanation:"Since users with the same access can run the flow successfully, the problem is likely specific to that user's permissions, sharing, or data context. Using the flow Debug option with Run as Another User lets the administrator reproduce the error in that user's context and see exactly which element fails and why, without changing any access. Moving the user up the role hierarchy, granting Modify All, or forcing the flow into system context without sharing would mask the problem by over-granting access instead of diagnosing it."
+    explanation:"Since users with the same access can run the flow successfully, the problem is likely specific to that user's permissions, sharing, or data context. Using the flow Debug option with Run as Another User lets the administrator reproduce the error in that user's context and see exactly which element fails and why, without changing any access. Moving the user up the role hierarchy, granting Modify All, or forcing the flow into system context without sharing would mask the problem by over-granting access instead of diagnosing it.",
+    hook:"flow errors for one user, same-access users fine → Debug flow with Run as Another User (don't over-grant access)"
   },
   {
     id:136, category: CATEGORIES.SECURITY,
@@ -1661,7 +1796,8 @@ const QUESTIONS = [
       {letter:"D", text:"Role Hierarchy"}
     ],
     answer:["B"], multi:false,
-    explanation:"Both users sit in the same role below the owner, and org-wide defaults and the role hierarchy apply identically to users with the same role and profile, so a built-in sharing feature cannot explain the difference. Manual sharing grants access to an individual record for a specific user, which is the only mechanism listed that would give one of the two users access to that single account while the other has none. Workflow rules and queues do not grant record access."
+    explanation:"Both users sit in the same role below the owner, and org-wide defaults and the role hierarchy apply identically to users with the same role and profile, so a built-in sharing feature cannot explain the difference. Manual sharing grants access to an individual record for a specific user, which is the only mechanism listed that would give one of the two users access to that single account while the other has none. Workflow rules and queues do not grant record access.",
+    hook:"same role+profile but only ONE user sees account → Manual Sharing (hierarchy/OWD apply equally)"
   },
   {
     id:137, category: CATEGORIES.AUTOMATION,
@@ -1673,7 +1809,8 @@ const QUESTIONS = [
       {letter:"D", text:"Configure a workflow to create the task."}
     ],
     answer:["A", "B"], multi:true,
-    explanation:"Two combined automation tools that the administrator can use to create the task record and assign based on date criteria are: Create a formula field to capture the MAX date. A formula field is a custom field that calculates a value based on other fields or expressions. In this case, a formula field can be used to capture the maximum value between Estimated Shipping Date and Client Need By Date fields and store it as a date value. Make a Process Builder to create the task. A Process Builder is an automation tool that allows you to create processes that perform actions based on certain criteria."
+    explanation:"Two combined automation tools that the administrator can use to create the task record and assign based on date criteria are: Create a formula field to capture the MAX date. A formula field is a custom field that calculates a value based on other fields or expressions. In this case, a formula field can be used to capture the maximum value between Estimated Shipping Date and Client Need By Date fields and store it as a date value. Make a Process Builder to create the task. A Process Builder is an automation tool that allows you to create processes that perform actions based on certain criteria.",
+    hook:"task due date = further of two dates → formula field with MAX + Process Builder to create the task"
   },
   {
     id:138, category: CATEGORIES.SECURITY,
@@ -1685,7 +1822,8 @@ const QUESTIONS = [
       {letter:"D", text:"Delete the sensitive information."}
     ],
     answer:["C"], multi:false,
-    explanation:"Salesforce Data Mask is designed for exactly this scenario: it replaces sensitive production data in a sandbox with anonymized, pseudonymized, or deleted values, so testers can work with realistic data structures without seeing real distributor account information. Refreshing the sandbox just copies the sensitive production data again, permission sets are cumbersome to maintain for every tester and can be misconfigured, and deleting the data would compromise the usefulness of the full sandbox for testing."
+    explanation:"Salesforce Data Mask is designed for exactly this scenario: it replaces sensitive production data in a sandbox with anonymized, pseudonymized, or deleted values, so testers can work with realistic data structures without seeing real distributor account information. Refreshing the sandbox just copies the sensitive production data again, permission sets are cumbersome to maintain for every tester and can be misconfigured, and deleting the data would compromise the usefulness of the full sandbox for testing.",
+    hook:"hide sensitive data from testers in full sandbox → Data Mask tool (refresh just re-copies real data)"
   },
   {
     id:139, category: CATEGORIES.DATA,
@@ -1698,7 +1836,8 @@ const QUESTIONS = [
       {letter:"E", text:"Keep deleted record counts to a minimum."}
     ],
     answer:["A", "C", "E"], multi:true,
-    explanation:"Three recommendations to reduce the file size of full data exports are: A) Reduce the amount of objects per export — selecting only necessary objects reduces the number of files and records exported. C) Deselect ‘Include images, documents, and attachments’ in the export — these files take up significant space. E) Keep deleted record counts to a minimum — deleted records stored in the recycle bin are included in exports and increase file size."
+    explanation:"Three recommendations to reduce the file size of full data exports are: A) Reduce the amount of objects per export — selecting only necessary objects reduces the number of files and records exported. C) Deselect ‘Include images, documents, and attachments’ in the export — these files take up significant space. E) Keep deleted record counts to a minimum — deleted records stored in the recycle bin are included in exports and increase file size.",
+    hook:"reduce \"file size\" of full exports → fewer objects + deselect images/docs/attachments + minimize deleted records"
   },
   {
     id:140, category: CATEGORIES.DEPLOY,
@@ -1710,7 +1849,8 @@ const QUESTIONS = [
       {letter:"D", text:"Both change sets must be deployed simultaneously."}
     ],
     answer:["A"], multi:false,
-    explanation:"Field-level security is deployed with a profile only when the fields themselves are included in the same change set as the profile. Because the new custom fields are in change set 1 and the profiles are in change set 2, the profiles will deploy without the field-level security settings for those new fields, so the administrator should either add the fields to change set 2 or set field-level security manually after deployment. Change set 1 must actually be deployed first so the objects and fields exist, the change sets cannot be deployed simultaneously, and automation does not need to travel in the same change set to be activated."
+    explanation:"Field-level security is deployed with a profile only when the fields themselves are included in the same change set as the profile. Because the new custom fields are in change set 1 and the profiles are in change set 2, the profiles will deploy without the field-level security settings for those new fields, so the administrator should either add the fields to change set 2 or set field-level security manually after deployment. Change set 1 must actually be deployed first so the objects and fields exist, the change sets cannot be deployed simultaneously, and automation does not need to travel in the same change set to be activated.",
+    hook:"new fields in CS1, profiles in CS2 (separate) → FLS won't deploy with profiles (field + profile must be together)"
   },
   {
     id:141, category: CATEGORIES.SECURITY,
@@ -1722,7 +1862,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use classic encrypted fields."}
     ],
     answer:["D"], multi:false,
-    explanation:"Classic encrypted fields are masked when displayed, and users without the View Encrypted Data permission see only the mask, including when the field value would be merged into an email, so using classic encryption keeps the sensitive values protected in email templates. Removing the fields entirely would sacrifice legitimate use of the data, GDPR is a regulation rather than a Salesforce feature, and an approval process governs record approvals, not field protection in emails."
+    explanation:"Classic encrypted fields are masked when displayed, and users without the View Encrypted Data permission see only the mask, including when the field value would be merged into an email, so using classic encryption keeps the sensitive values protected in email templates. Removing the fields entirely would sacrifice legitimate use of the data, GDPR is a regulation rather than a Salesforce feature, and an approval process governs record approvals, not field protection in emails.",
+    hook:"keep secure fields protected in email templates → Classic encrypted fields (masked in merge)"
   },
   {
     id:142, category: CATEGORIES.AUTOMATION,
@@ -1734,7 +1875,8 @@ const QUESTIONS = [
       {letter:"D", text:"Outbound Messages"}
     ],
     answer:["A"], multi:false,
-    explanation:"Email logs record every email sent from the org, including the sender, recipient, date and time, and delivery status. By reviewing email logs, the administrator can see which processes are generating high email volume and confirm which messages failed once the daily workflow email limit was reached. The HTML Email Status report only tracks opens of individual sales emails, notification delivery settings govern in-app and mobile notifications, and outbound messages are SOAP callouts, not emails."
+    explanation:"Email logs record every email sent from the org, including the sender, recipient, date and time, and delivery status. By reviewing email logs, the administrator can see which processes are generating high email volume and confirm which messages failed once the daily workflow email limit was reached. The HTML Email Status report only tracks opens of individual sales emails, notification delivery settings govern in-app and mobile notifications, and outbound messages are SOAP callouts, not emails.",
+    hook:"missing email alerts, hitting daily send limit → Email Logs (not HTML Email Status — only tracks opens)"
   },
   {
     id:143, category: CATEGORIES.AUTOMATION,
@@ -1746,7 +1888,8 @@ const QUESTIONS = [
       {letter:"D", text:"Export Flow Interviews filtered by LastModifiedBy.email using Data Loader. In the .csv file, change LastModifiedBy to the System Admin and upload changes with Data Loader."}
     ],
     answer:["C"], multi:false,
-    explanation:"By default, flow and process fault emails go to the user who last modified the flow, which in this case is the consultant. In Process Automation Settings, the administrator can change Send Process or Flow Error Email to Apex Exception Email Recipients, then add the system administrator's email on the Apex Exception Email page in Setup. This redirects all fault messages without editing every flow or process. Exporting flow interviews or building metadata-driven flows would not change where fault emails are delivered."
+    explanation:"By default, flow and process fault emails go to the user who last modified the flow, which in this case is the consultant. In Process Automation Settings, the administrator can change Send Process or Flow Error Email to Apex Exception Email Recipients, then add the system administrator's email on the Apex Exception Email page in Setup. This redirects all fault messages without editing every flow or process. Exporting flow interviews or building metadata-driven flows would not change where fault emails are delivered.",
+    hook:"deactivated user still gets flow/process fault emails → set Send Process or Flow Error Email to Apex Exception Email Recipients"
   },
   {
     id:144, category: CATEGORIES.SECURITY,
@@ -1758,7 +1901,8 @@ const QUESTIONS = [
       {letter:"D", text:"Customize and assign profiles for the division teams."}
     ],
     answer:["A"], multi:false,
-    explanation:"Delegated administration lets the system administrator authorize division leaders to create and manage users, but only for the specific roles (and their subordinates) assigned to their delegated group, so each division manages only its own users. This handles high-turnover divisions without granting anyone full administrative rights. Role hierarchies, permission set groups, and profiles control record access and permissions, but none of them confers the ability to create and manage users."
+    explanation:"Delegated administration lets the system administrator authorize division leaders to create and manage users, but only for the specific roles (and their subordinates) assigned to their delegated group, so each division manages only its own users. This handles high-turnover divisions without granting anyone full administrative rights. Role hierarchies, permission set groups, and profiles control record access and permissions, but none of them confers the ability to create and manage users.",
+    hook:"each division creates/manages only its own users → Delegated Administrators (profiles/roles don't create users)"
   },
   {
     id:145, category: CATEGORIES.SECURITY,
@@ -1770,7 +1914,8 @@ const QUESTIONS = [
       {letter:"D", text:"The last 6 months worth of data is stored in the Identity Verification History."}
     ],
     answer:["C", "D"], multi:true,
-    explanation:"Identity Verification History retains only the most recent data: up to 20,000 records of identity verification attempts, covering the last six months. In a 150,000-user org with MFA enforced for everyone, the 20,000-record cap is reached quickly, and because the user has been inactive all quarter, any older verification records have also aged out of the six-month window. There is no role-based exclusion from identity verification logging, and retention is six months, not a year."
+    explanation:"Identity Verification History retains only the most recent data: up to 20,000 records of identity verification attempts, covering the last six months. In a 150,000-user org with MFA enforced for everyone, the 20,000-record cap is reached quickly, and because the user has been inactive all quarter, any older verification records have also aged out of the six-month window. There is no role-based exclusion from identity verification logging, and retention is six months, not a year.",
+    hook:"user missing from Identity Verification History → 20,000-record cap + only last 6 months retained"
   },
   {
     id:146, category: CATEGORIES.UI,
@@ -1782,7 +1927,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a new record type and page layout for Canadian customers, ensuring their pages look different."}
     ],
     answer:["B"], multi:false,
-    explanation:"Adding a rich text component with a warning message and setting component visibility criteria so it renders only when the account's Country field indicates Canada gives a clear, temporary visual flag that is easy to remove once the shipping issue is resolved. This requires no data model changes and highlights the issue prominently on the Lightning page. Creating a new record type and layout is heavy-handed for a temporary situation, moving the Country field into its own section does not draw meaningful attention, and in-app guidance prompts are tied to apps and pages rather than specific record criteria."
+    explanation:"Adding a rich text component with a warning message and setting component visibility criteria so it renders only when the account's Country field indicates Canada gives a clear, temporary visual flag that is easy to remove once the shipping issue is resolved. This requires no data model changes and highlights the issue prominently on the Lightning page. Creating a new record type and layout is heavy-handed for a temporary situation, moving the Country field into its own section does not draw meaningful attention, and in-app guidance prompts are tied to apps and pages rather than specific record criteria.",
+    hook:"temporarily flag Canadian customers on the page → Rich text component + conditional visibility (not new record type — heavy)"
   },
   {
     id:147, category: CATEGORIES.APPS,
@@ -1794,7 +1940,8 @@ const QUESTIONS = [
       {letter:"D", text:"Build a new custom object."}
     ],
     answer:["A"], multi:false,
-    explanation:"Entitlement management is the Salesforce feature designed to define and enforce which customers are eligible for support and under what terms. It includes service contracts, entitlements, and entitlement processes, so the administrator can model the distributors' specific service contract and let agents verify eligibility directly when working cases. Simply adding a service contract to a record without entitlements would not enforce eligibility, Service Cloud alone does not model support terms, and a custom object would duplicate standard functionality."
+    explanation:"Entitlement management is the Salesforce feature designed to define and enforce which customers are eligible for support and under what terms. It includes service contracts, entitlements, and entitlement processes, so the administrator can model the distributors' specific service contract and let agents verify eligibility directly when working cases. Simply adding a service contract to a record without entitlements would not enforce eligibility, Service Cloud alone does not model support terms, and a custom object would duplicate standard functionality.",
+    hook:"\"eligible for support based on service contract\" → Entitlement Management (not just add contract — no enforcement)"
   },
   {
     id:148, category: CATEGORIES.AUTOMATION,
@@ -1806,7 +1953,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create public groups for each project team and send the email alert to the project group."}
     ],
     answer:["D"], multi:false,
-    explanation:"A public group can contain users from any department or role, so creating a public group for each project team accurately represents the team membership. Email alerts can be sent to public groups, so the automation can notify the whole team when the project status changes to Allocated. Sharing rules and queues control record access and ownership rather than sending emails, and moving users into the same role would break the role hierarchy design just to send a notification."
+    explanation:"A public group can contain users from any department or role, so creating a public group for each project team accurately represents the team membership. Email alerts can be sent to public groups, so the automation can notify the whole team when the project status changes to Allocated. Sharing rules and queues control record access and ownership rather than sending emails, and moving users into the same role would break the role hierarchy design just to send a notification.",
+    hook:"email project team across departments and roles → create a public group per team, send alert to the group"
   },
   {
     id:149, category: CATEGORIES.SECURITY,
@@ -1818,7 +1966,8 @@ const QUESTIONS = [
       {letter:"D", text:"View Setup Audit Trail"}
     ],
     answer:["D"], multi:false,
-    explanation:"The Setup Audit Trail records configuration changes made in Setup, including changes to custom field definitions such as changing a field's data type, along with who made the change and when. Viewing the Setup Audit Trail (which shows recent changes on screen and lets you download six months of history) will identify who altered the Contact field. Field History Tracking captures changes to field values on records, not to field metadata, and the Developer Console and debug logs track code execution."
+    explanation:"The Setup Audit Trail records configuration changes made in Setup, including changes to custom field definitions such as changing a field's data type, along with who made the change and when. Viewing the Setup Audit Trail (which shows recent changes on screen and lets you download six months of history) will identify who altered the Contact field. Field History Tracking captures changes to field values on records, not to field metadata, and the Developer Console and debug logs track code execution.",
+    hook:"custom field type changed text→text area, who did it → View Setup Audit Trail (Field History = record values)"
   },
   {
     id:150, category: CATEGORIES.SECURITY,
@@ -1830,7 +1979,8 @@ const QUESTIONS = [
       {letter:"D", text:"Transferred ownership of the Account to the sales rep"}
     ],
     answer:["B", "C"], multi:true,
-    explanation:"To add members to an opportunity team, a user must have edit access to the opportunity, which for a non-owner requires being above the opportunity owner in the role hierarchy (with grant access using hierarchies), and they must also have at least edit access on the associated account object to make those updates. Transferring ownership of the opportunity or the account is unnecessary and would disrupt existing ownership and reporting."
+    explanation:"To add members to an opportunity team, a user must have edit access to the opportunity, which for a non-owner requires being above the opportunity owner in the role hierarchy (with grant access using hierarchies), and they must also have at least edit access on the associated account object to make those updates. Transferring ownership of the opportunity or the account is unnecessary and would disrupt existing ownership and reporting.",
+    hook:"non-owner adds member to opportunity team → Edit on Account + role above Opportunity owner in hierarchy"
   },
   {
     id:151, category: CATEGORIES.DATA,
@@ -1842,7 +1992,8 @@ const QUESTIONS = [
       {letter:"D", text:"Self"}
     ],
     answer:["B"], multi:false,
-    explanation:"A lookup relationship is the right choice because it keeps the Audit object independent of the Account for security and lifecycle purposes. With a lookup, the Audit object has its own organization-wide defaults and sharing, so access can be restricted to the audit team, and deleting an account does not cascade-delete the audit records that must be preserved for 10 years. A master-detail relationship would force audit records to inherit account sharing and be deleted along with their parent account, violating both requirements."
+    explanation:"A lookup relationship is the right choice because it keeps the Audit object independent of the Account for security and lifecycle purposes. With a lookup, the Audit object has its own organization-wide defaults and sharing, so access can be restricted to the audit team, and deleting an account does not cascade-delete the audit records that must be preserved for 10 years. A master-detail relationship would force audit records to inherit account sharing and be deleted along with their parent account, violating both requirements.",
+    hook:"audit records \"preserved 10 years\" + restricted access → Lookup (master-detail cascades delete + inherits sharing)"
   },
   {
     id:152, category: CATEGORIES.AUTOMATION,
@@ -1854,7 +2005,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a schedule-triggered flow for the Opportunity object. Configure the trigger to flow daily."}
     ],
     answer:["B"], multi:false,
-    explanation:"A record-triggered flow with scheduled paths handles both requirements in one flow: a scheduled path can send the reminder email one week before the close date when the opportunity is in the Proposal stage, and an immediate path can notify managers as soon as Budget Approved is checked. Scheduled paths and actions such as sending email are only available when the flow is configured to run after the record is saved, so a before-save trigger will not work. A schedule-triggered flow running daily or weekly would not react immediately to the Budget Approved change."
+    explanation:"A record-triggered flow with scheduled paths handles both requirements in one flow: a scheduled path can send the reminder email one week before the close date when the opportunity is in the Proposal stage, and an immediate path can notify managers as soon as Budget Approved is checked. Scheduled paths and actions such as sending email are only available when the flow is configured to run after the record is saved, so a before-save trigger will not work. A schedule-triggered flow running daily or weekly would not react immediately to the Budget Approved change.",
+    hook:"weekly reminder + immediate on Budget Approved checked → record-triggered flow with scheduled paths, after save (paths need after-save)"
   },
   {
     id:153, category: CATEGORIES.UI,
@@ -1866,7 +2018,8 @@ const QUESTIONS = [
       {letter:"D", text:"Filter Logic"}
     ],
     answer:["B"], multi:false,
-    explanation:"A cross-filter lets you filter one object's records based on the existence of related records that meet sub-filter criteria, without pulling those child records into the report rows. On an Accounts report, the administrator can add a cross-filter for accounts with opportunities closed this year and another for accounts with activities completed in the last 30 days, producing just the list of accounts. A joined report would display opportunity details in separate blocks, and a summary report or filter logic alone cannot filter accounts by conditions on two different related objects."
+    explanation:"A cross-filter lets you filter one object's records based on the existence of related records that meet sub-filter criteria, without pulling those child records into the report rows. On an Accounts report, the administrator can add a cross-filter for accounts with opportunities closed this year and another for accounts with activities completed in the last 30 days, producing just the list of accounts. A joined report would display opportunity details in separate blocks, and a summary report or filter logic alone cannot filter accounts by conditions on two different related objects.",
+    hook:"accounts meeting conditions on two related objects, no opp rows → Cross-Filter (joined report would show opp details)"
   },
   {
     id:154, category: CATEGORIES.SECURITY,
@@ -1878,7 +2031,8 @@ const QUESTIONS = [
       {letter:"D", text:"An Encryption Key"}
     ],
     answer:["A", "B"], multi:true,
-    explanation:"Salesforce MFA requires something the user knows, their username and password, plus a verification method they possess, such as an authentication app like Salesforce Authenticator that generates or approves verification requests. Together these two factors satisfy the MFA requirement. A security token is used for API and client logins rather than as an approved MFA verification method, and encryption keys protect data at rest, not user authentication."
+    explanation:"Salesforce MFA requires something the user knows, their username and password, plus a verification method they possess, such as an authentication app like Salesforce Authenticator that generates or approves verification requests. Together these two factors satisfy the MFA requirement. A security token is used for API and client logins rather than as an approved MFA verification method, and encryption keys protect data at rest, not user authentication.",
+    hook:"two options to use MFA → Authentication App + Username and Password (security token is for API)"
   },
   {
     id:155, category: CATEGORIES.APPS,
@@ -1890,7 +2044,8 @@ const QUESTIONS = [
       {letter:"D", text:"Verify the product has a start date entered."}
     ],
     answer:["A", "C"], multi:true,
-    explanation:"Products only appear for selection on an opportunity if they exist as price book entries in the price book chosen for that opportunity. The administrator should therefore confirm the correct price book is selected on the opportunity, since an opportunity uses one price book at a time, and ensure the new keyboard product has been added to that price book as an active price book entry. The price book's currency does not have to be the company currency, and products do not require a start date to be selectable."
+    explanation:"Products only appear for selection on an opportunity if they exist as price book entries in the price book chosen for that opportunity. The administrator should therefore confirm the correct price book is selected on the opportunity, since an opportunity uses one price book at a time, and ensure the new keyboard product has been added to that price book as an active price book entry. The price book's currency does not have to be the company currency, and products do not require a start date to be selectable.",
+    hook:"product added but \"unable to select on opportunity\" → correct Price Book on opp + product in that Price Book"
   },
   {
     id:156, category: CATEGORIES.DEPLOY,
@@ -1902,7 +2057,8 @@ const QUESTIONS = [
       {letter:"D", text:"Organization-Wide Defaults"}
     ],
     answer:["A"], multi:false,
-    explanation:"The Setup Audit Trail logs the setup changes made in an org for the last 180 days, showing who made each change, when it was made, and what was changed, and the history can be downloaded for review. This makes it the right place to determine whether users are making configuration changes directly in production. Field History Tracking records changes to field values on records rather than configuration, Login History only shows who logged in and from where, and organization-wide defaults control record sharing, not change auditing."
+    explanation:"The Setup Audit Trail logs the setup changes made in an org for the last 180 days, showing who made each change, when it was made, and what was changed, and the history can be downloaded for review. This makes it the right place to determine whether users are making configuration changes directly in production. Field History Tracking records changes to field values on records rather than configuration, Login History only shows who logged in and from where, and organization-wide defaults control record sharing, not change auditing.",
+    hook:"\"configuration changes directly in production\" — who/when → Setup Audit Trail"
   },
   {
     id:157, category: CATEGORIES.APPS,
@@ -1914,7 +2070,8 @@ const QUESTIONS = [
       {letter:"D", text:"Setup record types and page layouts."}
     ],
     answer:["C"], multi:false,
-    explanation:"Data categories organize Knowledge articles into logical groupings such as product line or region, and data category visibility controls which categories of articles each user or customer group can access based on roles, profiles, or permission sets. With many documentation types used across the globe, defining data categories and visibility lets both customers and the support team browse, filter, and search only the articles relevant and permitted to them. Case Feed does not organize articles, and article types, record types, and page layouts control article structure and presentation rather than classification and access."
+    explanation:"Data categories organize Knowledge articles into logical groupings such as product line or region, and data category visibility controls which categories of articles each user or customer group can access based on roles, profiles, or permission sets. With many documentation types used across the globe, defining data categories and visibility lets both customers and the support team browse, filter, and search only the articles relevant and permitted to them. Case Feed does not organize articles, and article types, record types, and page layouts control article structure and presentation rather than classification and access.",
+    hook:"product docs for customers + staff, \"across the globe\" → Data Categories & visibility (not article types — that's structure)"
   },
   {
     id:158, category: CATEGORIES.AUTOMATION,
@@ -1926,7 +2083,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use a quick action with the Use Case field in the layout, and add it as a Lightning component."}
     ],
     answer:["B"], multi:false,
-    explanation:"A validation rule can block users from saving an opportunity in the Qualified stage (or beyond) unless the Use Case field is populated, which directly enforces the requirement. Adding the Use Case field to the stage guidance in Path prompts users with the key field and instructions at the right moment, improving both compliance and data quality. Making the field universally required would force it on every opportunity regardless of stage, and auto-populating it with a flow at close would defeat the purpose of capturing a genuine use case."
+    explanation:"A validation rule can block users from saving an opportunity in the Qualified stage (or beyond) unless the Use Case field is populated, which directly enforces the requirement. Adding the Use Case field to the stage guidance in Path prompts users with the key field and instructions at the right moment, improving both compliance and data quality. Making the field universally required would force it on every opportunity regardless of stage, and auto-populating it with a flow at close would defeat the purpose of capturing a genuine use case.",
+    hook:"require use case before Qualified stage, varying text → validation rule + Use Case field in Path stage guidance"
   },
   {
     id:159, category: CATEGORIES.UI,
@@ -1938,7 +2096,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a summary report that includes a cross-filter to the Account object with a sub-filter for credit card number equal to null."}
     ],
     answer:["C"], multi:false,
-    explanation:"Classic encrypted custom fields cannot be used in report filter criteria, so there is no way to filter directly on whether the credit card number is blank. The practical workaround is a Has Credit Card checkbox that Finance sets when a card is recorded, then a simple tabular report filtered on the checkbox equal to false to surface B2C accounts missing the number. Unmasking the field or granting View Encrypted Data changes who sees the value but still does not make the field filterable, and a cross-filter cannot evaluate an encrypted field either."
+    explanation:"Classic encrypted custom fields cannot be used in report filter criteria, so there is no way to filter directly on whether the credit card number is blank. The practical workaround is a Has Credit Card checkbox that Finance sets when a card is recorded, then a simple tabular report filtered on the checkbox equal to false to surface B2C accounts missing the number. Unmasking the field or granting View Encrypted Data changes who sees the value but still does not make the field filterable, and a cross-filter cannot evaluate an encrypted field either.",
+    hook:"\"classic encrypted field\" can't be filtered → Has Credit Card checkbox + tabular report false (unmask/View doesn't make it filterable)"
   },
   {
     id:160, category: CATEGORIES.DATA,
@@ -1950,7 +2109,8 @@ const QUESTIONS = [
       {letter:"D", text:"Turn on Field Tracking."}
     ],
     answer:["C", "D"], multi:true,
-    explanation:"Creating a custom object gives the form its own record type in Salesforce, with fields for the 30-plus questions, so a new record can be created each time a client submits the form during the sales cycle and the data is reportable. Turning on field history tracking for that object lets the sales team see what changed on tracked fields from one update to the next. Attachments are not reportable at the field level, and adding 30-plus custom fields to an existing object could not store multiple submissions per client."
+    explanation:"Creating a custom object gives the form its own record type in Salesforce, with fields for the 30-plus questions, so a new record can be created each time a client submits the form during the sales cycle and the data is reportable. Turning on field history tracking for that object lets the sales team see what changed on tracked fields from one update to the next. Attachments are not reportable at the field level, and adding 30-plus custom fields to an existing object could not store multiple submissions per client.",
+    hook:"form filled multiple times + \"see what changed\" → custom object + Field History Tracking"
   },
   {
     id:161, category: CATEGORIES.AUTOMATION,
@@ -1962,7 +2122,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a workflow rule with three field updates entered in the correct order."}
     ],
     answer:["B"], multi:false,
-    explanation:"In Process Builder, the immediate actions within a single criteria node execute in the order in which they are listed. Creating one process with one criteria node and the three field updates arranged in the correct sequence guarantees the updates happen in the required order within a single transaction. Separate workflow rules provide no guaranteed order relative to each other, a single workflow rule does not guarantee the order of its field updates, and using three criteria nodes with stops would end evaluation after the first matching action."
+    explanation:"In Process Builder, the immediate actions within a single criteria node execute in the order in which they are listed. Creating one process with one criteria node and the three field updates arranged in the correct sequence guarantees the updates happen in the required order within a single transaction. Separate workflow rules provide no guaranteed order relative to each other, a single workflow rule does not guarantee the order of its field updates, and using three criteria nodes with stops would end evaluation after the first matching action.",
+    hook:"three field updates in a \"very specific order\" → one process, one criteria node, three updates listed in order"
   },
   {
     id:162, category: CATEGORIES.SECURITY,
@@ -1974,7 +2135,8 @@ const QUESTIONS = [
       {letter:"D", text:"Change the user's profile to System Administrator so they have full permissions to delete object records."}
     ],
     answer:["B"], multi:false,
-    explanation:"Deleting a record requires the Delete permission on that object, so the first troubleshooting step is to check the user's profile (or permission sets) for Delete access on Opportunity; many orgs intentionally remove opportunity delete rights from sales profiles. Marking the duplicate Closed Lost leaves bad data in the system and skews reporting, promoting the user to System Administrator grossly over-provisions access, and running a duplicate report does not address why the delete fails."
+    explanation:"Deleting a record requires the Delete permission on that object, so the first troubleshooting step is to check the user's profile (or permission sets) for Delete access on Opportunity; many orgs intentionally remove opportunity delete rights from sales profiles. Marking the duplicate Closed Lost leaves bad data in the system and skews reporting, promoting the user to System Administrator grossly over-provisions access, and running a duplicate report does not address why the delete fails.",
+    hook:"user can't delete duplicate opportunity → check profile Delete permission on Opportunity"
   },
   {
     id:163, category: CATEGORIES.DATA,
@@ -1986,7 +2148,8 @@ const QUESTIONS = [
       {letter:"D", text:"Rollup fields are calculated prior to save."}
     ],
     answer:["B", "C"], multi:true,
-    explanation:"Roll-up summary fields can only be created on the master side of a master-detail relationship, since they aggregate values from the detail records up to the parent. Also, once a roll-up summary field exists, the master-detail relationship cannot be converted to a lookup until the roll-up field is deleted. Option A is wrong because the available roll-up types are COUNT, SUM, MIN, and MAX (there is no AVG), and roll-up summaries are recalculated when child records are saved, not before the save of the parent."
+    explanation:"Roll-up summary fields can only be created on the master side of a master-detail relationship, since they aggregate values from the detail records up to the parent. Also, once a roll-up summary field exists, the master-detail relationship cannot be converted to a lookup until the roll-up field is deleted. Option A is wrong because the available roll-up types are COUNT, SUM, MIN, and MAX (there is no AVG), and roll-up summaries are recalculated when child records are saved, not before the save of the parent.",
+    hook:"roll-up summary considerations → created on master side + block master-detail→lookup conversion (no AVG type)"
   },
   {
     id:164, category: CATEGORIES.APPS,
@@ -1998,7 +2161,8 @@ const QUESTIONS = [
       {letter:"D", text:"A validation rule is preventing the record type from being updated."}
     ],
     answer:["B"], multi:false,
-    explanation:"Cases created through Email-to-Case are created by the Automated Case User specified in Support Settings. If that user's profile does not have the new record type assigned, Salesforce cannot apply it, so incoming cases fall back to the profile's default record type. Granting the Automated Case User's profile access to the new record type resolves the discrepancy. The eventual case owner's permissions do not affect record type stamping at creation, and assignment or validation rules would not silently substitute a different record type."
+    explanation:"Cases created through Email-to-Case are created by the Automated Case User specified in Support Settings. If that user's profile does not have the new record type assigned, Salesforce cannot apply it, so incoming cases fall back to the profile's default record type. Granting the Automated Case User's profile access to the new record type resolves the discrepancy. The eventual case owner's permissions do not affect record type stamping at creation, and assignment or validation rules would not silently substitute a different record type.",
+    hook:"Email-to-Case wrong record type despite setting → Automated Case User needs record type access"
   },
   {
     id:165, category: CATEGORIES.UI,
@@ -2010,7 +2174,8 @@ const QUESTIONS = [
       {letter:"D", text:"The Show Unique Count option on the account name column"}
     ],
     answer:["D"], multi:false,
-    explanation:"The Show Unique Count option, available on a column such as Account Name in the report builder, adds a distinct count of that field to the report and its summary rows. On an open opportunities report, this shows every open opportunity while also displaying the total number of unique accounts represented, counting each account once even if it has several opportunities. Row count on a grouped summary report counts opportunities rather than distinct accounts, and neither a cross-filter nor a custom report type provides a deduplicated account count."
+    explanation:"The Show Unique Count option, available on a column such as Account Name in the report builder, adds a distinct count of that field to the report and its summary rows. On an open opportunities report, this shows every open opportunity while also displaying the total number of unique accounts represented, counting each account once even if it has several opportunities. Row count on a grouped summary report counts opportunities rather than distinct accounts, and neither a cross-filter nor a custom report type provides a deduplicated account count.",
+    hook:"\"total number of accounts represented\" among open opps → Show Unique Count on Account Name (row count counts opps)"
   },
   {
     id:166, category: CATEGORIES.AUTOMATION,
@@ -2022,7 +2187,8 @@ const QUESTIONS = [
       {letter:"D", text:"Make a validation rule on the Opportunity Product object to require custom date fields based on the product family."}
     ],
     answer:["D"], multi:false,
-    explanation:"Because the start and end dates apply to each service plan sold, they belong on the Opportunity Product (line item) level, not the opportunity as a whole. A validation rule on the Opportunity Product object can require the custom start and end date fields whenever the product family indicates a service plan, ensuring the term data is captured for every plan sold. A rule on the Opportunity object could not evaluate each line item individually, formula fields based on close date would not capture independent plan dates, and a new price book does not enforce data entry."
+    explanation:"Because the start and end dates apply to each service plan sold, they belong on the Opportunity Product (line item) level, not the opportunity as a whole. A validation rule on the Opportunity Product object can require the custom start and end date fields whenever the product family indicates a service plan, ensuring the term data is captured for every plan sold. A rule on the Opportunity object could not evaluate each line item individually, formula fields based on close date would not capture independent plan dates, and a new price book does not enforce data entry.",
+    hook:"start/end dates per service plan sold, differ from contract → validation rule on Opportunity Product (line-item level)"
   },
   {
     id:167, category: CATEGORIES.UI,
@@ -2034,7 +2200,8 @@ const QUESTIONS = [
       {letter:"D", text:"Allow the backup team users to update their own profile with Delegated Administration."}
     ],
     answer:["A"], multi:false,
-    explanation:"Lightning record pages can be activated per app, so creating one Lightning app for each department and activating that department's record pages as the app default means the same record automatically renders differently depending on which app the user is in. Backup employees just switch apps in the App Launcher when they move between sales and service work. Permission sets do not control record page assignment, and changing users' profiles daily or letting them edit their own profiles is unmanageable and insecure."
+    explanation:"Lightning record pages can be activated per app, so creating one Lightning app for each department and activating that department's record pages as the app default means the same record automatically renders differently depending on which app the user is in. Backup employees just switch apps in the App Launcher when they move between sales and service work. Permission sets do not control record page assignment, and changing users' profiles daily or letting them edit their own profiles is unmanageable and insecure.",
+    hook:"backup users switch sales/service, per-department record pages → one app per department, activate record pages per app"
   },
   {
     id:168, category: CATEGORIES.DATA,
@@ -2046,7 +2213,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a master-detail relationship on the Payment with a Roll-up Summary field on the Invoice."}
     ],
     answer:["D"], multi:false,
-    explanation:"Roll-up summary fields require a master-detail relationship, so the administrator should create a master-detail relationship on the Payment (child) object to the Invoice (parent) object, then add a roll-up summary field on Invoice that sums the related Payment amounts. This keeps the outstanding value on the Invoice automatically up to date whenever payments are created, edited, or deleted, with no automation to maintain. A lookup relationship does not support roll-up summary fields, and workflow cross-object field updates go from child to parent on a single record, not aggregate all children reliably."
+    explanation:"Roll-up summary fields require a master-detail relationship, so the administrator should create a master-detail relationship on the Payment (child) object to the Invoice (parent) object, then add a roll-up summary field on Invoice that sums the related Payment amounts. This keeps the outstanding value on the Invoice automatically up to date whenever payments are created, edited, or deleted, with no automation to maintain. A lookup relationship does not support roll-up summary fields, and workflow cross-object field updates go from child to parent on a single record, not aggregate all children reliably.",
+    hook:"Payment updates Invoice \"outstanding value\" → master-detail + Roll-Up Summary (lookup can't roll up)"
   },
   {
     id:169, category: CATEGORIES.APPS,
@@ -2058,7 +2226,8 @@ const QUESTIONS = [
       {letter:"D", text:"The quote has already passed its expiration date."}
     ],
     answer:["B"], multi:false,
-    explanation:"A quote cannot be synced with an opportunity while the currently synced quote is locked in an approval process. Normally, only one quote syncs at a time, but a user can start syncing a different quote and Salesforce simply prompts to replace the existing synced quote, so option C alone does not prevent syncing. When the synced quote is awaiting approval, however, the record is locked and the sync cannot be switched until the approval completes. A quote's expiration date does not block syncing."
+    explanation:"A quote cannot be synced with an opportunity while the currently synced quote is locked in an approval process. Normally, only one quote syncs at a time, but a user can start syncing a different quote and Salesforce simply prompts to replace the existing synced quote, so option C alone does not prevent syncing. When the synced quote is awaiting approval, however, the record is locked and the sync cannot be switched until the approval completes. A quote's expiration date does not block syncing.",
+    hook:"can't sync quote → another quote synced AND awaiting approval (locked) (not merely synced — that just prompts to replace)"
   },
   {
     id:170, category: CATEGORIES.DATA,
@@ -2070,7 +2239,8 @@ const QUESTIONS = [
       {letter:"D", text:"Change organization-wide default settings for contacts to Controlled by Parent."}
     ],
     answer:["C"], multi:false,
-    explanation:"Leads convert to person accounts only when the Company field is blank; if a lead has a company value, Salesforce treats it as a business lead and offers only business account record types at conversion. A validation rule that requires the Company field to be blank on B2C Leads ensures those leads qualify for person account conversion, making the B2C Customer person account record type available on the conversion layout. Hiding the record type field or updating the record type after conversion does not fix the underlying conversion behavior."
+    explanation:"Leads convert to person accounts only when the Company field is blank; if a lead has a company value, Salesforce treats it as a business lead and offers only business account record types at conversion. A validation rule that requires the Company field to be blank on B2C Leads ensures those leads qualify for person account conversion, making the B2C Customer person account record type available on the conversion layout. Hiding the record type field or updating the record type after conversion does not fix the underlying conversion behavior.",
+    hook:"only B2B account types on \"B2C Lead\" convert → validation rule requiring blank Company (person account needs blank Company)"
   },
   {
     id:171, category: CATEGORIES.DATA,
@@ -2082,7 +2252,8 @@ const QUESTIONS = [
       {letter:"D", text:"Delete the Roll-up Summary field on the parent."}
     ],
     answer:["D"], multi:false,
-    explanation:"The Races object has a roll-up summary field that depends on the master-detail relationship, and Salesforce prevents deleting (or converting) a master-detail relationship field while roll-up summary fields based on it exist. The administrator must first delete the roll-up summary field on the Races object; after that, the relationship field can be converted to a lookup or deleted without cascading the delete to the Runners records. Allow Reparenting and cascade-delete settings do not remove this dependency."
+    explanation:"The Races object has a roll-up summary field that depends on the master-detail relationship, and Salesforce prevents deleting (or converting) a master-detail relationship field while roll-up summary fields based on it exist. The administrator must first delete the roll-up summary field on the Races object; after that, the relationship field can be converted to a lookup or deleted without cascading the delete to the Runners records. Allow Reparenting and cascade-delete settings do not remove this dependency.",
+    hook:"delete master-detail but keep child records → delete the Roll-Up Summary field first"
   },
   {
     id:172, category: CATEGORIES.APPS,
@@ -2094,7 +2265,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use the products related list to associate the different configurations with the opportunity. Update the Amount field with the most likely purchase price."}
     ],
     answer:["B"], multi:false,
-    explanation:"Creating a separate quote record for each product configuration lets reps present customers with all the options and prices, while syncing only the most likely quote back to the opportunity keeps the pipeline accurate. Syncing updates the opportunity's products and amount from the synced quote, so the forecast reflects the deal most likely to close. Repeatedly overwriting a single quote loses the record of the alternatives the customer is considering, and creating a separate opportunity per configuration would inflate and distort the pipeline."
+    explanation:"Creating a separate quote record for each product configuration lets reps present customers with all the options and prices, while syncing only the most likely quote back to the opportunity keeps the pipeline accurate. Syncing updates the opportunity's products and amount from the synced quote, so the forecast reflects the deal most likely to close. Repeatedly overwriting a single quote loses the record of the alternatives the customer is considering, and creating a separate opportunity per configuration would inflate and distort the pipeline.",
+    hook:"multiple configs, keep pipeline accurate → new Quote per config, sync most-likely (not overwrite one — loses alternatives)"
   },
   {
     id:173, category: CATEGORIES.SECURITY,
@@ -2106,7 +2278,8 @@ const QUESTIONS = [
       {letter:"D", text:"Give the account owner Read access to both the Account and the Quota objects"}
     ],
     answer:["A"], multi:false,
-    explanation:"Because Item is a junction object, its record access is inherited from its master-detail parents, and here the Quota master-detail is constraining visibility: users must have access to the Quota record, which the new account owners do not, since Quota ownership never changes. Converting the Quota relationship from master-detail to lookup removes Quota from the sharing calculation, so access to Item records is driven by the Account side and new account owners immediately see the related Items. Simply granting Read on the objects does not grant access to the private parent records, and swapping primary and secondary masters would not remove the Quota-based restriction."
+    explanation:"Because Item is a junction object, its record access is inherited from its master-detail parents, and here the Quota master-detail is constraining visibility: users must have access to the Quota record, which the new account owners do not, since Quota ownership never changes. Converting the Quota relationship from master-detail to lookup removes Quota from the sharing calculation, so access to Item records is driven by the Account side and new account owners immediately see the related Items. Simply granting Read on the objects does not grant access to the private parent records, and swapping primary and secondary masters would not remove the Quota-based restriction.",
+    hook:"new account owner sees Item only if owns unchanged Quota → change Quota master-detail to lookup (removes it from sharing calc)"
   },
   {
     id:174, category: CATEGORIES.DATA,
@@ -2118,7 +2291,8 @@ const QUESTIONS = [
       {letter:"D", text:"Display the contacts related list and add the related field."}
     ],
     answer:["C"], multi:false,
-    explanation:"The Related Contacts related list on the account page layout shows every contact associated with the account, both direct and indirect, once Contacts to Multiple Accounts is enabled. Adding the Direct field as a column in that related list shows a checkmark for contacts whose primary account is this account, letting users distinguish direct contacts from related (indirect) contacts at a glance. Showing both the Contacts and Related Contacts lists would duplicate information, and there is no Related Accounts list on the account layout."
+    explanation:"The Related Contacts related list on the account page layout shows every contact associated with the account, both direct and indirect, once Contacts to Multiple Accounts is enabled. Adding the Direct field as a column in that related list shows a checkmark for contacts whose primary account is this account, letting users distinguish direct contacts from related (indirect) contacts at a glance. Showing both the Contacts and Related Contacts lists would duplicate information, and there is no Related Accounts list on the account layout.",
+    hook:"\"distinguish contacts and related contacts\" → Related Contacts related list + add Direct field"
   },
   {
     id:175, category: CATEGORIES.APPS,
@@ -2130,7 +2304,8 @@ const QUESTIONS = [
       {letter:"D", text:"Add a required lookup field from the Order to the opportunity."}
     ],
     answer:["C"], multi:false,
-    explanation:"The same product can be sold at different prices to different customer segments by placing it in multiple price books. Creating a new price book with the retail (resale) pricing lets reps choose the appropriate price book on each opportunity, so direct-to-consumer and retail deals both use the existing products but with accurate segment-specific prices. Creating duplicate products would fragment product reporting, and a new order process or a lookup field from Order does not address pricing on opportunities at all."
+    explanation:"The same product can be sold at different prices to different customer segments by placing it in multiple price books. Creating a new price book with the retail (resale) pricing lets reps choose the appropriate price book on each opportunity, so direct-to-consumer and retail deals both use the existing products but with accurate segment-specific prices. Creating duplicate products would fragment product reporting, and a new order process or a lookup field from Order does not address pricing on opportunities at all.",
+    hook:"same products, new retail resale pricing → new Price Book (not duplicate products — fragments reporting)"
   },
   {
     id:176, category: CATEGORIES.SECURITY,
@@ -2142,7 +2317,8 @@ const QUESTIONS = [
       {letter:"D", text:"Utilize territory management to add the operations team to the East territory."}
     ],
     answer:["D"], multi:false,
-    explanation:"Enterprise Territory Management grants record access based on territory membership rather than the role hierarchy, so adding the East operations team members to the East territory gives them access to all accounts assigned to that territory and the opportunities on those accounts, exactly matching a region-based access requirement under a Private model. Manually joining account teams does not scale and depends on user action, an opportunity sharing rule alone would not cover the accounts, and placing operations above the sales director in the role hierarchy distorts the hierarchy and grants broader access than intended."
+    explanation:"Enterprise Territory Management grants record access based on territory membership rather than the role hierarchy, so adding the East operations team members to the East territory gives them access to all accounts assigned to that territory and the opportunities on those accounts, exactly matching a region-based access requirement under a Private model. Manually joining account teams does not scale and depends on user action, an opportunity sharing rule alone would not cover the accounts, and placing operations above the sales director in the role hierarchy distorts the hierarchy and grants broader access than intended.",
+    hook:"region operations team needs all region accounts+opps, Private → Territory Management (role above director distorts hierarchy)"
   },
   {
     id:177, category: CATEGORIES.SECURITY,
@@ -2154,7 +2330,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a public group for the renewals team and create a criteria based sharing rule on Opportunities."}
     ],
     answer:["D"], multi:false,
-    explanation:"A criteria-based sharing rule on Opportunity that shares records where Stage equals Closed Won with a public group containing the renewals team grants exactly the record access required, and because opportunity sharing rules do not open up the parent account beyond read access needed to see the opportunity, the accounts effectively remain private. Changing the org-wide default would expose all opportunities to everyone, and View All on Accounts, whether via permission set or profile, grants far more visibility than the requirement calls for."
+    explanation:"A criteria-based sharing rule on Opportunity that shares records where Stage equals Closed Won with a public group containing the renewals team grants exactly the record access required, and because opportunity sharing rules do not open up the parent account beyond read access needed to see the opportunity, the accounts effectively remain private. Changing the org-wide default would expose all opportunities to everyone, and View All on Accounts, whether via permission set or profile, grants far more visibility than the requirement calls for.",
+    hook:"renewals team sees all Closed Won opps, account stays private → public group + criteria-based sharing rule on Opportunity"
   },
   {
     id:178, category: CATEGORIES.UI,
@@ -2166,7 +2343,8 @@ const QUESTIONS = [
       {letter:"D", text:"Tableau CRM"}
     ],
     answer:["D"], multi:false,
-    explanation:"Tableau CRM (CRM Analytics, formerly Einstein Analytics) is built for complex, interactive dashboards that combine Salesforce data with external data sources, such as files from company shared drives, by loading them into datasets through connectors and uploads. It provides advanced exploration, visualization, and AI-driven insights beyond what operational reporting offers. Standard Lightning dashboards and Report Builder can only report on data stored in Salesforce, and list views are simply filtered record lists with no charting capability."
+    explanation:"Tableau CRM (CRM Analytics, formerly Einstein Analytics) is built for complex, interactive dashboards that combine Salesforce data with external data sources, such as files from company shared drives, by loading them into datasets through connectors and uploads. It provides advanced exploration, visualization, and AI-driven insights beyond what operational reporting offers. Standard Lightning dashboards and Report Builder can only report on data stored in Salesforce, and list views are simply filtered record lists with no charting capability.",
+    hook:"complex dashboards mixing Salesforce + shared-drive external data → Tableau CRM / CRM Analytics"
   },
   {
     id:179, category: CATEGORIES.UI,
@@ -2178,7 +2356,8 @@ const QUESTIONS = [
       {letter:"D", text:"Allow Reports and Activities"}
     ],
     answer:["A"], multi:false,
-    explanation:"Schema Builder can create custom objects and fields and define relationships, but it does not manage page layouts, so adding the new custom fields to a page layout must be done through Object Manager (fields created in Schema Builder are not automatically added to any layout). Object-level settings offered during the object creation wizard are also outside Schema Builder, but the page layout work is the classic limitation this question targets. Object Manager's page layout editor is where the administrator places the fields for users to see."
+    explanation:"Schema Builder can create custom objects and fields and define relationships, but it does not manage page layouts, so adding the new custom fields to a page layout must be done through Object Manager (fields created in Schema Builder are not automatically added to any layout). Object-level settings offered during the object creation wizard are also outside Schema Builder, but the page layout work is the classic limitation this question targets. Object Manager's page layout editor is where the administrator places the fields for users to see.",
+    hook:"Schema Builder limitation — what needs Object Manager → add custom fields to the page layout"
   },
   {
     id:180, category: CATEGORIES.DEPLOY,
@@ -2190,7 +2369,8 @@ const QUESTIONS = [
       {letter:"D", text:"Deploy the flow with the Metadata API instead of Change Sets"}
     ],
     answer:["A"], multi:false,
-    explanation:"Flows deployed to production with a change set arrive as inactive by default, so even though the deployment succeeded, users cannot run the flow until the administrator opens it in production and activates it manually. This is why the correct step is simply to activate the flow after deployment. Including prior versions in the change set or having an active version in the sandbox does not change the deployed flow's inactive status, and switching to the Metadata API is unnecessary because the same activation behavior applies unless the org has opted in to deploying flows as active."
+    explanation:"Flows deployed to production with a change set arrive as inactive by default, so even though the deployment succeeded, users cannot run the flow until the administrator opens it in production and activates it manually. This is why the correct step is simply to activate the flow after deployment. Including prior versions in the change set or having an active version in the sandbox does not change the deployed flow's inactive status, and switching to the Metadata API is unnecessary because the same activation behavior applies unless the org has opted in to deploying flows as active.",
+    hook:"flow deployed via change set, users can't use it → activate the flow manually after deployment"
   },
   {
     id:181, category: CATEGORIES.SECURITY,
@@ -2202,7 +2382,8 @@ const QUESTIONS = [
       {letter:"D", text:"Login History"}
     ],
     answer:["B"], multi:false,
-    explanation:"The Setup Audit Trail logs administrative and setup activity, including entries recorded each time an administrator or delegated administrator uses the Log In As feature to log in as another user. Reviewing or downloading the audit trail shows who logged in as whom and when. Login History shows login events but attributes them to the impersonated user context rather than clearly surfacing setup-level impersonation activity the way the audit trail does, and Grant Account Login Access is for users granting access to admins or support, not a log."
+    explanation:"The Setup Audit Trail logs administrative and setup activity, including entries recorded each time an administrator or delegated administrator uses the Log In As feature to log in as another user. Reviewing or downloading the audit trail shows who logged in as whom and when. Login History shows login events but attributes them to the impersonated user context rather than clearly surfacing setup-level impersonation activity the way the audit trail does, and Grant Account Login Access is for users granting access to admins or support, not a log.",
+    hook:"who used \"Log In As a User\" → Setup Audit Trail"
   },
   {
     id:182, category: CATEGORIES.DATA,
@@ -2214,7 +2395,8 @@ const QUESTIONS = [
       {letter:"D", text:"Master-detail relationship with Read/Write sharing setting"}
     ],
     answer:["B"], multi:false,
-    explanation:"Case Outcome is a junction object, so it should use master-detail relationships, and the sharing setting on a master-detail field controls what access users need on the master record to work with child records. Choosing the Read-Only sharing setting means users need only Read access to the Case in order to create, edit, or delete related Case Outcome records, which satisfies the requirement that anyone who can view the Case can create a link. The Read/Write setting would require users to have edit access on the Case, and a lookup would not maintain the tight junction behavior between the objects."
+    explanation:"Case Outcome is a junction object, so it should use master-detail relationships, and the sharing setting on a master-detail field controls what access users need on the master record to work with child records. Choosing the Read-Only sharing setting means users need only Read access to the Case in order to create, edit, or delete related Case Outcome records, which satisfies the requirement that anyone who can view the Case can create a link. The Read/Write setting would require users to have edit access on the Case, and a lookup would not maintain the tight junction behavior between the objects.",
+    hook:"junction, anyone who can \"view the Case\" creates link → master-detail with Read-Only sharing setting"
   },
   {
     id:183, category: CATEGORIES.APPS,
@@ -2226,7 +2408,8 @@ const QUESTIONS = [
       {letter:"D", text:"Expose the Service Contracts object in the Service Console for an agent to view when working a case."}
     ],
     answer:["A"], multi:false,
-    explanation:"An entitlement process defines a timeline of required steps (milestones) and time triggers for resolving cases, which is exactly how Salesforce enforces and tracks service-level agreements. By setting up entitlement processes with milestones such as first response and resolution times, UMS can monitor whether every case is handled within its SLA and trigger actions when a milestone is at risk of being violated. Milestones are not configured directly on the Service Contract object, and a post-close survey or simply exposing service contracts in the console would measure or display information without enforcing the SLA timelines."
+    explanation:"An entitlement process defines a timeline of required steps (milestones) and time triggers for resolving cases, which is exactly how Salesforce enforces and tracks service-level agreements. By setting up entitlement processes with milestones such as first response and resolution times, UMS can monitor whether every case is handled within its SLA and trigger actions when a milestone is at risk of being violated. Milestones are not configured directly on the Service Contract object, and a post-close survey or simply exposing service contracts in the console would measure or display information without enforcing the SLA timelines.",
+    hook:"\"meeting SLAs\" design timelines + track resolution → Entitlement Process w/ milestones (not milestones on Service Contract)"
   },
   {
     id:184, category: CATEGORIES.AUTOMATION,
@@ -2238,7 +2421,8 @@ const QUESTIONS = [
       {letter:"D", text:"After-save autolaunched flow"}
     ],
     answer:["D"], multi:false,
-    explanation:"An after-save record-triggered flow is the right choice because creating related records is only supported after the triggering record has been saved and has an ID that the milestone records can reference. The flow can run when a Project record is created and automatically insert the standard set of Project Milestone child records. A before-save (fast field update) flow can only update the triggering record itself, a scheduled flow would not run immediately at creation, and Field Service flows are for the Field Service product."
+    explanation:"An after-save record-triggered flow is the right choice because creating related records is only supported after the triggering record has been saved and has an ID that the milestone records can reference. The flow can run when a Project record is created and automatically insert the standard set of Project Milestone child records. A before-save (fast field update) flow can only update the triggering record itself, a scheduled flow would not run immediately at creation, and Field Service flows are for the Field Service product.",
+    hook:"auto-create related child milestone records on Project create → after-save autolaunched flow (needs saved parent ID)"
   },
   {
     id:185, category: CATEGORIES.SECURITY,
@@ -2250,7 +2434,8 @@ const QUESTIONS = [
       {letter:"D", text:"Analytic Snapshot"}
     ],
     answer:["B"], multi:false,
-    explanation:"The Setup Audit Trail tracks administration changes such as changing a user's profile assignment, recording who made the change, when it occurred, and the old and new values, and up to six months of history can be downloaded, which satisfies the compliance team's audit needs. Field History Tracking applies to tracked fields on data records like Accounts, not to user administration in Setup, and historical trending and analytic snapshots are reporting features for data trends, not audit logs."
+    explanation:"The Setup Audit Trail tracks administration changes such as changing a user's profile assignment, recording who made the change, when it occurred, and the old and new values, and up to six months of history can be downloaded, which satisfies the compliance team's audit needs. Field History Tracking applies to tracked fields on data records like Accounts, not to user administration in Setup, and historical trending and analytic snapshots are reporting features for data trends, not audit logs.",
+    hook:"track when user's profile assignment changed + who → Setup Audit Trail (Field History = record data)"
   },
   {
     id:186, category: CATEGORIES.APPS,
@@ -2262,7 +2447,8 @@ const QUESTIONS = [
       {letter:"D", text:"The default forecast categories cannot be customized."}
     ],
     answer:["B"], multi:false,
-    explanation:"When setting up Collaborative Forecasts, each forecast type is either revenue-based or quantity-based, depending on whether the business wants to project the amount of money or the number of units expected to close. The other statements are incorrect: opportunity splits can be forecast with a splits-based forecast type, an org supports only up to four forecast types active at a time (not six), and the forecast categories can be renamed and their mapping to opportunity stages customized."
+    explanation:"When setting up Collaborative Forecasts, each forecast type is either revenue-based or quantity-based, depending on whether the business wants to project the amount of money or the number of units expected to close. The other statements are incorrect: opportunity splits can be forecast with a splits-based forecast type, an org supports only up to four forecast types active at a time (not six), and the forecast categories can be renamed and their mapping to opportunity stages customized.",
+    hook:"Collaborative Forecasts consideration → forecast is revenue-based or quantity-based (max 4 types, not 6)"
   },
   {
     id:187, category: CATEGORIES.UI,
@@ -2274,7 +2460,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use a Cross Filter with WITHOUT logic."}
     ],
     answer:["D"], multi:false,
-    explanation:"A cross-filter with WITHOUT logic returns parent records that lack related child records meeting the sub-filter criteria. The administrator can build an Accounts report with a cross-filter of Accounts without Assets, adding a sub-filter for the new solar panel monitor product, which identifies exactly the customers who have not yet installed it. PREVGROUPVAL compares summary groupings, bucket columns categorize values, and a role hierarchy filter limits which users' records appear; none of these can find accounts missing a specific related Asset."
+    explanation:"A cross-filter with WITHOUT logic returns parent records that lack related child records meeting the sub-filter criteria. The administrator can build an Accounts report with a cross-filter of Accounts without Assets, adding a sub-filter for the new solar panel monitor product, which identifies exactly the customers who have not yet installed it. PREVGROUPVAL compares summary groupings, bucket columns categorize values, and a role hierarchy filter limits which users' records appear; none of these can find accounts missing a specific related Asset.",
+    hook:"identify accounts MISSING a specific related Asset → Cross Filter with WITHOUT logic"
   },
   {
     id:188, category: CATEGORIES.APPS,
@@ -2287,7 +2474,8 @@ const QUESTIONS = [
       {letter:"E", text:"A Knowledge article can be tagged to more than one Data Category."}
     ],
     answer:["B", "D", "E"], multi:true,
-    explanation:"Three reasons CK should utilize Data Categories when creating articles in Knowledge are: B) Data Categories help organize the Knowledge base content — they are logical groupings of articles that make them easier to find and browse. D) Data Categories provide a way to secure access to the Knowledge base content — you can assign visibility settings to data categories to control which articles are visible to which users or customer portal profiles. E) A Knowledge article can be tagged to more than one Data Category — this allows an article to appear in multiple category branches."
+    explanation:"Three reasons CK should utilize Data Categories when creating articles in Knowledge are: B) Data Categories help organize the Knowledge base content — they are logical groupings of articles that make them easier to find and browse. D) Data Categories provide a way to secure access to the Knowledge base content — you can assign visibility settings to data categories to control which articles are visible to which users or customer portal profiles. E) A Knowledge article can be tagged to more than one Data Category — this allows an article to appear in multiple category branches.",
+    hook:"why use Data Categories in Knowledge → organize content + secure access + article in multiple categories"
   },
   {
     id:189, category: CATEGORIES.DATA,
@@ -2299,7 +2487,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use Object Manager to create the object and also import the data."}
     ],
     answer:["B"], multi:false,
-    explanation:"Lightning Object Creator is purpose-built for exactly this scenario: it creates a custom object directly from a spreadsheet, automatically mapping the columns (customer name, address, dates, specs, instructions) to fields and importing the rows as records in the same flow. Object Manager and Schema Builder can create the object but cannot import the spreadsheet data, and using the REST API would require unnecessary development work for a task the administrator can complete with clicks."
+    explanation:"Lightning Object Creator is purpose-built for exactly this scenario: it creates a custom object directly from a spreadsheet, automatically mapping the columns (customer name, address, dates, specs, instructions) to fields and importing the rows as records in the same flow. Object Manager and Schema Builder can create the object but cannot import the spreadsheet data, and using the REST API would require unnecessary development work for a task the administrator can complete with clicks.",
+    hook:"track \"spreadsheet\" data in Salesforce (create+import) → Lightning Object Creator"
   },
   {
     id:190, category: CATEGORIES.APPS,
@@ -2311,7 +2500,8 @@ const QUESTIONS = [
       {letter:"D", text:"Chat can only be added to Console navigation Lightning apps."}
     ],
     answer:["C", "D"], multi:true,
-    explanation:"In Lightning Experience, Chat routing is handled through Omni-Channel, so chats must be routed with Omni-Channel to reach agents. In addition, the Chat feature is designed for the console, so it can only be added to Lightning apps that use console navigation, such as the Service Console. Option A is wrong because Chat works with, not against, Omni-Channel in Lightning Experience, and option B is wrong because standard navigation apps are exactly where Chat is not supported."
+    explanation:"In Lightning Experience, Chat routing is handled through Omni-Channel, so chats must be routed with Omni-Channel to reach agents. In addition, the Chat feature is designed for the console, so it can only be added to Lightning apps that use console navigation, such as the Service Console. Option A is wrong because Chat works with, not against, Omni-Channel in Lightning Experience, and option B is wrong because standard navigation apps are exactly where Chat is not supported.",
+    hook:"add Chat to Service Console considerations → must route via Omni-Channel + Console-navigation apps only"
   },
   {
     id:191, category: CATEGORIES.DATA,
@@ -2323,7 +2513,8 @@ const QUESTIONS = [
       {letter:"D", text:"Map an External ID data value to the object."}
     ],
     answer:["B", "D"], multi:true,
-    explanation:"Because the Order and Order Item data is new to Salesforce, an Insert operation is the correct way to load it. To preserve the parent-child relationships from the ERP system, the administrator should map an External ID value on the parent Order to the relationship field when loading the Order Products, so each child record is matched to its parent by the ERP key rather than by Salesforce record IDs. Upsert is unnecessary for brand-new data, and you cannot simply replace Salesforce record IDs with external IDs; the external ID is used as a matching reference in the mapping."
+    explanation:"Because the Order and Order Item data is new to Salesforce, an Insert operation is the correct way to load it. To preserve the parent-child relationships from the ERP system, the administrator should map an External ID value on the parent Order to the relationship field when loading the Order Products, so each child record is matched to its parent by the ERP key rather than by Salesforce record IDs. Upsert is unnecessary for brand-new data, and you cannot simply replace Salesforce record IDs with external IDs; the external ID is used as a matching reference in the mapping.",
+    hook:"load Order+Order Item \"maintaining the relationships\" → Insert + map External ID to match parent"
   },
   {
     id:192, category: CATEGORIES.UI,
@@ -2336,7 +2527,8 @@ const QUESTIONS = [
       {letter:"E", text:"A picklist field that designates the county of the listing."}
     ],
     answer:["A", "C", "E"], multi:true,
-    explanation:"A phone field (A), a number field (C), and a picklist field (E) should be used as filter criteria because they support filtering in reports based on specific values or ranges. A multi-select picklist field (B) and a formula field (D) should not be used as filter criteria because Salesforce reports do not support filtering on multi-select picklists or formula fields."
+    explanation:"A phone field (A), a number field (C), and a picklist field (E) should be used as filter criteria because they support filtering in reports based on specific values or ranges. A multi-select picklist field (B) and a formula field (D) should not be used as filter criteria because Salesforce reports do not support filtering on multi-select picklists or formula fields.",
+    hook:"which fields work as report filter criteria — pick 3 → phone, number, picklist (not multi-select picklist or formula)"
   },
   {
     id:193, category: CATEGORIES.SECURITY,
@@ -2348,7 +2540,8 @@ const QUESTIONS = [
       {letter:"D", text:"Shield Platform Encryption can be used with custom metadata types."}
     ],
     answer:["C"], multi:false,
-    explanation:"When a flow pauses, Salesforce serializes the interview, and data held in flow variables can be persisted in that saved state without Shield Platform Encryption applying to it, so paused flows can leave otherwise-encrypted data stored in an unencrypted form. Teams should evaluate and limit paused flows that handle sensitive fields before rolling out Shield. Encrypted fields can still be referenced in flows with some restrictions such as filtering, Einstein Lead Scoring does not support encrypted fields, and custom metadata types are not covered by Shield Platform Encryption."
+    explanation:"When a flow pauses, Salesforce serializes the interview, and data held in flow variables can be persisted in that saved state without Shield Platform Encryption applying to it, so paused flows can leave otherwise-encrypted data stored in an unencrypted form. Teams should evaluate and limit paused flows that handle sensitive fields before rolling out Shield. Encrypted fields can still be referenced in flows with some restrictions such as filtering, Einstein Lead Scoring does not support encrypted fields, and custom metadata types are not covered by Shield Platform Encryption.",
+    hook:"consider before Shield → paused flows can save data unencrypted"
   },
   {
     id:194, category: CATEGORIES.SECURITY,
@@ -2360,7 +2553,8 @@ const QUESTIONS = [
       {letter:"D", text:"Force logout on session timeout."}
     ],
     answer:["D"], multi:false,
-    explanation:"Forcing logout on session timeout ends the session completely when the inactivity timeout is reached, so after the timeout value (set to 10 minutes in Session Settings) an unattended, unlocked device shows the login page instead of live Salesforce data, and the session cannot simply be resumed. Login IP ranges and domain-locked sessions address where requests come from, not idle devices, and a high assurance session governs identity verification strength rather than inactivity."
+    explanation:"Forcing logout on session timeout ends the session completely when the inactivity timeout is reached, so after the timeout value (set to 10 minutes in Session Settings) an unattended, unlocked device shows the login page instead of live Salesforce data, and the session cannot simply be resumed. Login IP ranges and domain-locked sessions address where requests come from, not idle devices, and a high assurance session governs identity verification strength rather than inactivity.",
+    hook:"no data viewable after 10 min inactivity on unlocked device → Force logout on session timeout"
   },
   {
     id:195, category: CATEGORIES.UI,
@@ -2372,7 +2566,8 @@ const QUESTIONS = [
       {letter:"D", text:"Dynamic Forms"}
     ],
     answer:["A", "C"], multi:true,
-    explanation:"A Roll-Up Summary field on Account can COUNT related opportunities with filter criteria of Stage is open and Amount greater than 10,000, giving a real-time count of qualifying deals. A component visibility filter on the Lightning page (for example, on the escalation button or component) can then reference that roll-up field so the escalation option appears only when the count exceeds five. A formula field on Account cannot aggregate child opportunity records, and Dynamic Forms by itself governs field placement rather than providing the conditional escalation option."
+    explanation:"A Roll-Up Summary field on Account can COUNT related opportunities with filter criteria of Stage is open and Amount greater than 10,000, giving a real-time count of qualifying deals. A component visibility filter on the Lightning page (for example, on the escalation button or component) can then reference that roll-up field so the escalation option appears only when the count exceeds five. A formula field on Account cannot aggregate child opportunity records, and Dynamic Forms by itself governs field placement rather than providing the conditional escalation option.",
+    hook:"\">5 open opps over $10k\" then show escalation option → Roll-Up Summary + Component Visibility filter"
   },
   {
     id:196, category: CATEGORIES.UI,
@@ -2384,7 +2579,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a joined Accounts and Opportunities report for the components."}
     ],
     answer:["C"], multi:false,
-    explanation:"When a dashboard filter field does not exist on every source report's object, the administrator must map an equivalent field for each component so the filter can apply. For the Opportunity components, choosing the equivalent field (such as Opportunity Owner, or the related Account Owner field) tells the dashboard how to translate the Account Owner filter to opportunity records, restoring the missing rows. Adding cross-filters, changing report types, or rebuilding components as joined reports alters the underlying data instead of fixing the filter mapping."
+    explanation:"When a dashboard filter field does not exist on every source report's object, the administrator must map an equivalent field for each component so the filter can apply. For the Opportunity components, choosing the equivalent field (such as Opportunity Owner, or the related Account Owner field) tells the dashboard how to translate the Account Owner filter to opportunity records, restoring the missing rows. Adding cross-filters, changing report types, or rebuilding components as joined reports alters the underlying data instead of fixing the filter mapping.",
+    hook:"dashboard filter field missing on some source objects → map the equivalent field on those components (not cross-filter)"
   },
   {
     id:197, category: CATEGORIES.AUTOMATION,
@@ -2396,7 +2592,8 @@ const QUESTIONS = [
       {letter:"D", text:"Set up Apex Exception Email alerts"}
     ],
     answer:["B"], multi:false,
-    explanation:"Enabling debug logging for the affected users captures the full transaction when they attempt to close the opportunity, including the cumulative CPU time consumed by each trigger, flow, and process. This lets the administrator pinpoint which automation is consuming the CPU time and under what data conditions the limit is exceeded. Setup Audit Trail only shows configuration changes, Login Forensics tracks login behavior, and Apex Exception emails report that an error occurred but not the detailed execution profile needed to find the cause."
+    explanation:"Enabling debug logging for the affected users captures the full transaction when they attempt to close the opportunity, including the cumulative CPU time consumed by each trigger, flow, and process. This lets the administrator pinpoint which automation is consuming the CPU time and under what data conditions the limit is exceeded. Setup Audit Trail only shows configuration changes, Login Forensics tracks login behavior, and Apex Exception emails report that an error occurred but not the detailed execution profile needed to find the cause.",
+    hook:"\"Apex CPU time limit exceeded\" on some records/users → enable Debug Logging for users (profiles the transaction)"
   },
   {
     id:198, category: CATEGORIES.DATA,
@@ -2408,7 +2605,8 @@ const QUESTIONS = [
       {letter:"D", text:"Import Wizard"}
     ],
     answer:["A", "C"], multi:true,
-    explanation:"Updating the owner on a large set of existing lead records is a mass update job that can be done with data-loading tools such as the Bulk API or Dataloader.io, exporting the open leads older than 60 days and updating the Owner field (or triggering the assignment rule during the update). The Bulk API processes large batches asynchronously, and Dataloader.io provides a simple web-based interface for the same operation. The Data Import Wizard does not support updating Lead owner in this way for reassignment at scale, and Mass Update is not a tool suited to this requirement."
+    explanation:"Updating the owner on a large set of existing lead records is a mass update job that can be done with data-loading tools such as the Bulk API or Dataloader.io, exporting the open leads older than 60 days and updating the Owner field (or triggering the assignment rule during the update). The Bulk API processes large batches asynchronously, and Dataloader.io provides a simple web-based interface for the same operation. The Data Import Wizard does not support updating Lead owner in this way for reassignment at scale, and Mass Update is not a tool suited to this requirement.",
+    hook:"reassign owner on \"more than 60 days old\" leads at scale → Bulk API + Dataloader.io"
   },
   {
     id:199, category: CATEGORIES.DEPLOY,
@@ -2420,7 +2618,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use a scratch org definition to copy sandbox."}
     ],
     answer:["C"], multi:false,
-    explanation:"Cloning a sandbox creates a copy of an existing sandbox, including its configuration and its data, rather than copying from production. Since the developer sandbox already contains the required metadata and test data, the administrator can clone it repeatedly to create the 10 identical environments. Refreshing a sandbox replaces its contents from its source rather than duplicating it, sandbox templates only control which objects' data is copied into Partial Copy or Full sandboxes from production, and scratch orgs are ephemeral orgs created from a definition file, not copies of a sandbox."
+    explanation:"Cloning a sandbox creates a copy of an existing sandbox, including its configuration and its data, rather than copying from production. Since the developer sandbox already contains the required metadata and test data, the administrator can clone it repeatedly to create the 10 identical environments. Refreshing a sandbox replaces its contents from its source rather than duplicating it, sandbox templates only control which objects' data is copied into Partial Copy or Full sandboxes from production, and scratch orgs are ephemeral orgs created from a definition file, not copies of a sandbox.",
+    hook:"make 10 copies of existing dev sandbox with its metadata AND data → clone a sandbox (not template — data-scope only)"
   },
   {
     id:200, category: CATEGORIES.UI,
@@ -2432,7 +2631,8 @@ const QUESTIONS = [
       {letter:"D", text:"Include a contains filter on Subject."}
     ],
     answer:["D"], multi:false,
-    explanation:"A field filter using the contains operator on the Subject field (for example, Subject contains Alpha) is the simplest way to surface cases that mention the new shoe line in the existing report. This directly limits or flags the relevant cases with no formula or format change needed. A row-level formula or joined report is more complexity than the requirement calls for, and a cross-filter applies to related objects rather than to text in the case's own Subject field."
+    explanation:"A field filter using the contains operator on the Subject field (for example, Subject contains Alpha) is the simplest way to surface cases that mention the new shoe line in the existing report. This directly limits or flags the relevant cases with no formula or format change needed. A row-level formula or joined report is more complexity than the requirement calls for, and a cross-filter applies to related objects rather than to text in the case's own Subject field.",
+    hook:"flag cases that \"refer to the new shoe line in the subject\" → contains filter on Subject"
   },
   {
     id:201, category: CATEGORIES.SECURITY,
@@ -2444,7 +2644,8 @@ const QUESTIONS = [
       {letter:"D", text:"User Field History Tracking"}
     ],
     answer:["A"], multi:false,
-    explanation:"Login Forensics (part of Event Monitoring) is designed to surface anomalous login behavior, including the average number of login attempts per user, users with the most failed logins, and logins in short time windows, which is exactly the pattern of a brute-force password attack. Connected Apps OAuth Usage shows which integrated apps are in use, Event Manager configures which events are streamed or stored rather than analyzing them, and field history tracking on users records data changes, not login attempts."
+    explanation:"Login Forensics (part of Event Monitoring) is designed to surface anomalous login behavior, including the average number of login attempts per user, users with the most failed logins, and logins in short time windows, which is exactly the pattern of a brute-force password attack. Connected Apps OAuth Usage shows which integrated apps are in use, Event Manager configures which events are streamed or stored rather than analyzing them, and field history tracking on users records data changes, not login attempts.",
+    hook:"detect brute-force password attacks → Login Forensics (Event Monitoring)"
   },
   {
     id:202, category: CATEGORIES.DATA,
@@ -2456,7 +2657,8 @@ const QUESTIONS = [
       {letter:"D", text:"Master-Detail Relationship"}
     ],
     answer:["A"], multi:false,
-    explanation:"A lookup relationship should be used so the financial custom object remains independent of the Account for security purposes. With a lookup, the custom object keeps its own organization-wide default and sharing rules, allowing the administrator to restrict visibility so only finance team members can see the financial records related to an account. A master-detail relationship would force the financial records to inherit the account's sharing settings, and hierarchical relationships exist only on the User object."
+    explanation:"A lookup relationship should be used so the financial custom object remains independent of the Account for security purposes. With a lookup, the custom object keeps its own organization-wide default and sharing rules, allowing the administrator to restrict visibility so only finance team members can see the financial records related to an account. A master-detail relationship would force the financial records to inherit the account's sharing settings, and hierarchical relationships exist only on the User object.",
+    hook:"financial object \"only finance team\" sees → Lookup (keeps own sharing; master-detail inherits Account's)"
   },
   {
     id:203, category: CATEGORIES.SECURITY,
@@ -2468,7 +2670,8 @@ const QUESTIONS = [
       {letter:"D", text:"Set Read-Only Field-Level Security in the user Profile"}
     ],
     answer:["B", "C"], multi:true,
-    explanation:"Shield Platform Encryption must be enabled to encrypt the field at rest, and a field encryption policy is then configured on the Government ID field with a masking option that hides all but the last two digits for users without permission to view the full value; probabilistic or deterministic encryption also keeps the value protected while preserving needed functionality. Classic Encryption is a legacy option limited to a special custom text field and is not the recommended approach, and Read-Only field-level security alone neither encrypts nor masks the data."
+    explanation:"Shield Platform Encryption must be enabled to encrypt the field at rest, and a field encryption policy is then configured on the Government ID field with a masking option that hides all but the last two digits for users without permission to view the full value; probabilistic or deterministic encryption also keeps the value protected while preserving needed functionality. Classic Encryption is a legacy option limited to a special custom text field and is not the recommended approach, and Read-Only field-level security alone neither encrypts nor masks the data.",
+    hook:"gov ID unchangeable + masked except last two digits → enable Shield Platform Encryption + Field Encryption Policy"
   },
   {
     id:204, category: CATEGORIES.AUTOMATION,
@@ -2480,7 +2683,8 @@ const QUESTIONS = [
       {letter:"D", text:"Title <> 'CEO' && ISBLANK(Phone)"}
     ],
     answer:["C"], multi:false,
-    explanation:"A validation rule's error condition formula must return TRUE when the record data is invalid, which blocks the save. Here the invalid state is a contact whose Title is 'CEO' and whose Phone is blank, so the correct formula is Title = 'CEO' && ISBLANK(Phone). The options using NOT(ISBLANK(Phone)) would fire when a phone number is present, and those using Title <> 'CEO' would fire for the wrong contacts."
+    explanation:"A validation rule's error condition formula must return TRUE when the record data is invalid, which blocks the save. Here the invalid state is a contact whose Title is 'CEO' and whose Phone is blank, so the correct formula is Title = 'CEO' && ISBLANK(Phone). The options using NOT(ISBLANK(Phone)) would fire when a phone number is present, and those using Title <> 'CEO' would fire for the wrong contacts.",
+    hook:"error condition TRUE = invalid: Title CEO with blank phone → Title = 'CEO' && ISBLANK(Phone)"
   },
   {
     id:205, category: CATEGORIES.DATA,
@@ -2492,7 +2696,8 @@ const QUESTIONS = [
       {letter:"D", text:"The Account Contact relationship record needs to be deleted first in order to disassociate the Contact from the Account."}
     ],
     answer:["B"], multi:false,
-    explanation:"When Contacts to Multiple Accounts is enabled, the account listed in the contact's standard Account Name field is the primary (direct) account, and this relationship is required on the contact regardless of page layout settings. The rep can change the primary account to a different account, but cannot simply remove it from an existing contact. Indirect relationships do not cause this behavior, and deleting an Account Contact Relationship record removes an indirect relationship, not the primary one."
+    explanation:"When Contacts to Multiple Accounts is enabled, the account listed in the contact's standard Account Name field is the primary (direct) account, and this relationship is required on the contact regardless of page layout settings. The rep can change the primary account to a different account, but cannot simply remove it from an existing contact. Indirect relationships do not cause this behavior, and deleting an Account Contact Relationship record removes an indirect relationship, not the primary one.",
+    hook:"can't remove \"primary Account\" from Contact → primary/direct relationship required regardless of layout"
   },
   {
     id:206, category: CATEGORIES.SECURITY,
@@ -2504,7 +2709,8 @@ const QUESTIONS = [
       {letter:"D", text:"Select all opportunities owned by the sales manager role."}
     ],
     answer:["A", "C"], multi:true,
-    explanation:"An owner-based sharing rule cannot filter on field values like Won, so the administrator needs a criteria-based sharing rule on Opportunity where Won equals true to pick out only closed won deals. The rule's share-with target should be the roles and subordinates of the finance director role, which encompasses the whole finance team whose roles sit under the director. Sharing all opportunities owned by the sales manager role would expose open deals as well, exceeding the requirement."
+    explanation:"An owner-based sharing rule cannot filter on field values like Won, so the administrator needs a criteria-based sharing rule on Opportunity where Won equals true to pick out only closed won deals. The rule's share-with target should be the roles and subordinates of the finance director role, which encompasses the whole finance team whose roles sit under the director. Sharing all opportunities owned by the sales manager role would expose open deals as well, exceeding the requirement.",
+    hook:"finance sees Closed Won opps, Private → criteria-based sharing rule Won=true + share to finance director roles & subordinates"
   },
   {
     id:207, category: CATEGORIES.DATA,
@@ -2516,7 +2722,8 @@ const QUESTIONS = [
       {letter:"D", text:"The user's profile needs create access to Location."}
     ],
     answer:["A", "D"], multi:true,
-    explanation:"Data Loader shows objects by their current names, so if the Location object's label was changed, the user may not find it under the name they expect and should check the object's API name. In addition, Data Loader respects the user's permissions: the user's profile (or permission sets) must grant create access to the Location object for it to be available for an insert operation. Data Loader fully supports custom objects, and having a master-detail field to Account does not hide an object from Data Loader."
+    explanation:"Data Loader shows objects by their current names, so if the Location object's label was changed, the user may not find it under the name they expect and should check the object's API name. In addition, Data Loader respects the user's permissions: the user's profile (or permission sets) must grant create access to the Location object for it to be available for an insert operation. Data Loader fully supports custom objects, and having a master-detail field to Account does not hide an object from Data Loader.",
+    hook:"custom object \"cannot find\" in Data Loader → label renamed + profile lacks create access"
   },
   {
     id:208, category: CATEGORIES.DEPLOY,
@@ -2528,7 +2735,8 @@ const QUESTIONS = [
       {letter:"D", text:"Process a change set with the profiles that should no longer have access to the field."}
     ],
     answer:["C"], multi:false,
-    explanation:"Field-level security settings deploy with a change set only when both the field and the profiles are included, so the administrator should build a change set containing the Amount field along with all six custom profiles. When deployed, the profiles bring their field-level security for the included field, which propagates the restricted access configured in the sandbox to production. Including only the three profiles that lost access would not carry the field's security settings reliably without the field itself, manually editing production duplicates work already done and tested in the sandbox, and sandbox templates control data copied into sandboxes, not deployments to production."
+    explanation:"Field-level security settings deploy with a change set only when both the field and the profiles are included, so the administrator should build a change set containing the Amount field along with all six custom profiles. When deployed, the profiles bring their field-level security for the included field, which propagates the restricted access configured in the sandbox to production. Including only the three profiles that lost access would not carry the field's security settings reliably without the field itself, manually editing production duplicates work already done and tested in the sandbox, and sandbox templates control data copied into sandboxes, not deployments to production.",
+    hook:"deploy removed FLS on Amount to prod → change set with the field + all custom profiles (profiles alone won't carry FLS)"
   },
   {
     id:209, category: CATEGORIES.AUTOMATION,
@@ -2540,7 +2748,8 @@ const QUESTIONS = [
       {letter:"D", text:"The code could be trying to create duplicates in the archive when it is unable to."}
     ],
     answer:["D"], multi:false,
-    explanation:"The before-save flow only performs fast field updates on the record in memory, so its success shows the record data and save itself are fine; the failure lies in the trigger's own logic. Since the trigger's job is writing the original version of the record to an external archive, a likely cause is that the code attempts to create duplicate entries in the archive when the archive does not allow it, causing the trigger to fail. The administrator should advise the developer to review how the code handles existing records and errors in the external system rather than assuming Salesforce automation ordering or a validation rule is at fault."
+    explanation:"The before-save flow only performs fast field updates on the record in memory, so its success shows the record data and save itself are fine; the failure lies in the trigger's own logic. Since the trigger's job is writing the original version of the record to an external archive, a likely cause is that the code attempts to create duplicate entries in the archive when the archive does not allow it, causing the trigger to fail. The administrator should advise the developer to review how the code handles existing records and errors in the external system rather than assuming Salesforce automation ordering or a validation rule is at fault.",
+    hook:"before trigger fails but fast-field flow succeeds → trigger code creating duplicates in the archive (data/save are fine)"
   },
   {
     id:210, category: CATEGORIES.AUTOMATION,
@@ -2552,7 +2761,8 @@ const QUESTIONS = [
       {letter:"D", text:"After Save Flow"}
     ],
     answer:["D"], multi:false,
-    explanation:"Sending an email is an action that occurs after the record change is committed, so an after-save record-triggered flow is required; it can fire when the specified case fields are updated and send an email alert to the Case Owner. Before-save flows only support fast field updates on the triggering record and cannot send emails. Email-to-Case is for creating cases from inbound email, and outbound messages send SOAP calls to external endpoints, not emails to users."
+    explanation:"Sending an email is an action that occurs after the record change is committed, so an after-save record-triggered flow is required; it can fire when the specified case fields are updated and send an email alert to the Case Owner. Before-save flows only support fast field updates on the triggering record and cannot send emails. Email-to-Case is for creating cases from inbound email, and outbound messages send SOAP calls to external endpoints, not emails to users.",
+    hook:"email the Case Owner when fields are updated → After Save Flow (before-save can't send email)"
   },
   {
     id:211, category: CATEGORIES.SECURITY,
@@ -2564,7 +2774,8 @@ const QUESTIONS = [
       {letter:"D", text:"Make a report with the Government ID field included. Share this report to the Institutional Team in a public reports folder."}
     ],
     answer:["A"], multi:false,
-    explanation:"Field-level security is the only mechanism that controls field visibility in reports, so the administrator should leave the field hidden on the Sales profile and create a permission set granting Read access to the Government ID field, assigned only to the Institutional Team; those users can then see the field on records and in reports. Report types and shared report folders cannot override field-level security, and marking the field Read Only on the profile would make it visible to all Sales users, which violates the requirement."
+    explanation:"Field-level security is the only mechanism that controls field visibility in reports, so the administrator should leave the field hidden on the Sales profile and create a permission set granting Read access to the Government ID field, assigned only to the Institutional Team; those users can then see the field on records and in reports. Report types and shared report folders cannot override field-level security, and marking the field Read Only on the profile would make it visible to all Sales users, which violates the requirement.",
+    hook:"field hidden from Sales but Institutional Team sees it in reports → Permission Set Read access to field (report types can't override FLS)"
   },
   {
     id:212, category: CATEGORIES.AUTOMATION,
@@ -2576,7 +2787,8 @@ const QUESTIONS = [
       {letter:"D", text:"Setup Audit Trail"}
     ],
     answer:["C"], multi:false,
-    explanation:"Email logs provide details about every email sent from the org, including sender, recipient, date, delivery status, and any error codes. By requesting email logs for the relevant time range, the administrator can verify whether the status update emails were actually sent and whether they failed or bounced. Paused Flow Interviews would only show flows waiting on a resume event, Process Automation Settings are configuration options, and the Setup Audit Trail tracks setup changes rather than email delivery."
+    explanation:"Email logs provide details about every email sent from the org, including sender, recipient, date, delivery status, and any error codes. By requesting email logs for the relevant time range, the administrator can verify whether the status update emails were actually sent and whether they failed or bounced. Paused Flow Interviews would only show flows waiting on a resume event, Process Automation Settings are configuration options, and the Setup Audit Trail tracks setup changes rather than email delivery.",
+    hook:"customers not receiving flow status emails → Email Logs (delivery status/bounces)"
   },
   {
     id:213, category: CATEGORIES.DATA,
@@ -2588,7 +2800,8 @@ const QUESTIONS = [
       {letter:"D", text:"The Campaign Member option is only available for Update."}
     ],
     answer:["B"], multi:false,
-    explanation:"To import campaign members with the Data Import Wizard, the user must have the Marketing User feature license selected on their user record (along with appropriate campaign permissions). Without that feature license, the Campaign Members object simply does not appear as a choice in the wizard, even for an administrator. The Import Wizard does support campaign members for users who are properly licensed, and it can add new members as well as update existing ones, so the other options are incorrect."
+    explanation:"To import campaign members with the Data Import Wizard, the user must have the Marketing User feature license selected on their user record (along with appropriate campaign permissions). Without that feature license, the Campaign Members object simply does not appear as a choice in the wizard, even for an administrator. The Import Wizard does support campaign members for users who are properly licensed, and it can add new members as well as update existing ones, so the other options are incorrect.",
+    hook:"\"Campaign Members\" unavailable in Import Wizard → missing Marketing User feature license"
   },
   {
     id:214, category: CATEGORIES.DATA,
@@ -2600,7 +2813,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a roll-up summary field on Room."}
     ],
     answer:["D"], multi:false,
-    explanation:"A roll-up summary field is created on the master side of a master-detail relationship and can use the COUNT type to display the number of related detail records. Since Equipment is the detail and Room is the master, the administrator should create a roll-up summary field on Room that counts related Equipment records. This declarative option updates automatically as Equipment records are created, edited, or deleted, making record-triggered flows unnecessary, and a roll-up summary cannot be placed on the detail (Equipment) side."
+    explanation:"A roll-up summary field is created on the master side of a master-detail relationship and can use the COUNT type to display the number of related detail records. Since Equipment is the detail and Room is the master, the administrator should create a roll-up summary field on Room that counts related Equipment records. This declarative option updates automatically as Equipment records are created, edited, or deleted, making record-triggered flows unnecessary, and a roll-up summary cannot be placed on the detail (Equipment) side.",
+    hook:"\"total number\" of Equipment per Room → Roll-Up Summary on Room (master side, not detail)"
   },
   {
     id:215, category: CATEGORIES.DATA,
@@ -2612,7 +2826,8 @@ const QUESTIONS = [
       {letter:"D", text:"The Review object records are permanently deleted without the ability to restore."}
     ],
     answer:["D"], multi:false,
-    explanation:"When a record in a master-detail relationship is deleted, its detail records are deleted with it, but for a junction object with two masters there is a special rule: if both master records (here, the Account and the Product) are deleted, the junction records are permanently deleted and cannot be restored from the Recycle Bin. Because the user deleted both masters along with the Review records, the Reviews are gone for good; restoring the Account and Product from the Recycle Bin will bring back those parents but not the junction Review records."
+    explanation:"When a record in a master-detail relationship is deleted, its detail records are deleted with it, but for a junction object with two masters there is a special rule: if both master records (here, the Account and the Product) are deleted, the junction records are permanently deleted and cannot be restored from the Recycle Bin. Because the user deleted both masters along with the Review records, the Reviews are gone for good; restoring the Account and Product from the Recycle Bin will bring back those parents but not the junction Review records.",
+    hook:"\"both\" masters of junction deleted → Review records permanently gone, unrecoverable"
   },
   {
     id:216, category: CATEGORIES.APPS,
@@ -2624,7 +2839,8 @@ const QUESTIONS = [
       {letter:"D", text:"The change can be made through the mobile app."}
     ],
     answer:["C"], multi:false,
-    explanation:"The price book on an opportunity can be changed through the desktop site: on the opportunity's Products related list the rep can choose a different price book, with the caveat that switching price books deletes any existing opportunity products so they must be re-added from the new price book. The price book is therefore not permanently locked once selected. This change is not performed from the Forecasts tab, and editing the opportunity's price book is not supported in the Salesforce mobile app."
+    explanation:"The price book on an opportunity can be changed through the desktop site: on the opportunity's Products related list the rep can choose a different price book, with the caveat that switching price books deletes any existing opportunity products so they must be re-added from the new price book. The price book is therefore not permanently locked once selected. This change is not performed from the Forecasts tab, and editing the opportunity's price book is not supported in the Salesforce mobile app.",
+    hook:"wrong price book selected, how to change → through Desktop site (not locked; not mobile)"
   },
   {
     id:217, category: CATEGORIES.DEPLOY,
@@ -2636,7 +2852,8 @@ const QUESTIONS = [
       {letter:"D", text:"Add the components to an outbound change set and deploy it to production."}
     ],
     answer:["D"], multi:false,
-    explanation:"The tested change should be migrated with an outbound change set that contains the affected components, uploaded from the full sandbox to production, and then deployed there. Change sets are the standard admin-friendly deployment tool between a sandbox and its associated production org, and they preserve the tested configuration without redoing work by hand. Making the change directly in production bypasses the tested deployment path and risks errors, an unmanaged package is meant for distributing components to unrelated orgs, and Data Loader moves record data, not metadata such as relationship field changes."
+    explanation:"The tested change should be migrated with an outbound change set that contains the affected components, uploaded from the full sandbox to production, and then deployed there. Change sets are the standard admin-friendly deployment tool between a sandbox and its associated production org, and they preserve the tested configuration without redoing work by hand. Making the change directly in production bypasses the tested deployment path and risks errors, an unmanaged package is meant for distributing components to unrelated orgs, and Data Loader moves record data, not metadata such as relationship field changes.",
+    hook:"master-detail→lookup tested in full sandbox, deploy next → outbound change set to production"
   },
   {
     id:218, category: CATEGORIES.UI,
@@ -2648,7 +2865,8 @@ const QUESTIONS = [
       {letter:"D", text:"Developer Console"}
     ],
     answer:["B"], multi:false,
-    explanation:"Lightning web components cannot be created or edited in the Developer Console; the recommended tool is Visual Studio Code with the Salesforce Extension Pack and Salesforce CLI. The administrator (or a developer) opens the component's HTML template file in VS Code, corrects the spelling in the displayed text, and deploys the change to the org. Salesforce Lightning Inspector is a Chrome debugging extension that cannot modify source, and a Developer Org is an environment rather than an editing tool."
+    explanation:"Lightning web components cannot be created or edited in the Developer Console; the recommended tool is Visual Studio Code with the Salesforce Extension Pack and Salesforce CLI. The administrator (or a developer) opens the component's HTML template file in VS Code, corrects the spelling in the displayed text, and deploys the change to the org. Salesforce Lightning Inspector is a Chrome debugging extension that cannot modify source, and a Developer Org is an environment rather than an editing tool.",
+    hook:"edit displayed text in a Lightning web component → Visual Studio Code (Dev Console can't edit LWC)"
   },
   {
     id:219, category: CATEGORIES.UI,
@@ -2660,7 +2878,8 @@ const QUESTIONS = [
       {letter:"D", text:"Matrix Report"}
     ],
     answer:["C"], multi:false,
-    explanation:"A summary report based on the Accounts with Cases report type, filtered to open cases and grouped by Account Name, shows each account with its open cases and record counts per group. A joined report is unnecessary because only one report type is involved, and matrix or tabular formats do not present grouped counts per account as directly."
+    explanation:"A summary report based on the Accounts with Cases report type, filtered to open cases and grouped by Account Name, shows each account with its open cases and record counts per group. A joined report is unnecessary because only one report type is involved, and matrix or tabular formats do not present grouped counts per account as directly.",
+    hook:"\"Accounts with Open Cases\" grouped with counts → Summary Report"
   },
   {
     id:221, category: CATEGORIES.SECURITY,
@@ -2672,7 +2891,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a permission set with the View All Data permission for the subset of users."}
     ],
     answer:["D"], multi:false,
-    explanation:"A permission set with the View All Data permission can be assigned to just those individual users regardless of which profiles or roles they have, granting org-wide read access for compliance review without disturbing anyone else's configuration. Creating a new profile and role would force unnecessary changes for a mixed group of users, View All Data cannot be granted on a role, and delegated administration is for user management tasks, not for conferring data visibility."
+    explanation:"A permission set with the View All Data permission can be assigned to just those individual users regardless of which profiles or roles they have, granting org-wide read access for compliance review without disturbing anyone else's configuration. Creating a new profile and role would force unnecessary changes for a mixed group of users, View All Data cannot be granted on a role, and delegated administration is for user management tasks, not for conferring data visibility.",
+    hook:"mixed profiles/roles subset needs to view all data → Permission Set with View All Data (can't grant on role)"
   },
   {
     id:222, category: CATEGORIES.AUTOMATION,
@@ -2684,7 +2904,8 @@ const QUESTIONS = [
       {letter:"D", text:"Multiple automation tools have been used and the automation is executed in a different order."}
     ],
     answer:["B"], multi:false,
-    explanation:"In the order of execution, before-save record-triggered flows run before case assignment rules, whereas workflow rules run after assignment rules. When the workflow rules were replaced with a before-save flow, its field updates now occur before the assignment rules evaluate, so the rules see different values and route some cases differently than before. The unexpected routing is therefore caused by this timing change, not by the assignment rule criteria themselves."
+    explanation:"In the order of execution, before-save record-triggered flows run before case assignment rules, whereas workflow rules run after assignment rules. When the workflow rules were replaced with a before-save flow, its field updates now occur before the assignment rules evaluate, so the rules see different values and route some cases differently than before. The unexpected routing is therefore caused by this timing change, not by the assignment rule criteria themselves.",
+    hook:"workflow rules replaced by before-save flow, routing changed → flow runs before assignment rules; workflow ran after"
   },
   {
     id:223, category: CATEGORIES.SECURITY,
@@ -2696,7 +2917,8 @@ const QUESTIONS = [
       {letter:"D", text:"Delegated Administrator"}
     ],
     answer:["D"], multi:false,
-    explanation:"Delegated administration lets an administrator grant a trusted user the ability to manage users and assign specific profiles and permission sets without granting full administrative rights. A delegated administrator can assign the permission sets they are delegated over but cannot create or modify permission sets, which exactly matches the requirement. Assignment rules route records, and the other permissions would either be insufficient or grant too much access."
+    explanation:"Delegated administration lets an administrator grant a trusted user the ability to manage users and assign specific profiles and permission sets without granting full administrative rights. A delegated administrator can assign the permission sets they are delegated over but cannot create or modify permission sets, which exactly matches the requirement. Assignment rules route records, and the other permissions would either be insufficient or grant too much access.",
+    hook:"assign perms but can't create/modify perm sets → Delegated Administrator"
   },
   {
     id:224, category: CATEGORIES.SECURITY,
@@ -2708,7 +2930,8 @@ const QUESTIONS = [
       {letter:"D", text:"Temporarily disable MFA."}
     ],
     answer:["A"], multi:false,
-    explanation:"The session security level required at login is set on the profile, and a mismatch between that setting and how users authenticate is a common cause of login failures after enabling MFA. Reviewing the profile's Session Settings identifies whether users are being blocked because their sessions do not meet the required security level. Raising the level to High Assurance, resetting passwords, or disabling MFA would not diagnose the problem and could weaken security."
+    explanation:"The session security level required at login is set on the profile, and a mismatch between that setting and how users authenticate is a common cause of login failures after enabling MFA. Reviewing the profile's Session Settings identifies whether users are being blocked because their sessions do not meet the required security level. Raising the level to High Assurance, resetting passwords, or disabling MFA would not diagnose the problem and could weaken security.",
+    hook:"MFA standard level, users can't log in → check session security level required at login on profile"
   },
   {
     id:225, category: CATEGORIES.SECURITY,
@@ -2720,7 +2943,8 @@ const QUESTIONS = [
       {letter:"D", text:"Password Policies on the System Administrator profile"}
     ],
     answer:["D"], multi:false,
-    explanation:"Password policies can be set at the profile level, and profile-level policies override the organization-wide defaults for users assigned to that profile. Setting the stricter minimum length and expiration on the System Administrator profile applies the new requirements only to administrators while leaving the org-wide policy in place for everyone else. Password policies cannot be set on permission sets or individual user records."
+    explanation:"Password policies can be set at the profile level, and profile-level policies override the organization-wide defaults for users assigned to that profile. Setting the stricter minimum length and expiration on the System Administrator profile applies the new requirements only to administrators while leaving the org-wide policy in place for everyone else. Password policies cannot be set on permission sets or individual user records.",
+    hook:"stricter password policy for admins only → Password Policies on System Admin profile (org-wide hits everyone)"
   },
   {
     id:226, category: CATEGORIES.DATA,
@@ -2732,7 +2956,8 @@ const QUESTIONS = [
       {letter:"D", text:"Make custom fields."}
     ],
     answer:["A", "B"], multi:true,
-    explanation:"A custom object is needed so each form submission is stored as its own record related to the sales cycle, supporting multiple submissions and reporting on all of the form's data. Field history tracking on that object then automatically records old and new values whenever fields change, letting the sales team see exactly what changed from one submission to the next. Attachments are not reportable at the field level, and custom fields alone would be overwritten with each new submission."
+    explanation:"A custom object is needed so each form submission is stored as its own record related to the sales cycle, supporting multiple submissions and reporting on all of the form's data. Field history tracking on that object then automatically records old and new values whenever fields change, letting the sales team see exactly what changed from one submission to the next. Attachments are not reportable at the field level, and custom fields alone would be overwritten with each new submission.",
+    hook:"form filled multiple times + \"see what changed\" → custom object + Field History Tracking"
   },
   {
     id:227, category: CATEGORIES.UI,
@@ -2744,7 +2969,8 @@ const QUESTIONS = [
       {letter:"D", text:"Related Lists"}
     ],
     answer:["B"], multi:false,
-    explanation:"Dynamic actions are configured on the Highlights Panel component of a Lightning record page in the Lightning App Builder. By enabling dynamic actions there, the administrator can add actions and assign visibility filters, such as showing certain buttons only when the record's gaseous field meets a condition. The Record Detail, Activities, and Related Lists components do not control the record page action bar."
+    explanation:"Dynamic actions are configured on the Highlights Panel component of a Lightning record page in the Lightning App Builder. By enabling dynamic actions there, the administrator can add actions and assign visibility filters, such as showing certain buttons only when the record's gaseous field meets a condition. The Record Detail, Activities, and Related Lists components do not control the record page action bar.",
+    hook:"where to define dynamic action buttons on a record page → Highlights Panel component"
   },
   {
     id:228, category: CATEGORIES.DATA,
@@ -2756,7 +2982,8 @@ const QUESTIONS = [
       {letter:"D", text:"Import the data into a custom object when needed; delete after it is used."}
     ],
     answer:["A"], multi:false,
-    explanation:"Salesforce Connect external objects map to data stored outside Salesforce and let users view, search, and report on that data in real time without copying it into the org. This keeps the legacy application as the system of record while still surfacing current inventory information in Salesforce. Spreadsheets and repeated import-and-delete cycles would create stale, unmanageable copies of the data, and a custom Lightning component would not provide native reporting."
+    explanation:"Salesforce Connect external objects map to data stored outside Salesforce and let users view, search, and report on that data in real time without copying it into the org. This keeps the legacy application as the system of record while still surfacing current inventory information in Salesforce. Spreadsheets and repeated import-and-delete cycles would create stale, unmanageable copies of the data, and a custom Lightning component would not provide native reporting.",
+    hook:"\"legacy application\" view+report directly → external object (Salesforce Connect)"
   },
   {
     id:229, category: CATEGORIES.DATA,
@@ -2768,7 +2995,8 @@ const QUESTIONS = [
       {letter:"D", text:"Remove the lookup field from the page layout so the data is maintained without changes."}
     ],
     answer:["A", "B"], multi:true,
-    explanation:"A lookup relationship can only be converted to master-detail when every child record has a value in the relationship field, because a detail record must always have a parent. The administrator must therefore either delete the orphaned Potential Name records or populate their lookup field with a valid Product Development parent before the conversion. Removing existing lookup values or hiding the field from the page layout would leave or create blanks, which blocks the conversion."
+    explanation:"A lookup relationship can only be converted to master-detail when every child record has a value in the relationship field, because a detail record must always have a parent. The administrator must therefore either delete the orphaned Potential Name records or populate their lookup field with a valid Product Development parent before the conversion. Removing existing lookup values or hiding the field from the page layout would leave or create blanks, which blocks the conversion.",
+    hook:"convert lookup→master-detail with \"missing\" relationship → delete blanks or assign a parent"
   },
   {
     id:230, category: CATEGORIES.UI,
@@ -2780,7 +3008,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use field-level security to control data access."}
     ],
     answer:["B"], multi:false,
-    explanation:"Dynamic Forms places individual fields on the Lightning page with visibility rules, so the page can show all fields to Marketing users and only the Support preference fields to Support users. Because Dynamic Forms only controls what is displayed on the page and not actual field access, both profiles retain the field-level security needed to report on all of the data. Field-level security or record types with separate layouts would either block reporting or require unnecessary data model changes."
+    explanation:"Dynamic Forms places individual fields on the Lightning page with visibility rules, so the page can show all fields to Marketing users and only the Support preference fields to Support users. Because Dynamic Forms only controls what is displayed on the page and not actual field access, both profiles retain the field-level security needed to report on all of the data. Field-level security or record types with separate layouts would either block reporting or require unnecessary data model changes.",
+    hook:"show fields per profile on page but still report on all data → Dynamic Forms (FLS would block reporting)"
   },
   {
     id:231, category: CATEGORIES.UI,
@@ -2793,7 +3022,8 @@ const QUESTIONS = [
       {letter:"E", text:"Reduce the number of related lists displayed."}
     ],
     answer:["A", "B", "E"], multi:true,
-    explanation:"Lightning record page load time is driven largely by how much the page must render at once. Placing components behind tabs defers their loading until the tab is opened, and reducing the number of fields and related lists shrinks the amount of data and markup retrieved on initial load. Validation rules and Process Builder automation run when records are saved, so they affect save time rather than page load performance."
+    explanation:"Lightning record page load time is driven largely by how much the page must render at once. Placing components behind tabs defers their loading until the tab is opened, and reducing the number of fields and related lists shrinks the amount of data and markup retrieved on initial load. Validation rules and Process Builder automation run when records are saved, so they affect save time rather than page load performance.",
+    hook:"record page \"takes a long time to load\" — pick 3 → components behind tab, remove fields, fewer related lists"
   },
   {
     id:232, category: CATEGORIES.UI,
@@ -2805,7 +3035,8 @@ const QUESTIONS = [
       {letter:"D", text:"Analyze Button"}
     ],
     answer:["C", "D"], multi:true,
-    explanation:"The Analyze button in the Lightning App Builder runs a performance analysis of the record page and offers recommendations for improving its predicted load time. The Lightning Usage App provides metrics on page performance and adoption, including browser performance and page load times across the org. The Activation button and Pages menu are used for assigning and navigating pages, not for evaluating performance."
+    explanation:"The Analyze button in the Lightning App Builder runs a performance analysis of the record page and offers recommendations for improving its predicted load time. The Lightning Usage App provides metrics on page performance and adoption, including browser performance and page load times across the org. The Activation button and Pages menu are used for assigning and navigating pages, not for evaluating performance.",
+    hook:"\"review the page performance\" of a Lightning page — pick 2 → Lightning Usage App + Analyze button"
   },
   {
     id:233, category: CATEGORIES.UI,
@@ -2817,7 +3048,8 @@ const QUESTIONS = [
       {letter:"D", text:"Modify page layout."}
     ],
     answer:["A"], multi:false,
-    explanation:"Dynamic actions let the administrator apply visibility rules to individual actions on a Lightning record page, so the Create Contract button can be shown only when the opportunity's stage equals Negotiation. A validation rule cannot hide a button, a custom permission controls access by user rather than record state, and a page layout displays the same buttons regardless of field values."
+    explanation:"Dynamic actions let the administrator apply visibility rules to individual actions on a Lightning record page, so the Create Contract button can be shown only when the opportunity's stage equals Negotiation. A validation rule cannot hide a button, a custom permission controls access by user rather than record state, and a page layout displays the same buttons regardless of field values.",
+    hook:"\"button only be available when...negotiation stage\" → Dynamic Action visibility (not validation rule — only blocks save)"
   },
   {
     id:234, category: CATEGORIES.DATA,
@@ -2829,7 +3061,8 @@ const QUESTIONS = [
       {letter:"D", text:"Record Types"}
     ],
     answer:["D"], multi:false,
-    explanation:"Record types allow one object to support different business uses by pairing each type with its own page layout and its own set of picklist values. Creating customer, competitor, and partner record types on Account lets customers and competitors see different fields via layouts, and lets partner accounts have a different set of Industry picklist values. Business processes apply only to certain standard objects' stage or status fields, and required fields or flows do not solve either requirement."
+    explanation:"Record types allow one object to support different business uses by pairing each type with its own page layout and its own set of picklist values. Creating customer, competitor, and partner record types on Account lets customers and competitors see different fields via layouts, and lets partner accounts have a different set of Industry picklist values. Business processes apply only to certain standard objects' stage or status fields, and required fields or flows do not solve either requirement.",
+    hook:"different fields for customers vs competitors + different Industry values → Record Types"
   },
   {
     id:235, category: CATEGORIES.UI,
@@ -2841,7 +3074,8 @@ const QUESTIONS = [
       {letter:"D", text:"Fields Component"}
     ],
     answer:["D"], multi:false,
-    explanation:"The Field Section (Fields) component is part of Dynamic Forms and lets the administrator place individual fields or field sections on the record page with conditional visibility rules. A visibility filter based on the Binary Cluster checkbox will show the specified fields only when the box is checked. The Record Detail component renders the full page layout without field-level visibility conditions, and the Highlights Panel and Path components serve different purposes."
+    explanation:"The Field Section (Fields) component is part of Dynamic Forms and lets the administrator place individual fields or field sections on the record page with conditional visibility rules. A visibility filter based on the Binary Cluster checkbox will show the specified fields only when the box is checked. The Record Detail component renders the full page layout without field-level visibility conditions, and the Highlights Panel and Path components serve different purposes.",
+    hook:"fields shown \"only when checkbox is marked\" → Fields component / Dynamic Forms (not Record Detail — no field visibility)"
   },
   {
     id:236, category: CATEGORIES.APPS,
@@ -2853,7 +3087,8 @@ const QUESTIONS = [
       {letter:"D", text:"Make sure the price book is in the company currency."}
     ],
     answer:["A", "C"], multi:true,
-    explanation:"An opportunity can only include products that exist as active price book entries in the price book selected on that opportunity. The administrator should confirm the product was added to the appropriate price book and that the reps' opportunities are using that price book. A product start date is not required for selection, and price books support multiple currencies, so currency alone would not make the product unselectable."
+    explanation:"An opportunity can only include products that exist as active price book entries in the price book selected on that opportunity. The administrator should confirm the product was added to the appropriate price book and that the reps' opportunities are using that price book. A product start date is not required for selection, and price books support multiple currencies, so currency alone would not make the product unselectable.",
+    hook:"product added but \"unable to select on opportunity\" → correct Price Book on opp + product in that Price Book"
   },
   {
     id:237, category: CATEGORIES.DATA,
@@ -2865,7 +3100,8 @@ const QUESTIONS = [
       {letter:"D", text:"In a B2B business model and is selling to the primary contact at a business organization."}
     ],
     answer:["A"], multi:false,
-    explanation:"Person accounts are designed for business-to-consumer scenarios where the customer is an individual person rather than a company. They combine account and contact data into a single record so the consumer can be the direct target of sales and marketing activity. B2B selling and models requiring separate account and contact records are better served by the standard business account and contact structure."
+    explanation:"Person accounts are designed for business-to-consumer scenarios where the customer is an individual person rather than a company. They combine account and contact data into a single record so the consumer can be the direct target of sales and marketing activity. B2B selling and models requiring separate account and contact records are better served by the standard business account and contact structure.",
+    hook:"\"B2C\" consumer is intended recipient of sales/marketing → Person Accounts"
   },
   {
     id:238, category: CATEGORIES.UI,
@@ -2877,7 +3113,8 @@ const QUESTIONS = [
       {letter:"D", text:"Tableau CRM"}
     ],
     answer:["D"], multi:false,
-    explanation:"Tableau CRM (CRM Analytics) is built for advanced analytics and can ingest data from Salesforce as well as external sources such as files from company shared drives, then combine them into complex dashboards with supporting charts. The standard Lightning dashboard and report builders only work with Salesforce report data, and list views provide no charting or dashboard capability at all."
+    explanation:"Tableau CRM (CRM Analytics) is built for advanced analytics and can ingest data from Salesforce as well as external sources such as files from company shared drives, then combine them into complex dashboards with supporting charts. The standard Lightning dashboard and report builders only work with Salesforce report data, and list views provide no charting or dashboard capability at all.",
+    hook:"complex dashboards mixing Salesforce + shared-drive external data → Tableau CRM / CRM Analytics"
   },
   {
     id:239, category: CATEGORIES.APPS,
@@ -2889,7 +3126,8 @@ const QUESTIONS = [
       {letter:"D", text:"Create a new Price Book for the U.K. product pricing."}
     ],
     answer:["D"], multi:false,
-    explanation:"Price books are the standard way to maintain different prices for the same products across markets or segments. Creating a U.K. price book lets NTO define product-by-product prices that reflect shipping and raw material costs, and U.K. opportunities simply use that price book. A conversion flow, a record type, or a modified order form would not manage per-product regional pricing."
+    explanation:"Price books are the standard way to maintain different prices for the same products across markets or segments. Creating a U.K. price book lets NTO define product-by-product prices that reflect shipping and raw material costs, and U.K. opportunities simply use that price book. A conversion flow, a record type, or a modified order form would not manage per-product regional pricing.",
+    hook:"\"pricing will vary from product to product\" for U.K. → new Price Book (not conversion flow/record type)"
   },
   {
     id:240, category: CATEGORIES.SECURITY,
@@ -2901,7 +3139,8 @@ const QUESTIONS = [
       {letter:"D", text:"Require MFA when users need to view and export dashboards and reports."}
     ],
     answer:["A"], multi:false,
-    explanation:"Salesforce lets administrators require a high assurance session for sensitive operations, including reports and dashboards, through Identity Verification session security settings. When a user attempts the protected operation without a high assurance session, they must verify their identity, which protects the data even if credentials are phished. Security tokens apply to API logins, and there is no report-specific authentication provider or MFA toggle for viewing dashboards."
+    explanation:"Salesforce lets administrators require a high assurance session for sensitive operations, including reports and dashboards, through Identity Verification session security settings. When a user attempts the protected operation without a high assurance session, they must verify their identity, which protects the data even if credentials are phished. Security tokens apply to API logins, and there is no report-specific authentication provider or MFA toggle for viewing dashboards.",
+    hook:"confirm right user viewing/exporting reports (anti-phish) → high assurance session for export/print reports"
   },
   {
     id:241, category: CATEGORIES.DATA,
@@ -2913,7 +3152,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use an ETL tool that can be scheduled to extract the data and push it to the target destination."}
     ],
     answer:["D"], multi:false,
-    explanation:"The built-in Data Export Service can only be scheduled weekly or monthly, so it cannot satisfy a daily backup requirement. A scheduled ETL tool can extract all needed objects every day via the API and deliver the files to the target destination automatically. The Import Wizard loads data rather than extracting it, and emailed reports cover only limited rows and columns, making neither a viable backup approach."
+    explanation:"The built-in Data Export Service can only be scheduled weekly or monthly, so it cannot satisfy a daily backup requirement. A scheduled ETL tool can extract all needed objects every day via the API and deliver the files to the target destination automatically. The Import Wizard loads data rather than extracting it, and emailed reports cover only limited rows and columns, making neither a viable backup approach.",
+    hook:"\"back up its data daily\" → scheduled ETL tool (Data Export Service only weekly/monthly)"
   },
   {
     id:242, category: CATEGORIES.SECURITY,
@@ -2925,7 +3165,8 @@ const QUESTIONS = [
       {letter:"D", text:"Encrypted fields can be added to a list view and rule filters."}
     ],
     answer:["B"], multi:false,
-    explanation:"Classic encrypted custom fields cannot be used in filters such as report criteria or list view filters, which is a key functional limitation users will notice. The View Encrypted Data permission only controls whether the value displays in plain text or masked; it does not bypass field-level security and is not required to edit the field. Option D is the opposite of the actual behavior."
+    explanation:"Classic encrypted custom fields cannot be used in filters such as report criteria or list view filters, which is a key functional limitation users will notice. The View Encrypted Data permission only controls whether the value displays in plain text or masked; it does not bypass field-level security and is not required to edit the field. Option D is the opposite of the actual behavior.",
+    hook:"Classic Encryption field impact → can't use in report criteria or list view filters"
   },
   {
     id:243, category: CATEGORIES.DATA,
@@ -2937,7 +3178,8 @@ const QUESTIONS = [
       {letter:"D", text:"Page Layouts"}
     ],
     answer:["A", "D"], multi:true,
-    explanation:"Validation rules enforce that a field contains data or meets defined criteria before a record can be saved, blocking bad data at entry. Page layouts can mark fields as required at the layout level, forcing users to populate them when creating or editing records through the UI. Dashboards only visualize data, and workflow rules act after save rather than requiring entry."
+    explanation:"Validation rules enforce that a field contains data or meets defined criteria before a record can be saved, blocking bad data at entry. Page layouts can mark fields as required at the layout level, forcing users to populate them when creating or editing records through the UI. Dashboards only visualize data, and workflow rules act after save rather than requiring entry.",
+    hook:"\"require data to be entered\" in a field → Validation Rules + Page Layouts"
   },
   {
     id:244, category: CATEGORIES.DATA,
@@ -2949,7 +3191,8 @@ const QUESTIONS = [
       {letter:"D", text:"Set up mobile duplicate alerts."}
     ],
     answer:["B", "C"], multi:true,
-    explanation:"Duplicate management is built from matching rules, which define how records are compared to identify duplicates, and duplicate rules, which define what happens when a potential duplicate is found, such as blocking creation or alerting the user. Customizing both lets the administrator tailor detection criteria and enforce prevention for contacts. Picklist value sets and mobile alerts do not prevent duplicate record creation."
+    explanation:"Duplicate management is built from matching rules, which define how records are compared to identify duplicates, and duplicate rules, which define what happens when a potential duplicate is found, such as blocking creation or alerting the user. Customizing both lets the administrator tailor detection criteria and enforce prevention for contacts. Picklist value sets and mobile alerts do not prevent duplicate record creation.",
+    hook:"\"prevent duplicate records\" → duplicate rules + matching rules"
   },
   {
     id:245, category: CATEGORIES.UI,
@@ -2961,7 +3204,8 @@ const QUESTIONS = [
       {letter:"D", text:"A custom summary formula with PARENTGROUPVAL function"}
     ],
     answer:["B"], multi:false,
-    explanation:"PREVGROUPVAL is a summary function that fetches the value of a summarized field from the previous grouping, so a custom summary formula can compare each year's total opportunity amount to the prior year's and compute the change. PARENTGROUPVAL compares against a parent grouping level rather than the previous peer group, row-level formulas cannot reference other groupings, and a joined report would not calculate the difference automatically."
+    explanation:"PREVGROUPVAL is a summary function that fetches the value of a summarized field from the previous grouping, so a custom summary formula can compare each year's total opportunity amount to the prior year's and compute the change. PARENTGROUPVAL compares against a parent grouping level rather than the previous peer group, row-level formulas cannot reference other groupings, and a joined report would not calculate the difference automatically.",
+    hook:"\"year-over-year change\" prior year vs this year → PREVGROUPVAL summary formula (not PARENTGROUPVAL — that's parent grouping)"
   },
   {
     id:246, category: CATEGORIES.UI,
@@ -2973,7 +3217,8 @@ const QUESTIONS = [
       {letter:"D", text:"Bucket field"}
     ],
     answer:["D"], multi:false,
-    explanation:"Bucket fields let report builders categorize values of a field into named buckets directly in the report without creating a custom formula field on the object. The administrator can create a bucket field on Shoe Type Preference that sorts the specific picklist values into the two desired groupings. Matrix reports, PREVGROUPVAL, and summary formulas summarize or compare data but do not regroup picklist values into custom categories."
+    explanation:"Bucket fields let report builders categorize values of a field into named buckets directly in the report without creating a custom formula field on the object. The administrator can create a bucket field on Shoe Type Preference that sorts the specific picklist values into the two desired groupings. Matrix reports, PREVGROUPVAL, and summary formulas summarize or compare data but do not regroup picklist values into custom categories.",
+    hook:"\"groups specific picklist values together\" in a report → Bucket field"
   },
   {
     id:247, category: CATEGORIES.DEPLOY,
@@ -2985,7 +3230,8 @@ const QUESTIONS = [
       {letter:"D", text:"Add permissions and access settings to outbound change sets in addition to the dependent component list."}
     ],
     answer:["C", "D"], multi:true,
-    explanation:"Once a change set has been uploaded it cannot be modified, so the documented practice for adding forgotten dependencies is to clone the change set, add the components, and upload again. Salesforce also recommends explicitly adding permissions and access settings to outbound change sets because the View/Add Dependencies feature does not include profile and permission settings. Validation happens against the target production org, not in the sandbox, and record types do not need to be deployed in isolation."
+    explanation:"Once a change set has been uploaded it cannot be modified, so the documented practice for adding forgotten dependencies is to clone the change set, add the components, and upload again. Salesforce also recommends explicitly adding permissions and access settings to outbound change sets because the View/Add Dependencies feature does not include profile and permission settings. Validation happens against the target production org, not in the sandbox, and record types do not need to be deployed in isolation.",
+    hook:"change set practices → clone to add forgotten dependencies + add permissions/access settings (dependencies skip profiles)"
   },
   {
     id:248, category: CATEGORIES.DEPLOY,
@@ -2997,7 +3243,8 @@ const QUESTIONS = [
       {letter:"D", text:"Refresh the sandbox destination org and then deploy the change set."}
     ],
     answer:["B"], multi:false,
-    explanation:"During sandbox preview windows, change sets cannot always be deployed from an org on a newer release to an org still on the previous release because metadata components can change between versions. Creating a new sandbox that is on the new release gives the administrator a destination org at the same version, allowing the change set to deploy successfully. Refreshing the existing destination sandbox would not guarantee the newer release, and the other options do not address the version mismatch."
+    explanation:"During sandbox preview windows, change sets cannot always be deployed from an org on a newer release to an org still on the previous release because metadata components can change between versions. Creating a new sandbox that is on the new release gives the administrator a destination org at the same version, allowing the change set to deploy successfully. Refreshing the existing destination sandbox would not guarantee the newer release, and the other options do not address the version mismatch.",
+    hook:"change set newer release → older-release org → create new sandbox on the new release, deploy there"
   },
   {
     id:249, category: CATEGORIES.DEPLOY,
@@ -3010,7 +3257,8 @@ const QUESTIONS = [
       {letter:"E", text:"Plan your deployments around the production and sandbox maintenance schedules."}
     ],
     answer:["B", "C", "E"], multi:true,
-    explanation:"Salesforce's change set best practices note that a change set can contain a maximum of 10,000 files, so deployments must be sized within that limit. All dependent components must be included, since missing dependencies are a leading cause of deployment failures. Deployments should also be planned around production and sandbox maintenance schedules, when orgs may be unavailable. Testing should happen promptly after deployment, not deferred until the next day after hours."
+    explanation:"Salesforce's change set best practices note that a change set can contain a maximum of 10,000 files, so deployments must be sized within that limit. All dependent components must be included, since missing dependencies are a leading cause of deployment failures. Deployments should also be planned around production and sandbox maintenance schedules, when orgs may be unavailable. Testing should happen promptly after deployment, not deferred until the next day after hours.",
+    hook:"\"using change sets\" release best practices → ≤10,000 files + deploy all dependents + plan around maintenance schedules"
   },
   {
     id:250, category: CATEGORIES.AUTOMATION,
@@ -3022,7 +3270,8 @@ const QUESTIONS = [
       {letter:"D", text:"Configure a roll-up summary field on Equipment."}
     ],
     answer:["B"], multi:false,
-    explanation:"Roll-up summary fields require a master-detail relationship, and Equipment is related to Room through a lookup, so options C and D are not possible without converting the relationship. To aggregate Price across a lookup relationship, the automation must run on the child object, so record-triggered flows on Equipment that fire on create, update, and delete can recalculate the total and write it to the related Room record. Flows triggered on Room would not run when Equipment records change."
+    explanation:"Roll-up summary fields require a master-detail relationship, and Equipment is related to Room through a lookup, so options C and D are not possible without converting the relationship. To aggregate Price across a lookup relationship, the automation must run on the child object, so record-triggered flows on Equipment that fire on create, update, and delete can recalculate the total and write it to the related Room record. Flows triggered on Room would not run when Equipment records change.",
+    hook:"roll up child Price to Room across a lookup (no master-detail) → record-triggered flows on Equipment (child), on create/edit/delete"
   },
   {
     id:251, category: CATEGORIES.AUTOMATION,
@@ -3034,7 +3283,8 @@ const QUESTIONS = [
       {letter:"D", text:"Debug Logs"}
     ],
     answer:["B", "C"], multi:true,
-    explanation:"The hourly limit for processing workflow time triggers is consumed by time-dependent automation, specifically time-based workflow actions and paused or scheduled flow interviews that are waiting to resume. When the limit is exceeded, the administrator should review the Time-Based Workflow queue and Paused Flow Interviews in Setup to find the automation generating the volume. Apex triggers do not use workflow time triggers, and debug logs are a troubleshooting output rather than a process to review for this limit."
+    explanation:"The hourly limit for processing workflow time triggers is consumed by time-dependent automation, specifically time-based workflow actions and paused or scheduled flow interviews that are waiting to resume. When the limit is exceeded, the administrator should review the Time-Based Workflow queue and Paused Flow Interviews in Setup to find the automation generating the volume. Apex triggers do not use workflow time triggers, and debug logs are a troubleshooting output rather than a process to review for this limit.",
+    hook:"\"hourly limit for processing workflow time triggers\" → review Time-Based Workflows + Paused Flow Interviews"
   },
   {
     id:252, category: CATEGORIES.AUTOMATION,
@@ -3046,7 +3296,8 @@ const QUESTIONS = [
       {letter:"D", text:"A validation rule could be preventing records from ever meeting the conditions in the trigger."}
     ],
     answer:["C"], multi:false,
-    explanation:"In the Salesforce order of execution, record-triggered flows configured to run before the record is saved execute prior to all Apex before triggers. That means the before-save flow has already changed the field values by the time the trigger runs, so the values the trigger captures and sends to the archive are no longer the true original version of the record. Advising the developer of this execution order explains the behavior; the other options do not account for the interaction between the flow and the trigger."
+    explanation:"In the Salesforce order of execution, record-triggered flows configured to run before the record is saved execute prior to all Apex before triggers. That means the before-save flow has already changed the field values by the time the trigger runs, so the values the trigger captures and sends to the archive are no longer the true original version of the record. Advising the developer of this execution order explains the behavior; the other options do not account for the interaction between the flow and the trigger.",
+    hook:"before trigger loses original values, before-save flow on object → before-save flows execute prior to all before triggers"
   },
   {
     id:253, category: CATEGORIES.AUTOMATION,
@@ -3058,7 +3309,8 @@ const QUESTIONS = [
       {letter:"D", text:"Use a Lightning action to redirect the user."}
     ],
     answer:["B"], multi:false,
-    explanation:"By default, when a screen flow finishes, the user is returned to the flow's first screen, which is what the reps are experiencing. Salesforce supports overriding this finish behavior, and adding a local redirect action to the flow sends users to a chosen destination, such as the record they created, instead of restarting the flow. Apex triggers, a second flow, or a Lightning action would not change the flow's finish behavior."
+    explanation:"By default, when a screen flow finishes, the user is returned to the flow's first screen, which is what the reps are experiencing. Salesforce supports overriding this finish behavior, and adding a local redirect action to the flow sends users to a chosen destination, such as the record they created, instead of restarting the flow. Apex triggers, a second flow, or a Lightning action would not change the flow's finish behavior.",
+    hook:"screen flow kicks back to initial screen after Finish → update flow with a local redirect action"
   },
   {
     id:254, category: CATEGORIES.AUTOMATION,
@@ -3070,7 +3322,8 @@ const QUESTIONS = [
       {letter:"D", text:"Database"}
     ],
     answer:["A"], multi:false,
-    explanation:"Flow execution details are recorded under the Workflow debug log category, which covers workflow rules, flows, and processes. Setting the Workflow category to a finer level such as Finer captures flow interview events, element execution, and variable values needed to troubleshoot the user's issue. The Callout, System, and Database categories log external requests, system methods, and database operations rather than flow logic."
+    explanation:"Flow execution details are recorded under the Workflow debug log category, which covers workflow rules, flows, and processes. Setting the Workflow category to a finer level such as Finer captures flow interview events, element execution, and variable values needed to troubleshoot the user's issue. The Callout, System, and Database categories log external requests, system methods, and database operations rather than flow logic.",
+    hook:"debug log category to troubleshoot a flow → Workflow"
   },
   {
     id:255, category: CATEGORIES.AUTOMATION,
@@ -3082,7 +3335,8 @@ const QUESTIONS = [
       {letter:"D", text:"Change the value with a specific new field value so the Process Builder knows what value to look for."}
     ],
     answer:["B"], multi:false,
-    explanation:"When an approval process changes the status through a field update action, downstream automation only re-fires if the field update is set to re-evaluate workflow rules after the change. Checking the Re-evaluate Workflow Rules After Field Change option on that field update causes the record change to trigger the Process Builder just as a manual edit does. The approval process version, recursion setting, and criteria value are not what prevents the process from firing in this scenario."
+    explanation:"When an approval process changes the status through a field update action, downstream automation only re-fires if the field update is set to re-evaluate workflow rules after the change. Checking the Re-evaluate Workflow Rules After Field Change option on that field update causes the record change to trigger the Process Builder just as a manual edit does. The approval process version, recursion setting, and criteria value are not what prevents the process from firing in this scenario.",
+    hook:"PB fires on manual edit but not approval update → check Re-evaluate Workflow Rules After Field Change on the field update"
   },
   {
     id:256, category: CATEGORIES.AUTOMATION,
@@ -3094,7 +3348,8 @@ const QUESTIONS = [
       {letter:"D", text:"Email Alert"}
     ],
     answer:["A"], multi:false,
-    explanation:"Flow is the automation tool that can send information to an external endpoint declaratively, using outbound message or HTTP callout actions, and it can be triggered when the record's approval completes. This lets the updated listing price be pushed to the listing service's endpoint automatically after approval. Process Builder and email alerts cannot call an arbitrary endpoint, and a platform event is an event bus mechanism rather than a tool that delivers messages to an external URL on its own."
+    explanation:"Flow is the automation tool that can send information to an external endpoint declaratively, using outbound message or HTTP callout actions, and it can be triggered when the record's approval completes. This lets the updated listing price be pushed to the listing service's endpoint automatically after approval. Process Builder and email alerts cannot call an arbitrary endpoint, and a platform event is an event bus mechanism rather than a tool that delivers messages to an external URL on its own.",
+    hook:"push listing-price update to external endpoint after approval → Flow (declarative callout); PB/email can't hit an endpoint"
   }
 ];
 // <<< QUESTIONS END
@@ -3481,6 +3736,7 @@ function renderQuestionCard(q, num) {
         <button class="btn-submit primary" id="submit-${q.id}" disabled onclick="submitAnswer(${q.id})">Submit Answer</button>
       </div>
       <div class="explanation-panel" id="explanation-${q.id}">
+        ${q.hook ? `<div class="answer-hook"><span class="hook-key">🔑 Key</span><span class="hook-text">${q.hook}</span></div>` : ''}
         <h4>💡 Explanation</h4>
         <p>${q.explanation}</p>
       </div>

@@ -810,6 +810,34 @@ body {
 
 .explanation-panel.visible { display: block; }
 
+.answer-hook {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  background: var(--sf-green-wash);
+  border: 1px solid var(--sf-green-accent);
+  border-radius: var(--radius-md);
+}
+
+.answer-hook .hook-key {
+  flex-shrink: 0;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  color: var(--sf-green-dark);
+  text-transform: uppercase;
+  padding-top: 1px;
+}
+
+.answer-hook .hook-text {
+  font-size: .86rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
 .explanation-panel h4 {
   font-size: .82rem;
   font-weight: 700;

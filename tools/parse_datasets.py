@@ -147,6 +147,7 @@ def parse_json_bank(path: Path):
             "answer": [chr(65 + i) for i in indices],
             "multi": len(indices) > 1,
             "explanation": re.sub(r"\s+", " ", entry.get("explanation", "")).strip(),
+            "hook": re.sub(r"\s+", " ", entry.get("hook", "")).strip(),
         })
     return questions
 
@@ -165,7 +166,8 @@ def render_question(q) -> str:
         f"{options}\n"
         "    ],\n"
         f"    answer:{json.dumps(q['answer'])}, multi:{json.dumps(q['multi'])},\n"
-        f"    explanation:{json.dumps(q['explanation'], ensure_ascii=False)}\n"
+        f"    explanation:{json.dumps(q['explanation'], ensure_ascii=False)},\n"
+        f"    hook:{json.dumps(q.get('hook', ''), ensure_ascii=False)}\n"
         "  }"
     )
 
