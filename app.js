@@ -89,7 +89,27 @@ const EXAM_REGISTRY = [
       "Trust Layer & Security",
       "Setup & Integration"
     ]
-  }
+  },
+  {
+    id: "sales-cloud-consultant",
+    name: "Sales Cloud Consultant",
+    code: "SALES-CLOUD-CONSULTANT",
+    subtitle: "Salesforce Certified · Sales Cloud Consultant · Practice Questions",
+    passingScore: 62,
+    examMinutes: 105,
+    bank: "sales-consultant.json",
+    count: 190,
+    categories: [
+      "Implementation Strategies",
+      "Consulting Practices",
+      "Sales Life Cycle & Forecasting",
+      "Product Knowledge & Integration",
+      "Lead & Campaign Management",
+      "Account & Contact Management",
+      "Opportunity Management",
+      "Data, Reports & Dashboards"
+    ]
+  },
 ];
 
 // ---------- Current exam config (populated by configureExam) ----------
