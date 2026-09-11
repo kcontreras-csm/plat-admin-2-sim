@@ -34,7 +34,25 @@ const EXAM_REGISTRY = [
     passingScore: 65,
     examMinutes: 105,
     bank: "questions.json",
+    count: 220,
     categories: Object.values(CATEGORIES)
+  },
+  {
+    id: "plat-app-builder",
+    name: "Platform App Builder",
+    code: "PLAT-ADMN-202",
+    subtitle: "Salesforce Certified · PLAT-ADMN-202 · Practice Questions",
+    passingScore: 63,
+    examMinutes: 105,
+    bank: "app-builder.json",
+    count: 236,
+    categories: [
+      "Salesforce Fundamentals",
+      "Data Modeling & Management",
+      "Business Logic & Automation",
+      "User Interface",
+      "App Deployment"
+    ]
   }
 ];
 
