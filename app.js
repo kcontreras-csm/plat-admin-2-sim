@@ -27,6 +27,25 @@ const CATEGORIES = {
 const DEFAULT_EXAM_ID = "plat-admn-301";
 const EXAM_REGISTRY = [
   {
+    id: "plat-admn-201",
+    name: "Platform Administrator I",
+    code: "PLAT-ADMN-201",
+    subtitle: "Salesforce Certified · PLAT-ADMN-201 · Practice Questions",
+    passingScore: 65,
+    examMinutes: 105,
+    bank: "plat-admin-1.json",
+    count: 150,
+    categories: [
+      "Configuration and Setup",
+      "Object Manager and Lightning App Builder",
+      "Sales and Marketing Applications",
+      "Service and Support Applications",
+      "Productivity and Collaboration",
+      "Data and Analytics Management",
+      "Automation and Agentforce"
+    ]
+  },
+  {
     id: "plat-admn-301",
     name: "Platform Administrator II",
     code: "PLAT-ADMN-301",
@@ -52,6 +71,23 @@ const EXAM_REGISTRY = [
       "Business Logic & Automation",
       "User Interface",
       "App Deployment"
+    ]
+  },
+  {
+    id: "agentforce-specialist",
+    name: "Agentforce Specialist",
+    code: "AGENTFORCE",
+    subtitle: "Salesforce Certified · Agentforce Specialist · Practice Questions",
+    passingScore: 73,
+    examMinutes: 105,
+    bank: "agentforce.json",
+    count: 367,
+    categories: [
+      "Prompt Engineering",
+      "Agentforce Concepts",
+      "Agentforce & Data",
+      "Trust Layer & Security",
+      "Setup & Integration"
     ]
   }
 ];
