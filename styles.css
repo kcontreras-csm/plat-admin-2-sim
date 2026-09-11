@@ -1375,3 +1375,29 @@ body.rapid-open { overflow: hidden; }
   50% { transform: scale(1.08); }
 }
 :root[data-appearance="dark"] .rapid-streak.hot { color: var(--color-warning); }
+
+/* Rapid Fire — Knockout resume */
+.btn-rapid-launch.has-resume { position: relative; }
+.btn-rapid-launch.has-resume::after {
+  content: "";
+  position: absolute; top: -3px; right: -3px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--color-warning);
+  border: 2px solid var(--sf-green-primary);
+  animation: streakPulse 1.4s ease-in-out infinite;
+}
+
+.rapid-resume-card {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  text-align: left; padding: 14px 16px; margin-bottom: 14px;
+  background: var(--color-warning-bg);
+  border: 1.5px solid var(--color-warning);
+  border-radius: var(--radius-lg);
+  cursor: pointer; font-family: inherit;
+  transition: var(--transition-base);
+}
+.rapid-resume-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.rapid-resume-card .rrc-icon { font-size: 26px; flex-shrink: 0; }
+.rapid-resume-card .rrc-text { display: flex; flex-direction: column; gap: 2px; }
+.rapid-resume-card .rrc-text strong { font-size: .98rem; color: var(--text-primary); }
+.rapid-resume-card .rrc-text span { font-size: .82rem; color: var(--text-secondary); }
