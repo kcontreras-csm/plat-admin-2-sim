@@ -1401,3 +1401,220 @@ body.rapid-open { overflow: hidden; }
 .rapid-resume-card .rrc-text { display: flex; flex-direction: column; gap: 2px; }
 .rapid-resume-card .rrc-text strong { font-size: .98rem; color: var(--text-primary); }
 .rapid-resume-card .rrc-text span { font-size: .82rem; color: var(--text-secondary); }
+
+/* ============================================================
+   STUDY CENTER — home screen (exam tiles)
+   ============================================================ */
+/* Home shows by default; entering an exam adds body.in-exam */
+.home-screen { display: flex; }
+.app-header, #app-container { display: none; }
+body.in-exam .home-screen { display: none; }
+body.in-exam .app-header { display: block; }
+body.in-exam #app-container { display: block; }
+
+.home-screen {
+  min-height: 100vh;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 20px 60px;
+  background:
+    radial-gradient(1200px 500px at 50% -8%, var(--sf-green-wash), transparent 70%),
+    var(--bg-workspace);
+}
+.home-inner { width: 100%; max-width: 960px; }
+
+.home-hero { text-align: center; margin-bottom: 36px; }
+.home-mascot { width: 128px; height: 128px; margin: 0 auto 8px; }
+.home-mascot .astro-mascot,
+.home-mascot img { width: 100%; height: 100%; }
+.home-hero h1 {
+  font-size: 2.1rem; font-weight: 800; letter-spacing: -.02em;
+  color: var(--text-primary);
+}
+.home-hero p {
+  font-size: .95rem; color: var(--text-secondary);
+  max-width: 520px; margin: 6px auto 0; line-height: 1.6;
+}
+
+.home-tiles {
+  display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.exam-tile {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+  text-align: left; padding: 22px 22px 18px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer; font-family: inherit;
+  transition: var(--transition-base);
+  position: relative; overflow: hidden;
+}
+.exam-tile::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 6px;
+  background: linear-gradient(90deg, var(--sf-green-primary), var(--sf-green-light));
+}
+.exam-tile:hover {
+  border-color: var(--sf-green-primary);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+.tile-mascot { width: 64px; height: 64px; }
+.tile-mascot .astro-mascot, .tile-mascot img { width: 100%; height: 100%; }
+.tile-code {
+  font-size: .7rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--sf-green-primary);
+}
+.tile-name { font-size: 1.2rem; font-weight: 800; color: var(--text-primary); line-height: 1.25; margin-top: 2px; }
+.tile-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 8px; }
+.tile-meta span { font-size: .8rem; color: var(--text-secondary); }
+.tile-cta {
+  margin-top: 6px; font-size: .86rem; font-weight: 700; color: var(--sf-green-primary);
+}
+.exam-tile:hover .tile-cta { text-decoration: underline; }
+
+/* Brand is now a home button — strip default button chrome */
+.header-brand {
+  background: none; border: none; padding: 0; margin: 0;
+  color: inherit; font: inherit; cursor: pointer; text-align: left;
+}
+.header-brand:hover { opacity: .92; }
+.header-brand .logo-icon .astro-mascot,
+.header-brand .logo-icon img { width: 100%; height: 100%; }
+.header-brand .logo-icon { overflow: hidden; }
+
+/* ============================================================
+   HOME — cute touches (sparkles, footer, GitHub, animations)
+   ============================================================ */
+.home-screen { position: relative; overflow: hidden; }
+
+/* Floating sparkles behind the hero */
+.home-sparkles { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.home-sparkles span {
+  position: absolute; font-size: 22px; opacity: .5;
+  animation: sparkleFloat 6s ease-in-out infinite;
+}
+.home-sparkles span:nth-child(1) { top: 10%;  left: 12%; font-size: 26px; animation-delay: 0s; }
+.home-sparkles span:nth-child(2) { top: 18%;  left: 84%; animation-delay: .8s; }
+.home-sparkles span:nth-child(3) { top: 42%;  left: 6%;  font-size: 30px; animation-delay: 1.6s; opacity:.35; }
+.home-sparkles span:nth-child(4) { top: 8%;   left: 62%; animation-delay: 2.2s; }
+.home-sparkles span:nth-child(5) { top: 30%;  left: 92%; font-size: 18px; animation-delay: 3s; }
+.home-sparkles span:nth-child(6) { top: 52%;  left: 78%; animation-delay: 1.1s; opacity:.4; }
+.home-sparkles span:nth-child(7) { top: 24%;  left: 30%; font-size: 18px; animation-delay: 2.7s; opacity:.4; }
+@keyframes sparkleFloat {
+  0%,100% { transform: translateY(0) rotate(0); opacity: .5; }
+  50% { transform: translateY(-12px) rotate(8deg); opacity: .85; }
+}
+.home-inner { position: relative; z-index: 1; }
+
+/* Mascot gently bobs; wiggles on hover */
+.home-mascot { animation: mascotBob 3.5s ease-in-out infinite; }
+@keyframes mascotBob {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.home-hero h1 {
+  background: linear-gradient(90deg, var(--sf-green-primary), var(--sf-green-light));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* Hero stat pills */
+.home-stats { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+.home-stat {
+  font-size: .78rem; font-weight: 700; color: var(--sf-green-dark);
+  background: var(--sf-green-wash); border: 1px solid var(--sf-green-accent);
+  padding: 5px 12px; border-radius: 50px;
+}
+:root[data-appearance="dark"] .home-stat { color: var(--sf-green-light); }
+
+/* Tile mascot wiggles when you hover the tile */
+.exam-tile:hover .tile-mascot { animation: mascotWiggle .6s ease-in-out; }
+@keyframes mascotWiggle {
+  0%,100% { transform: rotate(0); }
+  25% { transform: rotate(-9deg); }
+  75% { transform: rotate(9deg); }
+}
+
+/* Footer: Made with love + GitHub */
+.home-footer {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 10px 18px;
+  margin-top: 34px; padding-top: 22px;
+  border-top: 1px dashed var(--border-color);
+  font-size: .85rem; color: var(--text-secondary);
+}
+.made-with { font-weight: 600; }
+.made-with .heart {
+  color: var(--color-incorrect); display: inline-block;
+  animation: heartBeat 1.4s ease-in-out infinite;
+}
+@keyframes heartBeat {
+  0%,100% { transform: scale(1); }
+  15% { transform: scale(1.3); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.2); }
+}
+.gh-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 14px; border-radius: 50px;
+  background: var(--bg-card); color: var(--text-primary);
+  border: 1px solid var(--border-color); text-decoration: none;
+  font-weight: 700; font-size: .82rem;
+  transition: var(--transition-base);
+}
+.gh-link:hover {
+  transform: translateY(-1px);
+  border-color: var(--sf-green-primary);
+  box-shadow: var(--shadow-md);
+}
+.gh-link svg { flex-shrink: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .home-sparkles span, .home-mascot, .made-with .heart,
+  .exam-tile:hover .tile-mascot { animation: none; }
+}
+
+/* ============================================================
+   HOME — real Astro image + Trailhead-flavored styling
+   ============================================================ */
+/* Astro.png is a full-body portrait — fit by height, keep aspect */
+.home-mascot { width: auto; height: 200px; display: flex; justify-content: center; margin: 0 auto 4px; }
+.home-mascot img { height: 100%; width: auto; object-fit: contain; }
+.tile-mascot { width: 58px; height: 66px; }
+.tile-mascot img { height: 100%; width: auto; object-fit: contain; display: block; margin: 0 auto; }
+.header-brand .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+.header-brand .logo-icon { background: rgba(255,255,255,.22); }
+
+/* Trailhead-style hero: friendly rounded gradient panel */
+.home-hero {
+  background:
+    radial-gradient(520px 260px at 50% 6%, var(--sf-green-wash), transparent 70%),
+    var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 28px;
+  padding: 26px 24px 30px;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 28px;
+}
+.home-kicker {
+  display: inline-block; margin-bottom: 6px;
+  font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--sf-green-dark);
+  background: var(--sf-green-wash); border: 1px solid var(--sf-green-accent);
+  padding: 4px 12px; border-radius: 50px;
+}
+:root[data-appearance="dark"] .home-kicker { color: var(--sf-green-light); }
+
+/* Trailhead-style trail cards: pill CTA anchored at the bottom */
+.exam-tile { min-height: 210px; }
+.tile-cta {
+  margin-top: auto; align-self: stretch; text-align: center;
+  background: linear-gradient(135deg, var(--sf-green-primary), var(--sf-green-light));
+  color: #fff; padding: 10px 14px; border-radius: 50px;
+  font-weight: 800; font-size: .85rem;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--sf-green-primary) 40%, transparent);
+  transition: var(--transition-base);
+}
+.exam-tile:hover .tile-cta { text-decoration: none; transform: translateY(-1px); filter: brightness(1.06); }

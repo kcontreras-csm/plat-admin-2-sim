@@ -3,3 +3,6 @@
 
 # Local-only exam datasets, source snapshots, and backups (not for the repo)
 datasets/
+
+# Large source image (app uses the optimized assets/astro-web.png)
+assets/Astro.png

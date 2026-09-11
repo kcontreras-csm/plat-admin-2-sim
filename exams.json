@@ -1,0 +1,12 @@
+[
+  {
+    "id": "plat-admn-301",
+    "name": "Platform Administrator II",
+    "code": "PLAT-ADMN-301",
+    "subtitle": "Salesforce Certified · PLAT-ADMN-301 · Practice Questions",
+    "passingScore": 65,
+    "examMinutes": 105,
+    "bank": "questions.json",
+    "categories": ["Security & Access", "Automation & Logic", "Data Management", "Sales & Service Apps", "UI & Analytics", "Deployment & Sandboxes"]
+  }
+]
