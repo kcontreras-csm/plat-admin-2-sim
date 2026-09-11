@@ -81,7 +81,7 @@ const EXAM_REGISTRY = [
     passingScore: 73,
     examMinutes: 105,
     bank: "agentforce.json",
-    count: 367,
+    count: 368,
     categories: [
       "Prompt Engineering",
       "Agentforce Concepts",
